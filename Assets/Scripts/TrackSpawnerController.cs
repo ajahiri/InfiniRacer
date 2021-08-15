@@ -33,12 +33,6 @@ public class TrackSpawnerController : MonoBehaviour
     private struct TrackPieceDeltas
     {
         // Size deltas (for determining placement of next piece)
-        public float xDeltaStart;
-        public float yDeltaStart;
-        public float zDeltaStart;
-        public float xDeltaEnd;
-        public float yDeltaEnd;
-        public float zDeltaEnd;
         public int bankFactor; // 0, 1, 2
         public string bankDirection; // none, left, right
         public int elevationFactor; // 0, 1, 2
@@ -47,17 +41,10 @@ public class TrackSpawnerController : MonoBehaviour
         public Transform prefab;
 
         public TrackPieceDeltas (
-                                    float xDeltaStart, float yDeltaStart, float zDeltaStart, float xDeltaEnd, float yDeltaEnd, 
-                                    float zDeltaEnd, int bankFactor, string bankDirection, int elevationFactor, string elevationDirection, 
+                                    int bankFactor, string bankDirection, int elevationFactor, string elevationDirection, 
                                     string orientationDirection, Transform prefab
                                 )
         {
-            this.xDeltaStart = xDeltaStart;
-            this.yDeltaStart = yDeltaStart;
-            this.zDeltaStart = zDeltaStart;
-            this.xDeltaEnd = xDeltaEnd;
-            this.yDeltaEnd = yDeltaEnd;
-            this.zDeltaEnd = zDeltaEnd;
             this.bankFactor = bankFactor;
             this.bankDirection = bankDirection;
             this.elevationFactor = elevationFactor;
@@ -72,17 +59,13 @@ public class TrackSpawnerController : MonoBehaviour
     private struct TrackPiece
     {
         // Positions of track piece transform (relative to unity universe)
-        public float xPos;
-        public float yPos;
-        public float zPos;
+        public Vector3 position;
         public int deltasIndex; // Index in deltas array that corresponds to the correct track piece delta
         public Quaternion orientation;
 
-        public TrackPiece(float xPos, float yPos, float zPos, int deltasIndex, Quaternion orientation)
+        public TrackPiece(Vector3 position, int deltasIndex, Quaternion orientation)
         {
-            this.xPos = xPos;
-            this.yPos = yPos;
-            this.zPos = zPos;
+            this.position = position;
             this.deltasIndex = deltasIndex;
             this.orientation = orientation;
         }
@@ -106,8 +89,15 @@ public class TrackSpawnerController : MonoBehaviour
         // Track Delta definitions, xyz deltas need to be measured for each piece
         TrackPieceDeltas[] trackDeltaDefs =  
         {
-            new TrackPieceDeltas(-6.4f, -0.2f, -4f, -6.4f, -0.2f, 4f, 0, "none", 0, "none", "straight", Resources.Load<Transform>("TrackPieces/Straight_Flat_Long")),
-            new TrackPieceDeltas(-6.4f, -0.2f, 0f, -32f, -0.2f, 25.6f, 0, "none", 0, "none", "left", Resources.Load<Transform>("TrackPieces/Curve_Flat"))
+            new TrackPieceDeltas(   0, "none", 0, "none", "straight", 
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Straight_Flat_Long_Parent")
+                                ),
+            new TrackPieceDeltas(   0, "none", 0, "none", "left", 
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Flat_Parent")
+                                ),
+            new TrackPieceDeltas(   0, "none", 0, "none", "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Flat_Right_Parent")
+                                )
         };
         return trackDeltaDefs;
     }
@@ -120,31 +110,29 @@ public class TrackSpawnerController : MonoBehaviour
         var spawnerTransformOrigin = GetComponent<Transform>();
 
         // Instantiate the initial starting track piece where subsequent pieces will connect to
-        Instantiate(deltaDefinitions[0].prefab, new Vector3(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z), Quaternion.identity);
-        var firstPiece1 = new TrackPiece(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z, 0, Quaternion.identity);
+        var currentObj = Instantiate(deltaDefinitions[0].prefab, new Vector3(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z), Quaternion.identity, spawnerTransformOrigin);
+        
+        // Get second order child of object (this contains an object of which transform is at "bottom_left_end" of piece)
+        // TransformPoint(...) will get us this transform in the global coordinate context
+        var latestTrackPoint = currentObj.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0);
+
+        var firstPiece1 = new TrackPiece(spawnerTransformOrigin.position, 0, Quaternion.identity);
         trackPieceMemory.Push(firstPiece1);
 
-        int[] test = { 1, 0, 0, 1 , 0, 0, 1, 0, 0, 1 };
-
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 12; i++)
         {
             var finalPiece = trackPieceMemory.Peek(); // Get last track piece
 
-            //int rand = Random.Range(0, 2);
+            int rand = Random.Range(0, 3);
             //int rand = 1;
-            int rand = test[i];
+            //int rand = test[i];
             var targetTrackDelta = deltaDefinitions[rand];
 
-            // Last piece orientation augmentation
-            // Determine the additional rotation to be added to new piece as a result of a turning piece
-            // Adjust new piece positions based on last pos and end deltas
-            // ADD END delta of final piece type to final piece pos and ADD START delta of new piece type aswell to get the correct origin coords for new piece
-            float newXPos = finalPiece.xPos;
-            float newYPos = finalPiece.yPos;
-            float newZPos = finalPiece.zPos;
-            
+            // Determine the additional rotation to be added to new piece as a result of a turning piece            
+            // Rotations are compound based on last piece's orientation
             Quaternion newPieceRotation = finalPiece.orientation;
             var orientationDirection = deltaDefinitions[finalPiece.deltasIndex].orientationDirection;
+
             switch (orientationDirection)
             {
                 case "left":
@@ -159,80 +147,15 @@ public class TrackSpawnerController : MonoBehaviour
                     break;
             }
 
-            Instantiate(Resources.Load("Cube"), new Vector3(
-                        newXPos,
-            newYPos,
-            newZPos
-                    ), Quaternion.identity);
-
-            Debug.Log(newPieceRotation.eulerAngles.y);
-            if (newPieceRotation.eulerAngles.y == 270)
-            {
-                if (orientationDirection == "left")
-                {
-                    newXPos += deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd + targetTrackDelta.zDeltaStart;
-                    newYPos += deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd - targetTrackDelta.yDeltaStart;
-                    newZPos += deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd - targetTrackDelta.xDeltaStart;
-                } else
-                {
-                    newXPos += -deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd + targetTrackDelta.zDeltaStart;
-                    newYPos += deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd - targetTrackDelta.yDeltaStart;
-                    newZPos += deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd - targetTrackDelta.xDeltaStart;
-                }
-                
-            } 
-            else if(newPieceRotation.eulerAngles.y == 180)
-            {
-                if (orientationDirection == "left")
-                {
-                    newXPos += deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd - targetTrackDelta.zDeltaStart;
-                    newYPos += deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd - targetTrackDelta.yDeltaStart;
-                    newZPos += -deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd + targetTrackDelta.xDeltaStart;
-                } else
-                {
-                    Instantiate(Resources.Load("Cube 1"), new Vector3(
-                        newXPos - deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd - targetTrackDelta.xDeltaStart,
-                        newYPos + deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd,
-                        newZPos + deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd - targetTrackDelta.zDeltaStart
-                    ), Quaternion.identity);
-
-
-                    newXPos += -deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd + targetTrackDelta.xDeltaStart;
-                    newYPos += deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd - targetTrackDelta.yDeltaStart;
-                    newZPos += deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd - targetTrackDelta.zDeltaStart;
-                    
-                }
-                
-            } 
-            else if (newPieceRotation.eulerAngles.y == 90)
-            {
-                if (orientationDirection == "left")
-                {
-                    newXPos += -deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd + targetTrackDelta.zDeltaStart;
-                    newYPos += deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd - targetTrackDelta.yDeltaStart;
-                    newZPos += -deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd + targetTrackDelta.xDeltaStart;
-                }
-                else
-                {
-                    newXPos += -deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd + targetTrackDelta.zDeltaStart;
-                    newYPos += deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd - targetTrackDelta.yDeltaStart;
-                    newZPos += -deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd + targetTrackDelta.xDeltaStart;
-                }
-            } 
-            else if (newPieceRotation.eulerAngles.y == 0)
-            {
-                newXPos += deltaDefinitions[finalPiece.deltasIndex].xDeltaEnd - targetTrackDelta.xDeltaStart;
-                newYPos += deltaDefinitions[finalPiece.deltasIndex].yDeltaEnd - targetTrackDelta.yDeltaStart;
-                newZPos += deltaDefinitions[finalPiece.deltasIndex].zDeltaEnd - targetTrackDelta.zDeltaStart;
-            }
-
-            TrackPiece newPiece = new TrackPiece(newXPos, newYPos, newZPos, rand, newPieceRotation);
+            // Position transform to last known "latestTrackPoint" after orientation has changed
+            TrackPiece newPiece = new TrackPiece(latestTrackPoint, rand, newPieceRotation);
 
             // Add new piece to the list
             trackPieceMemory.Push(newPiece);
 
             // Instantiate the prefab
-            Instantiate(targetTrackDelta.prefab, new Vector3(newXPos, newYPos, newZPos), newPieceRotation);
+            var latestObject = Instantiate(targetTrackDelta.prefab, latestTrackPoint, newPieceRotation, spawnerTransformOrigin);
+            latestTrackPoint = latestObject.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0); // Update latest point (where next track piece will spawn)
         }
     }
 
