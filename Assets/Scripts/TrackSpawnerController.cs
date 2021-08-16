@@ -97,7 +97,13 @@ public class TrackSpawnerController : MonoBehaviour
                                 ),
             new TrackPieceDeltas(   0, "none", 0, "none", "right",
                                     Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Flat_Right_Parent")
-                                )
+                                ),
+            new TrackPieceDeltas(   0, "none", 0, "none", "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Flat_Left_Parent")
+                                ),
+            new TrackPieceDeltas(   0, "none", 0, "none", "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Flat_Right_Parent")
+                                ),
         };
         return trackDeltaDefs;
     }
@@ -123,7 +129,7 @@ public class TrackSpawnerController : MonoBehaviour
         {
             var finalPiece = trackPieceMemory.Peek(); // Get last track piece
 
-            int rand = Random.Range(0, 3);
+            int rand = Random.Range(0, deltaDefinitions.Length); // Tweak for conditionals
             //int rand = 1;
             //int rand = test[i];
             var targetTrackDelta = deltaDefinitions[rand];
