@@ -7,127 +7,352 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* 
+* New Explanation (Changed due to architecture of this track spawner changing)
+* Each track piece prefab is a child of some parent of which its origin is aligned
+* to the bottom left most vertex that defines the start of the track (Orientation is important, check prefabs).
+* Then another empty object that is a child of the prefab itself, (2nd order object) defines the bottom_left
+* most vertice that defines the END of the track piece.
+*
+* With this information and more meta data about the start and end pitch/elevation, we can effectively
+* spawn any of the 30+ track pieces while making sure they fit together as intended.
+*
+* Making the spawning procedural is harder, some extra steps are taken to add and remove track pieces from the
+* game as the player drives the vehicle. Furthermore, the addition of track pieces must be constrained in a way
+* that makes sure the track doesn't run into itself and essentially break the game for the player.
+*
+* Note:
+* Start and end points were not eyeballed based on the unity prefab editor, vertices were instead measured in terms
+* of there distance from the origin using Blender in order to precisely offset the track pieces.
+*/
+
 public class TrackSpawnerController : MonoBehaviour
 {
-    // Track Piece Prefabs, linked from Unity
-    public Transform straightTrackLongPrefab;
-
-    /* 
-     * Prefab Deltas and Track Piece Properties:
-     * Deltas are used to know how much (in units) the track changes from start to finish.
-     * Spawning of track pieces are done by knowing the coordinate of the bottom left most vertex of the model.
-     * This applies to both start and finish coordinates. Due to the models we are using having their local origin
-     * in the centre of the model, we need to know the xyz deltas (in units) for both start and finish of the model.
-     * With this we can appropriately spawn track pieces that fit together properly.
-     * 
-     * NOTE:
-     * Some pieces have more special properties such as banking factor, bank direction, elevation factor and the elevation direction
-     * (this is not the same as Quaternion direction as pieces may be pointing in different directions).
-     * 
-     * Furthermore, xyz deltas give us the appropriate positioning for the track pieces, rotation on the zx plane is
-     * also needed for when left or right turn pieces are used as the subsequent pieces will need to be pointing in the
-     * correct direction. Again this is not the same as banking factor and banking direction.
-     * 
-     * Rules are setup for which track pieces can mate to others, pitches and elevation factors need to match in order for pieces
-     * to transition smoothly. Unfortunately, the asset pack only provides left turns so model changes (or some smart scripting can avoid this). TODO
-     */
-
-    // Origin game object where spawning starts
-    private Transform originObject;
-
-    // Delta Definitions, these don't change and are dependent on the 3D model of the piece
-    private struct TrackPieceDeltas
+    [SerializeField] GameObject playerVehicleObject;
+    private struct TrackPieceDefinition
     {
-        // Size deltas (for determining placement of next piece)
-        public float xDeltaStart;
-        public float yDeltaStart;
-        public float zDeltaStart;
-        public float xDeltaEnd;
-        public float yDeltaEnd;
-        public float zDeltaEnd;
-        public int bankFactor; // 0, 1, 2
-        public string bankDirection; // none, left, right
-        public int elevationFactor; // 0, 1, 2
-        public string elevationDirection; // none, up, down
+        // Object Prefab (From resources directory)
+        public Transform prefab;
+        public int startPitch, endPitch, startElevation, endElevation;
 
-        public TrackPieceDeltas(float xDeltaStart, float yDeltaStart, float zDeltaStart, float xDeltaEnd, float yDeltaEnd, float zDeltaEnd, int bankFactor, string bankDirection, int elevationFactor, string elevationDirection)
+        public string orientationDirection; // straight, left, right
+
+        /// <summary>
+        /// Pitch Vals => Left: -2, -1 | Right: 1, 2 | None: 0
+        /// Elevation Vals => Down: -2, -1 | Up: 1, 2 | None: 0
+        /// </summary>
+        /// <returns>
+        /// TrackPieceDefinition
+        /// </returns>
+        public TrackPieceDefinition (
+                                    int startPitch, int endPitch, int startElevation, int endElevation, 
+                                    string orientationDirection, Transform prefab
+                                )
         {
-            this.xDeltaStart = xDeltaStart;
-            this.yDeltaStart = yDeltaStart;
-            this.zDeltaStart = zDeltaStart;
-            this.xDeltaEnd = xDeltaEnd;
-            this.yDeltaEnd = yDeltaEnd;
-            this.zDeltaEnd = zDeltaEnd;
-            this.bankFactor = bankFactor;
-            this.bankDirection = bankDirection;
-            this.elevationFactor = elevationFactor;
-            this.elevationDirection = elevationDirection;
+            this.prefab = prefab;
+            this.orientationDirection = orientationDirection;
+            this.startPitch = startPitch; 
+            this.endPitch = endPitch;
+            this.startElevation = startElevation;
+            this.endElevation = endElevation;
         }
     }
 
-    /*
-     * Note in unity, the x coords map to width, y to height and z to depth
-     * Compared to Blender where z is height and y is depth
-     */
+    /// <summary>
+    /// Builds an array of all possible track deltas and loads the respective track piece prefab.
+    /// ID1
+    /// </summary>
+    /// <returns>
+    /// Array of track piece deltas, see struct for shape.
+    /// </returns>
+    TrackPieceDefinition[][] LoadTrackPieceDefinitions() {
+        // Build the piece definitions within a 2D array using Resourced.Load to load the prefab transforms
+        
+        // Tracks STARTING with pitch of 0 or elevation of 0
+        TrackPieceDefinition[] flatPieces =  
+        {
+            new TrackPieceDefinition(   0, 0, 0, 0, "left", 
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Flat_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Flat_Right_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Flat_Left_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Flat_Right_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "left", 
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Corner_Flat_Left_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "right", 
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Corner_Flat_Right_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "straight", 
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Straight_Flat_Long_Parent")
+                                ),
+            new TrackPieceDefinition(   0, -1, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Left_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   0, -2, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Left_Pitch2_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 1, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Right_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 2, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Right_Pitch2_Parent")
+                                ),
+            // The following 2 rollers say pitch in the name but they just change elevation smoothly and remain flat start and end
+            new TrackPieceDefinition(   0, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Roller_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Roller_Pitch2_Parent")
+                                ),
+        };
 
-    // Track Delta definitions, xyz deltas need to be measured for each piece
-    private TrackPieceDeltas straightFlatLongDeltas = new TrackPieceDeltas(-6.4f, -0.2f, -4f, -6.4f, -0.2f, 4f, 0, "none", 0, "none");
+        // Tracks STARTING with pitch of 1
+        TrackPieceDefinition[] pitch1Pieces = {
+            new TrackPieceDefinition(   -1, -1, 0, 0, "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Left_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   -1, -1, 0, 0, "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Corner_Left_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   -1, -1, 0, 0, "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Left_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   -1, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Left_Pitch1_Inverse_Parent")
+                                ),
+            new TrackPieceDefinition(   1, 1, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Right_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   1, 1, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Corner_Right_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   1, 1, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Right_Pitch1_Parent")
+                                ),
+            new TrackPieceDefinition(   1, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Right_Pitch1_Inverse_Parent")
+                                ),
+        };
+
+        // Tracks STARTING with pitch of 2
+        TrackPieceDefinition[] pitch2Pieces = {
+            new TrackPieceDefinition(   -2, -2, 0, 0, "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Left_Pitch2_Parent")
+                                ),
+            new TrackPieceDefinition(   -2, -2, 0, 0, "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Left_Pitch2_Parent")
+                                ),
+            new TrackPieceDefinition(   -2, -2, 0, 0, "left",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Corner_Left_Pitch2_Parent")
+                                ),
+            new TrackPieceDefinition(   -2, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Left_Pitch2_Inverse_Parent")
+                                ),
+            new TrackPieceDefinition(   2, 2, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Bend_Right_Pitch2_Parent")
+                                ),
+            new TrackPieceDefinition(   2, 2, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Corner_Right_Pitch2_Parent")
+                                ),
+            new TrackPieceDefinition(   2, 2, 0, 0, "right",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Right_Pitch2_Parent")
+                                ),
+            new TrackPieceDefinition(   2, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Right_Pitch2_Inverse_Parent")
+                                ),
+        };
+
+        // Tracks STARTING with elevation pitch 1
+        TrackPieceDefinition[] elevation1Pieces = {
+        };
+
+        // Tracks STARTING with elevation pitch 2
+        TrackPieceDefinition[] elevation2Pieces = {
+        };
+
+        // Pieces that should be spawned rarely (pretty much only loops)
+        // These are weird pieces that could be hard to drive on so only spawn rarely
+        TrackPieceDefinition[] rarePieces = {
+            new TrackPieceDefinition(   0, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Loop_Left_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "straight",
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Loop_Right_Parent")
+                                ),
+        };
+
+        TrackPieceDefinition[][] output = {flatPieces, pitch1Pieces, pitch2Pieces, elevation1Pieces, elevation2Pieces, rarePieces};
+        return output;
+    }
 
     // TrackPiece struct for use in list to track piece positions
-    private struct TrackPiece
+    // Instantiations of track pieces need to have some of their properties accessible for spawning new pieces
+    private struct TrackPieceObject
     {
         // Positions of track piece transform (relative to unity universe)
-        public float xPos;
-        public float yPos;
-        public float zPos;
+        public Vector3 position;
+        public int pieceDefinitionX, pieceDefinitionY;
+        public Quaternion orientation;
+        public Transform targetObject;
 
-        public TrackPiece(float xPos, float yPos, float zPos)
+        public TrackPieceObject(Vector3 position, int pieceDefinitionX, int pieceDefinitionY, Quaternion orientation, Transform targetObject)
         {
-            this.xPos = xPos;
-            this.yPos = yPos;
-            this.zPos = zPos;
+            this.position = position;
+            this.pieceDefinitionX = pieceDefinitionX;
+            this.pieceDefinitionY = pieceDefinitionY;
+            this.orientation = orientation;
+            this.targetObject = targetObject;
         }
     }
+
+    // Important for use in both Start() and FixedUpdate()
+    private TrackPieceDefinition[][] trackPieceDefinitions;
+    private Vector3 latestTrackPoint;
 
     /* 
-     * List for track pieces, might be better to have some fixed size data type and 
-     * only remember track pieces that are currently rendered in the view. As pieces
-     * appear to the player (slide up from ground feature) we can push to a fixed stack.
-     */
-    private Stack<TrackPiece> trackPieceMemory = new Stack<TrackPiece>();
+    * List for track pieces, might be better to have some fixed size data type and 
+    * only remember track pieces that are currently rendered in the view.
+    * Will utilise a stack for now.
+    * EDIT: Moved to list since I need access to start and end.
+    */    
+    private List<TrackPieceObject> trackPieceMemory = new List<TrackPieceObject>();
 
+    // Origin game object where spawning starts
+    private Transform spawnerTransformOrigin;
     void Start()
     {
-        originObject = GetComponent<Transform>();
+        // Get transform of spawner object
+        spawnerTransformOrigin = GetComponent<Transform>();
 
-        // Instantiate the initial starting track piece where others will connect to
-        Instantiate(straightTrackLongPrefab, new Vector3(originObject.position.x, originObject.position.y, originObject.position.z), Quaternion.identity);
-        var firstPiece = new TrackPiece(originObject.position.x, originObject.position.y, originObject.position.z);
-        trackPieceMemory.Push(firstPiece);
+        // Load track definitions
+        trackPieceDefinitions = LoadTrackPieceDefinitions();
 
-        for (int i = 0; i < 2; i++)
-        {
-            var finalPiece = trackPieceMemory.Peek(); // Get last track piece
-
-            // Adjust new piece positions based on last pos and end deltas
-            // ADD END delta of final piece type to final piece pos and ADD START delta of new piece type aswell to get the correct origin coords for new piece
-            float newXPos = finalPiece.xPos + straightFlatLongDeltas.xDeltaEnd - straightFlatLongDeltas.xDeltaStart;
-            float newYPos = finalPiece.yPos + straightFlatLongDeltas.yDeltaEnd - straightFlatLongDeltas.yDeltaStart;
-            float newZPos = finalPiece.zPos + straightFlatLongDeltas.zDeltaEnd - straightFlatLongDeltas.zDeltaStart;
-
-            TrackPiece newPiece = new TrackPiece(newXPos, newYPos, newZPos);
-
-            // Add new piece to the list
-            trackPieceMemory.Push(newPiece);
-
-            // Instantiate the prefab
-            Instantiate(straightTrackLongPrefab, new Vector3(newXPos, newYPos, newZPos), Quaternion.identity);
-        }
+        // Instantiate the initial starting track piece where subsequent pieces will connect to
+        var currentObj = Instantiate(trackPieceDefinitions[0][6].prefab, new Vector3(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z), Quaternion.identity, spawnerTransformOrigin);
+        
+        // Get second order child of object (this contains an object of which transform is at "bottom_left_end" of piece)
+        // TransformPoint(...) will get us this transform in the global coordinate context
+        latestTrackPoint = currentObj.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0);
+        trackPieceMemory.Add(new TrackPieceObject(spawnerTransformOrigin.position, 0, 6, Quaternion.identity, currentObj));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    // Checks last 5 placed track pieces for number of turns
+    int CheckNumTurns() {
+        int numTurns = 0;
+        if (trackPieceMemory.Count < 6) {
+            return 99;
+        };
+        for (int i = trackPieceMemory.Count - 1; i >= 0; i--)
+        {
+            var piece = trackPieceMemory[i];
+            var definition = trackPieceDefinitions[piece.pieceDefinitionX][piece.pieceDefinitionY];
+            if (definition.orientationDirection.Equals("left")  || definition.orientationDirection.Equals("right")) {
+                numTurns += 1;
+            }
+        }
+        return numTurns;
+    }
+
+    void TrackSpawner(int numTurns) {
+        var finalPiece = trackPieceMemory[trackPieceMemory.Count - 1]; // Get last track piece
+        var firstPiece = trackPieceMemory[0]; 
+
+        // Track cleaner
+        if (trackPieceMemory.Count > 12) {
+            Destroy(firstPiece.targetObject.gameObject);
+            trackPieceMemory.RemoveAt(0);
+        }
         
+        // To avoid invalid track placement, if too many turns spawned, restrict to straight
+        // Only checks last 5 pieces
+        bool restrictTurnPiece = numTurns >= 2;
+
+        var finalPieceDefinition = trackPieceDefinitions[finalPiece.pieceDefinitionX][finalPiece.pieceDefinitionY];
+
+        int indexNewPieceX, indexNewPieceY;
+
+        // Bias to straight piece
+        if (Random.Range(0,3) % 2 == 0 && finalPieceDefinition.endPitch == 0) {
+            indexNewPieceX = 0;
+            indexNewPieceY = 6;
+        } else {
+            // Selecting for correct pitch
+            switch (finalPieceDefinition.endPitch)
+            {
+                case 0:
+                    // Can select any piece starting with 0 pitch unless restricted to straight
+                    indexNewPieceX = 0;
+                    indexNewPieceY = restrictTurnPiece ? Random.Range(6,13) : Random.Range(0,13);
+                    break;
+                case -1:
+                    // Can select any piece starting with -1 pitch unless restricted to straight
+                    indexNewPieceX = 1;
+                    indexNewPieceY = restrictTurnPiece ? 3 : Random.Range(0, 4);
+                    break;
+                case -2:
+                    // Can select any piece starting with -2 pitch unless restricted to straight
+                    indexNewPieceX = 2;
+                    indexNewPieceY = restrictTurnPiece ? 3 : Random.Range(0, 4);
+                    break;
+                case 1:
+                    // Can select any piece starting with 1 pitch unless restricted to straight
+                    indexNewPieceX = 1;
+                    indexNewPieceY = restrictTurnPiece ? 7 : Random.Range(4, 8);
+                    break;
+                case 2:
+                    // Can select any piece starting with 2 pitch unless restricted to straight
+                    indexNewPieceX = 2;
+                    indexNewPieceY = restrictTurnPiece ? 7 : Random.Range(4, 8);
+                    break;
+                default:
+                    return; // Invalid data, continue to next iteration
+            };
+        }
+
+        // The target prefab for our new piece
+        TrackPieceDefinition newPieceDefinition = trackPieceDefinitions[indexNewPieceX][indexNewPieceY];
+
+        // Determine the additional rotation to be added to new piece as a result of a turning piece            
+        // Rotations are compound based on last piece's orientation
+        Quaternion newPieceRotation = finalPiece.orientation;
+
+        switch (finalPieceDefinition.orientationDirection)
+        {
+            case "left":
+                newPieceRotation *= Quaternion.Euler(0, -90, 0);
+                break;
+            case "right":
+                newPieceRotation *= Quaternion.Euler(0, 90, 0);
+                break;
+            case "straight":
+                break;
+            default:
+                return; // Some invalid data, kill this iteration
+        }
+
+        // Instantiate the prefab
+        var latestObject = Instantiate(newPieceDefinition.prefab, latestTrackPoint, newPieceRotation, spawnerTransformOrigin); // Spawn as child of spawner
+
+        // Position transform to last known "latestTrackPoint" after orientation has changed
+        // Add new piece to the list
+        trackPieceMemory.Add(new TrackPieceObject(latestTrackPoint, indexNewPieceX, indexNewPieceY, newPieceRotation, latestObject));
+
+        latestTrackPoint = latestObject.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0); // Update latest point (where next track piece will spawn)  
+    }
+
+    void FixedUpdate()
+    {
+        // Conditional spawning interation loop
+        if (Vector3.Distance(latestTrackPoint, playerVehicleObject.transform.position) < 50) {
+            var numTurns = CheckNumTurns();
+            TrackSpawner(numTurns);
+        }
     }
 }
