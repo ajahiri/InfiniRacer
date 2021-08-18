@@ -8,23 +8,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* 
-* Prefab Deltas and Track Piece Properties: (How this spawner works)
-* Deltas are used to know how much (in units) the track changes from start to finish.
-* Spawning of track pieces are done by knowing the coordinate of the bottom left most vertex of the model.
-* This applies to both start and finish coordinates. Due to the models we are using having their local origin
-* in the centre of the model, we need to know the xyz deltas (in units) for both start and finish of the model.
-* With this we can appropriately spawn track pieces that fit together properly.
-* 
-* NOTE:
-* Some pieces have more special properties such as banking factor, bank direction, elevation factor and the elevation direction
-* (this is not the same as Quaternion direction as pieces may be pointing in different directions).
-* 
-* Furthermore, xyz deltas give us the appropriate positioning for the track pieces, rotation on the zx plane is
-* also needed for when left or right turn pieces are used as the subsequent pieces will need to be pointing in the
-* correct direction. Again this is not the same as banking factor and banking direction.
-* 
-* Rules are setup for which track pieces can mate to others, pitches and elevation factors need to match in order for pieces
-* to transition smoothly. Unfortunately, the asset pack only provides left turns so model changes (or some smart scripting can avoid this). TODO
+* New Explanation (Changed due to architecture of this track spawner changing)
+* Each track piece prefab is a child of some parent of which its origin is aligned
+* to the bottom left most vertex that defines the start of the track (Orientation is important, check prefabs).
+* Then another empty object that is a child of the prefab itself, (2nd order object) defines the bottom_left
+* most vertice that defines the END of the track piece.
+*
+* With this information and more meta data about the start and end pitch/elevation, we can effectively
+* spawn any of the 30+ track pieces while making sure they fit together as intended.
+*
+* Making the spawning procedural is harder, some extra steps are taken to add and remove track pieces from the
+* game as the player drives the vehicle. Furthermore, the addition of track pieces must be constrained in a way
+* that makes sure the track doesn't run into itself and essentially break the game for the player.
+*
+* Note:
+* Start and end points were not eyeballed based on the unity prefab editor, vertices were instead measured in terms
+* of there distance from the origin using Blender in order to precisely offset the track pieces.
 */
 
 public class TrackSpawnerController : MonoBehaviour
@@ -61,6 +60,7 @@ public class TrackSpawnerController : MonoBehaviour
 
     /// <summary>
     /// Builds an array of all possible track deltas and loads the respective track piece prefab.
+    /// ID1
     /// </summary>
     /// <returns>
     /// Array of track piece deltas, see struct for shape.
@@ -71,9 +71,6 @@ public class TrackSpawnerController : MonoBehaviour
         // Tracks STARTING with pitch of 0 or elevation of 0
         TrackPieceDefinition[] flatPieces =  
         {
-            new TrackPieceDefinition(   0, 0, 0, 0, "straight", 
-                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Straight_Flat_Long_Parent")
-                                ),
             new TrackPieceDefinition(   0, 0, 0, 0, "left", 
                                     Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Curve_Flat_Parent")
                                 ),
@@ -91,6 +88,9 @@ public class TrackSpawnerController : MonoBehaviour
                                 ),
             new TrackPieceDefinition(   0, 0, 0, 0, "right", 
                                     Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Corner_Flat_Right_Parent")
+                                ),
+            new TrackPieceDefinition(   0, 0, 0, 0, "straight", 
+                                    Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Straight_Flat_Long_Parent")
                                 ),
             new TrackPieceDefinition(   0, -1, 0, 0, "straight",
                                     Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Transition_Left_Pitch1_Parent")
@@ -235,67 +235,81 @@ public class TrackSpawnerController : MonoBehaviour
         trackPieceDefinitions = LoadTrackPieceDefinitions();
 
         // Instantiate the initial starting track piece where subsequent pieces will connect to
-        var currentObj = Instantiate(trackPieceDefinitions[0][0].prefab, new Vector3(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z), Quaternion.identity, spawnerTransformOrigin);
+        var currentObj = Instantiate(trackPieceDefinitions[0][6].prefab, new Vector3(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z), Quaternion.identity, spawnerTransformOrigin);
         
         // Get second order child of object (this contains an object of which transform is at "bottom_left_end" of piece)
         // TransformPoint(...) will get us this transform in the global coordinate context
         latestTrackPoint = currentObj.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0);
-        trackPieceMemory.Add(new TrackPieceObject(spawnerTransformOrigin.position, 0, 0, Quaternion.identity, currentObj));
+        trackPieceMemory.Add(new TrackPieceObject(spawnerTransformOrigin.position, 0, 6, Quaternion.identity, currentObj));
     }
 
-    void TrackSpawner() {
+    // Checks last 5 placed track pieces for number of turns
+    int CheckNumTurns() {
+        int numTurns = 0;
+        if (trackPieceMemory.Count < 6) {
+            return 99;
+        };
+        for (int i = trackPieceMemory.Count - 1; i >= 0; i--)
+        {
+            var piece = trackPieceMemory[i];
+            var definition = trackPieceDefinitions[piece.pieceDefinitionX][piece.pieceDefinitionY];
+            if (definition.orientationDirection.Equals("left")  || definition.orientationDirection.Equals("right")) {
+                numTurns += 1;
+            }
+        }
+        return numTurns;
+    }
+
+    void TrackSpawner(int numTurns) {
         var finalPiece = trackPieceMemory[trackPieceMemory.Count - 1]; // Get last track piece
         var firstPiece = trackPieceMemory[0]; 
 
         // Track cleaner
-        if (trackPieceMemory.Count > 5) {
+        if (trackPieceMemory.Count > 12) {
             Destroy(firstPiece.targetObject.gameObject);
             trackPieceMemory.RemoveAt(0);
         }
-
-        // Raycast Collision detector 
-        bool constrainRight = trackPieceDefinitions[finalPiece.pieceDefinitionX][finalPiece.pieceDefinitionY].orientationDirection == "left";
-        bool constrainFront = Physics.Raycast(latestTrackPoint, finalPiece.targetObject.transform.TransformDirection(Vector3.forward));
+        
+        // To avoid invalid track placement, if too many turns spawned, restrict to straight
+        // Only checks last 5 pieces
+        bool restrictTurnPiece = numTurns >= 2;
 
         var finalPieceDefinition = trackPieceDefinitions[finalPiece.pieceDefinitionX][finalPiece.pieceDefinitionY];
 
         int indexNewPieceX, indexNewPieceY;
 
-        // Basic last couple piece check (avoids loops that collide)
-
-
         // Bias to straight piece
-        if (Random.Range(1,5) % 2 == 0 && finalPieceDefinition.endPitch == 0) {
+        if (Random.Range(0,3) % 2 == 0 && finalPieceDefinition.endPitch == 0) {
             indexNewPieceX = 0;
-            indexNewPieceY = 0;
+            indexNewPieceY = 6;
         } else {
             // Selecting for correct pitch
             switch (finalPieceDefinition.endPitch)
             {
                 case 0:
-                    // Can select any piece starting with 0 pitch
+                    // Can select any piece starting with 0 pitch unless restricted to straight
                     indexNewPieceX = 0;
-                    indexNewPieceY = constrainRight ? 0 : (constrainFront ? 5 : Random.Range(0, trackPieceDefinitions[0].Length));
+                    indexNewPieceY = restrictTurnPiece ? Random.Range(6,13) : Random.Range(0,13);
                     break;
                 case -1:
-                    // Can select any piece starting with -1 pitch
+                    // Can select any piece starting with -1 pitch unless restricted to straight
                     indexNewPieceX = 1;
-                    indexNewPieceY = constrainRight ? 3 : (constrainFront ? 1 : Random.Range(0, 4));
+                    indexNewPieceY = restrictTurnPiece ? 3 : Random.Range(0, 4);
                     break;
                 case -2:
-                    // Can select any piece starting with -2 pitch
+                    // Can select any piece starting with -2 pitch unless restricted to straight
                     indexNewPieceX = 2;
-                    indexNewPieceY = constrainRight ? 3 : (constrainFront ? 1 : Random.Range(0, 4));
+                    indexNewPieceY = restrictTurnPiece ? 3 : Random.Range(0, 4);
                     break;
                 case 1:
-                    // Can select any piece starting with 1 pitch
+                    // Can select any piece starting with 1 pitch unless restricted to straight
                     indexNewPieceX = 1;
-                    indexNewPieceY = constrainRight ? 8 : Random.Range(4, 8);
+                    indexNewPieceY = restrictTurnPiece ? 7 : Random.Range(4, 8);
                     break;
                 case 2:
-                    // Can select any piece starting with 2 pitch
+                    // Can select any piece starting with 2 pitch unless restricted to straight
                     indexNewPieceX = 2;
-                    indexNewPieceY = constrainRight ? 8 : Random.Range(4, 8);
+                    indexNewPieceY = restrictTurnPiece ? 7 : Random.Range(4, 8);
                     break;
                 default:
                     return; // Invalid data, continue to next iteration
@@ -336,8 +350,9 @@ public class TrackSpawnerController : MonoBehaviour
     void FixedUpdate()
     {
         // Conditional spawning interation loop
-        if (Vector3.Distance(latestTrackPoint, playerVehicleObject.transform.position) < 20) {
-            TrackSpawner();
+        if (Vector3.Distance(latestTrackPoint, playerVehicleObject.transform.position) < 50) {
+            var numTurns = CheckNumTurns();
+            TrackSpawner(numTurns);
         }
     }
 }
