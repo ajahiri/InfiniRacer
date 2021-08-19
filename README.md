@@ -1,2 +1,4 @@
-# ses3a
-Software Engineering Studio 3A
+# Software Engineering Studio 3A
+
+* Group Number: 1
+* Semester: Spring 2021
