@@ -38,7 +38,7 @@ public class CarController : MonoBehaviour
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
         vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
-        GetInput();
+        //GetInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
@@ -48,6 +48,12 @@ public class CarController : MonoBehaviour
         horizontalInput = Input.GetAxis(HORIZONTAL);
         verticalInput = Input.GetAxis(VERTICAL);
         isBraking = Input.GetKey(KeyCode.Space);
+    }
+
+    public void SetInputs(float horizontalInput, float verticalInput, bool brakingInput) {
+        this.horizontalInput = horizontalInput;
+        this.verticalInput = verticalInput;
+        this.isBraking = brakingInput;
     }
 
     private void HandleMotor()
