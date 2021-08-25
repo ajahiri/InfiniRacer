@@ -33,6 +33,7 @@ public class TrackSpawnerController : MonoBehaviour
     {
         // Object Prefab (From resources directory)
         public Transform prefab;
+        
         public int startPitch, endPitch, startElevation, endElevation;
 
         public string orientationDirection; // straight, left, right
