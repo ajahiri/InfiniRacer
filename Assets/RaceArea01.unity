@@ -2967,7 +2967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72f5707897feba4588195f811262956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 1000
+  motorForce: 5000
   brakeForce: 10000
   maxSteeringAngle: 45
   vehicleStandardMass: 680
@@ -3028,8 +3028,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295372459652139768}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 4, z: 2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 5.06, y: 4.5809, z: 2.1156}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 5733057503151783425}
   - {fileID: 2376116724265603166}
@@ -3302,8 +3302,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.019197728, y: 0.007777594, z: 0.043234065}
-  m_Center: {x: -0.00008336931, y: 0.0063164383, z: 0.0016328883}
+  m_Size: {x: 0.019197728, y: 0.005, z: 0.043234065}
+  m_Center: {x: -0.00008336931, y: 0.005, z: 0.0016328883}
 --- !u!146 &3528717397716108382
 WheelCollider:
   m_ObjectHideFlags: 0
