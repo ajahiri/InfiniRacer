@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class BotCarController : MonoBehaviour
 {
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
@@ -38,28 +38,21 @@ public class CarController : MonoBehaviour
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
         vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
-        GetInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
     }
 
-    private void GetInput()
-    {
-        horizontalInput = Input.GetAxis(HORIZONTAL);
-        verticalInput = Input.GetAxis(VERTICAL);
-        isBraking = Input.GetKey(KeyCode.Space);
+    public void SetInputs(float newHorizontal, float newVertical, bool brakingInput) {
+        horizontalInput = newHorizontal;
+        verticalInput = newVertical;
+        isBraking = brakingInput;
     }
 
     private void HandleMotor()
     {
-        if (verticalInput == -1) {
-            rearLeftWheelCollider.motorTorque = -motorForce;
-            rearRightWheelCollider.motorTorque = -motorForce;
-        } else {
-            rearLeftWheelCollider.motorTorque = isBraking ? 0 : motorForce;
-            rearRightWheelCollider.motorTorque = isBraking ? 0 : motorForce;
-        }
+        rearLeftWheelCollider.motorTorque = verticalInput * motorForce;
+        rearRightWheelCollider.motorTorque = verticalInput * motorForce;
         
         currentBrakeForce = isBraking ? brakeForce : 0f;
         ApplyBraking();
