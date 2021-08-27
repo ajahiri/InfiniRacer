@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 3806244905884723720}
   - component: {fileID: 3806244905884723721}
   - component: {fileID: 3806244905884723725}
+  - component: {fileID: 2057166844875460089}
   - component: {fileID: 6712587918652903105}
   m_Layer: 0
   m_Name: Vehicle Bot
@@ -423,9 +424,6 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 10000
   targetTransform: {fileID: 0}
-  winMaterial: {fileID: 2100000, guid: d690ddf5ccdf00cf9be7f7464780c292, type: 2}
-  loseMaterial: {fileID: 2100000, guid: 601a413eb2233691dadd949d745da0d6, type: 2}
-  floorMeshRenderer: {fileID: 0}
 --- !u!114 &3806244905884723721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +468,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 6
   TakeActionsBetweenDecisions: 1
+--- !u!114 &2057166844875460089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6712587918652903104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 3
+  m_MaxRayDegrees: 70
+  m_SphereCastRadius: 0.45
+  m_RayLength: 20
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_ObservationStacks: 1
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 0, g: 0, b: 0, a: 1}
+  m_StartVerticalOffset: 1.54
+  m_EndVerticalOffset: -0.3
 --- !u!114 &6712587918652903105
 MonoBehaviour:
   m_ObjectHideFlags: 0

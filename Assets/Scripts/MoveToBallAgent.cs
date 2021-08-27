@@ -5,12 +5,12 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 
-public class MoveToBallAgent : Agent 
+public class CarDriverAgent : Agent 
 {
     [SerializeField] private Transform targetTransform;
-    [SerializeField] private Material winMaterial;
-    [SerializeField] private Material loseMaterial;
-    [SerializeField] private MeshRenderer floorMeshRenderer;
+    //[SerializeField] private Material winMaterial;
+    //[SerializeField] private Material loseMaterial;
+    //[SerializeField] private MeshRenderer floorMeshRenderer;
 
     public override void OnEpisodeBegin() {
         transform.localPosition = new Vector3(Random.Range(+10f, -11f), +4f, -14f);
@@ -37,15 +37,13 @@ public class MoveToBallAgent : Agent
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.TryGetComponent<Goal>(out Goal goal)) {
+        if (other.TryGetComponent<Checkpoint>(out Checkpoint goal)) {
             SetReward(+1f);
-            floorMeshRenderer.material = winMaterial;
-            EndEpisode();
+            //floorMeshRenderer.material = winMaterial;
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
             SetReward(-1f);
-            floorMeshRenderer.material = loseMaterial;
-            EndEpisode();
+            //floorMeshRenderer.material = loseMaterial;
         }
     }
 }
