@@ -1,12 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TrackCheckpoints : MonoBehaviour
 {
+
+    // Events for crrect/wrong checkpoints with event args class to hold vehicle transform
+    public event EventHandler<TrackCheckpointEventArgs> OnVehicleCorrectCheckpoint;
+    public event EventHandler<TrackCheckpointEventArgs> OnVehicleWrongCheckpoint;
+
+    public class TrackCheckpointEventArgs : EventArgs {
+        public Transform vehicleTransform;
+    }
     public bool isLoopingTrack;
+
+    [SerializeField] private List<Transform> carTransformList;
     private List<Checkpoint> checkpointList = new List<Checkpoint>();
-    private int nextCheckpointIndex;
+    private List<int> nextCheckpointIndexList = new List<int>();
+    
     // Target track parent, when used with the spawner, this will be useful
     [SerializeField] Transform trackTarget;
     private void Awake() {
@@ -20,20 +32,34 @@ public class TrackCheckpoints : MonoBehaviour
             }
         }
 
-        nextCheckpointIndex = 0;
+        foreach (Transform carTransform in carTransformList) {
+            nextCheckpointIndexList.Add(0);
+        }
     }
 
-    public void PlayerThroughCheckpoint(Checkpoint checkpoint) {
+    public void ResetCheckpoints(Transform vehicleTransform) {
+        nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)] = 0;
+    }
+
+    // According to the checkpoint list and the entry in nextCheckpointIndexList
+    // Get the NEXT checkpoint based on the passed in vehicleTransform
+    public Checkpoint GetNextCheckpoint(Transform vehicleTransform) {
+        return checkpointList[nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)]];
+    }
+
+    public void CarThroughCheckpoint(Checkpoint checkpoint, Transform carTransform) {
+        int nextCheckpointIndex = nextCheckpointIndexList[carTransformList.IndexOf(carTransform)];
+       
         // Things here might need to change for non looping tracks
         
         if (checkpointList.IndexOf(checkpoint) == nextCheckpointIndex) {
-            // corretn checkpoint
-            Debug.Log("correct checkpoint");
-            // Ensures when looping next index starts at beginning of track
-            nextCheckpointIndex = (nextCheckpointIndex + 1) % checkpointList.Count;
+            //Debug.Log("correct checkpoint");
+            nextCheckpointIndexList[carTransformList.IndexOf(carTransform)] = (nextCheckpointIndex + 1) % checkpointList.Count;
+            OnVehicleCorrectCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
         } else {
             // wrong checkpoint
-            Debug.Log("wrong checkpoint");
+            //Debug.Log("wrong checkpoint");
+            OnVehicleWrongCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
         }
     }
 }

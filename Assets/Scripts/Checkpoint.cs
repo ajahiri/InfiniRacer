@@ -8,7 +8,9 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "VehicleBody") {
-            trackCheckpoints.PlayerThroughCheckpoint(this);
+            Transform parentTransform = other.transform.parent;
+            Debug.Log(parentTransform);
+            trackCheckpoints.CarThroughCheckpoint(this, parentTransform);
         }
     }
     public void SetTrackCheckpoints(TrackCheckpoints trackCheckpoints) {
