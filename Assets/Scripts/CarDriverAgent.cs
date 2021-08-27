@@ -25,7 +25,7 @@ public class CarDriverAgent : Agent
         // Event captured, check if that event belongs to this vehicle by check transform equality
         if (e.vehicleTransform == transform) {
             AddReward(+1f);
-            Debug.Log("correct checkpoint in agent");
+            //Debug.Log("correct checkpoint in agent");
         }
         
     }
@@ -33,13 +33,13 @@ public class CarDriverAgent : Agent
     // Same as above but with negative reward
     private void TrackCheckpoints_OnVehicleWrongCheckpoint(object sender, TrackCheckpoints.TrackCheckpointEventArgs e) {
         if (e.vehicleTransform == transform) {
-            Debug.Log("wrong checkpoint in agent");   
+            //Debug.Log("wrong checkpoint in agent");   
             AddReward(-1f);
         }
     }
 
     public override void OnEpisodeBegin() {
-        transform.localPosition = new Vector3(UnityEngine.Random.Range(+5f, -15f), +0f, 2f);
+        transform.localPosition = new Vector3(UnityEngine.Random.Range(5f, 15f), +0f, 2f);
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.localRotation = Quaternion.Euler(0,0,0);
         trackCheckpoints.ResetCheckpoints(transform);
@@ -48,7 +48,9 @@ public class CarDriverAgent : Agent
     public override void CollectObservations(VectorSensor sensor) {
         // In addition to the Ray Perception Sensor, this observation will make sure the model learns to face the same direction as the checkpoints forward
         // This ensures that it learns to keep itself pointing in the right direction
-        Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(transform).transform.forward;
+        //Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(transform).transform.forward;
+        Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(transform).transform.TransformDirection(Vector3.forward);
+        
         float directionDot = Vector3.Dot(transform.forward, checkpointForward);
         sensor.AddObservation(directionDot);
     }
@@ -60,19 +62,21 @@ public class CarDriverAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut) {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
+        continuousActions[0] = Input.GetAxis("Horizontal");
+        continuousActions[1] = Input.GetAxis("Vertical");
         continuousActions[2] = 0f;
     }
 
+
+    // Penalise the agent if it slides/hits the boundary walls of the track
     private void OnTriggerEnter(Collider other) {
-        if (other.TryGetComponent<Checkpoint>(out Checkpoint goal)) {
-            SetReward(+1f);
-            //floorMeshRenderer.material = winMaterial;
-        }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
-            SetReward(-1f);
-            //floorMeshRenderer.material = loseMaterial;
+            AddReward(-0.5f);
+        }
+    }
+    private void OnTriggerStay(Collider other) {
+        if (other.TryGetComponent<Wall>(out Wall wall)) {
+            AddReward(-0.2f);
         }
     }
 }

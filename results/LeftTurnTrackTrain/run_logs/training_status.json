@@ -1,0 +1,29 @@
+{
+    "TrackDriverBehaviour": {
+        "checkpoints": [
+            {
+                "steps": 173642,
+                "file_path": "results/LeftTurnTrackTrain/TrackDriverBehaviour/TrackDriverBehaviour-173642.onnx",
+                "reward": null,
+                "creation_time": 1630081000.19,
+                "auxillary_file_paths": [
+                    "results/LeftTurnTrackTrain/TrackDriverBehaviour/TrackDriverBehaviour-173642.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 173642,
+            "file_path": "results/LeftTurnTrackTrain/TrackDriverBehaviour.onnx",
+            "reward": null,
+            "creation_time": 1630081000.19,
+            "auxillary_file_paths": [
+                "results/LeftTurnTrackTrain/TrackDriverBehaviour/TrackDriverBehaviour-173642.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.8.2+cu111"
+    }
+}
