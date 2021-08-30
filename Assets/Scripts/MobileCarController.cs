@@ -1,16 +1,15 @@
-// Arian Jahiri 13348469 (10/08/2021)
+// Arian Jahiri 13348469 (10/08/2021) - Created inital CarController script
+// Ryan Dawson 13270006 (26/08/2021) - Created MobileCarController script heavily based off of original CarController script
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class MobileCarController : MonoBehaviour
 {
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
-    public bool isFlat = true;
-
 
     private float horizontalInput;
     private float verticalInput;
@@ -35,26 +34,10 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
 
-    private void Start()
-    {
-        vehicleRigidBody = GetComponent<Rigidbody>();
-
-    }
-    private void Update()
-    {
-        Vector3 tilt = Input.acceleration;
-
-        if (isFlat)
-            tilt = Quaternion.Euler(90, 0, 0) * tilt;
-
-
-        //vehicleRigidBody.AddForce(Input.acceleration);
-        Debug.DrawRay(transform.position + Vector3.up, tilt, Color.cyan);
-    }
     private void FixedUpdate()
     {
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
-
+        vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
         GetInput();
         HandleMotor();
@@ -63,10 +46,9 @@ public class CarController : MonoBehaviour
     }
     private void GetInput()
     {
-        horizontalInput = Input.acceleration.x;
-        //horizontalInput = Input.GetAxis(HORIZONTAL);
+        horizontalInput = Input.GetAxis(HORIZONTAL);
         verticalInput = Input.GetAxis(VERTICAL);
-        isBraking = Input.GetKey(KeyCode.Space);
+        isBraking = Input.touchCount > 0;
     }
 
     private void HandleMotor()
