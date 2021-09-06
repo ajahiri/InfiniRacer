@@ -39,20 +39,26 @@ public class CarDriverAgent : Agent
     }
 
     public override void OnEpisodeBegin() {
-        transform.localPosition = new Vector3(UnityEngine.Random.Range(5f, 15f), +0f, 2f);
+        trackCheckpoints.ResetAll();
+        // transform.localPosition = new Vector3(UnityEngine.Random.Range(5f, 15f), +0f, 2f);
+        transform.localPosition = new Vector3(16.2999992f,0.289999992f,1.78999996f);
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.localRotation = Quaternion.Euler(0,0,0);
-        trackCheckpoints.ResetCheckpoints(transform);
     }
 
     public override void CollectObservations(VectorSensor sensor) {
         // In addition to the Ray Perception Sensor, this observation will make sure the model learns to face the same direction as the checkpoints forward
         // This ensures that it learns to keep itself pointing in the right direction
         //Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(transform).transform.forward;
-        Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(transform).transform.TransformDirection(Vector3.forward);
+        if (trackCheckpoints.GetNumCheckpoints() > 0) {
+            var nextCheckpoint = trackCheckpoints.GetNextCheckpoint(transform);
+            if (nextCheckpoint != null) {
+                Vector3 checkpointForward = nextCheckpoint.transform.TransformDirection(Vector3.forward);
         
-        float directionDot = Vector3.Dot(transform.forward, checkpointForward);
-        sensor.AddObservation(directionDot);
+                float directionDot = Vector3.Dot(transform.forward, checkpointForward);
+                sensor.AddObservation(directionDot);
+            }
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actions) {
@@ -70,6 +76,10 @@ public class CarDriverAgent : Agent
 
     // Penalise the agent if it slides/hits the boundary walls of the track
     private void OnTriggerEnter(Collider other) {
+        if (other.tag == "End Barrier") {
+            AddReward(-3f);
+            EndEpisode();
+        }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
             AddReward(-0.5f);
         }
