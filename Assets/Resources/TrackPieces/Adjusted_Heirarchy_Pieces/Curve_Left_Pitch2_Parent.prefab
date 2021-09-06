@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3096544844857117985}
   m_Layer: 0
-  m_Name: Walls
+  m_Name: Boundary Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
