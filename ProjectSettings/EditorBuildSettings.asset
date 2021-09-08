@@ -6,15 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/StartScene.unity
+    path: Assets/Scenes/TitleScene.unity
     guid: 5515ff709c0c14d4c9819793f82defb6
+  - enabled: 1
+    path: Assets/Scenes/OptionsScene.unity
+    guid: 9d53d843b3d7e4743969143857c23112
   - enabled: 1
     path: Assets/RaceArea01.unity
     guid: 9e222cffcbeca29428370cad7f7e8b23
   - enabled: 0
-    path: Assets/OptionScreen.unity
-    guid: 8ce52dd497bd09148b8fe923814d4d35
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/PauseScreen.unity
-    guid: 33fb470db3528c34ca58038c1f20ea79
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
