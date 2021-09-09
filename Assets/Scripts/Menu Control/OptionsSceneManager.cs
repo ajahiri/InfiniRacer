@@ -14,7 +14,7 @@ public class OptionsSceneManager : MonoBehaviour
     public void ChangeAudioVolume(float newVolume)
     {
         Debug.Log($"Setting volume: {newVolume}");
-        PlayerPrefs.SetFloat("GlobalGameVolume", newVolume);
         AudioListener.volume = newVolume;
+        PlayerPrefs.SetFloat("GlobalGameVolume", newVolume);
     }
 }
