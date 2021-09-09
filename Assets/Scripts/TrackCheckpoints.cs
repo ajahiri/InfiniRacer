@@ -16,8 +16,6 @@ public class TrackCheckpoints : MonoBehaviour
 
     public bool isLoopingTrack;
 
-    private bool editingCheckpoint = false;
-
     [SerializeField] private List<Transform> carTransformList;
     private List<Checkpoint> checkpointList = new List<Checkpoint>();
     private List<int> nextCheckpointIndexList = new List<int>();

@@ -68,9 +68,9 @@ public class CarDriverAgent : Agent
 
     public override void Heuristic(in ActionBuffers actionsOut) {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxis("Horizontal");
-        continuousActions[1] = Input.GetAxis("Vertical");
-        continuousActions[2] = 0f;
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
+        continuousActions[2] = Input.GetKey("space") == true ? 0f : 1f;
     }
 
 

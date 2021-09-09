@@ -47,6 +47,7 @@ public class BotCarController : MonoBehaviour
         horizontalInput = newHorizontal;
         verticalInput = newVertical;
         isBraking = brakingInput;
+        // Debug.Log("setting inputs " + horizontalInput + " " + verticalInput + " " + isBraking);
     }
 
     private void HandleMotor()

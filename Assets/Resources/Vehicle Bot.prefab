@@ -446,7 +446,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 33c86e1f5ac0fc4479b4a62cde9ebaf1, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 5e58606ac01d901a9be804fa65a911f5, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: MoveToGoal
@@ -508,7 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bd1a463da68b8a787719a0bc474ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 5000
+  motorForce: 9000
   brakeForce: 10000
   maxSteeringAngle: 45
   vehicleStandardMass: 680
