@@ -67,13 +67,14 @@ public class CarController : MonoBehaviour
         if (tiltCont)
         {
             horizontalInput = Input.acceleration.x;
+            isBraking = Input.touchCount > 0;
         }
-        else { horizontalInput = Input.GetAxis(HORIZONTAL); }
-       
+        else { horizontalInput = Input.GetAxis(HORIZONTAL); isBraking = Input.GetKey(KeyCode.Space); }
+
         
-        
+
         verticalInput = Input.GetAxis(VERTICAL);
-        isBraking = Input.GetKey(KeyCode.Space);
+        
     }
 
     private void HandleMotor()
