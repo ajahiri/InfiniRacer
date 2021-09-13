@@ -28,7 +28,7 @@ using UnityEngine;
 
 public class TrackSpawnerController : MonoBehaviour
 {
-    [SerializeField] GameObject playerVehicleObject;
+    [SerializeField] List<GameObject> vehicleObjects;
     [SerializeField] GameObject checkpointHandlerObject;
     private struct TrackPieceDefinition
     {
@@ -226,6 +226,10 @@ public class TrackSpawnerController : MonoBehaviour
     */    
     private List<TrackPieceObject> trackPieceMemory = new List<TrackPieceObject>();
 
+    // Distances, required for conditional spawning/deletion
+    float minDistanceToEnd = Mathf.Infinity;
+    float minDistanceToStart = Mathf.Infinity;
+
     // Origin game object where spawning starts
     private Transform spawnerTransformOrigin;
     void Start()
@@ -281,7 +285,8 @@ public class TrackSpawnerController : MonoBehaviour
         var firstPiece = trackPieceMemory[0]; 
 
         // Track cleaner
-        if (trackPieceMemory.Count > 12) {
+        // if (trackPieceMemory.Count > 12) {
+        if (minDistanceToStart > 50f) {
             // Update checkpoint handler on track piece removal
             checkpointHandlerObject.GetComponent<TrackCheckpoints>().RemoveCheckpoints(firstPiece.targetObject);
             Destroy(firstPiece.targetObject.gameObject);
@@ -358,7 +363,7 @@ public class TrackSpawnerController : MonoBehaviour
         // Instantiate the prefab
         var latestObject = Instantiate(newPieceDefinition.prefab, latestTrackPoint, newPieceRotation, spawnerTransformOrigin); // Spawn as child of spawner
 
-        checkpointHandlerObject.GetComponent<TrackCheckpoints>().AddCheckpoints(latestObject);
+        checkpointHandlerObject.GetComponent<TrackCheckpoints>().AddCheckpoints(latestObject); // Append checkpoints relating to this piece
 
         // Position transform to last known "latestTrackPoint" after orientation has changed
         // Add new piece to the list
@@ -369,8 +374,24 @@ public class TrackSpawnerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        minDistanceToStart = Mathf.Infinity;
+        minDistanceToEnd = Mathf.Infinity;
+        // Calculate min.max distances
+        for (int i = 0; i < vehicleObjects.Count; i++)
+        {
+            GameObject currentObj = vehicleObjects[i];
+            float vehicleDistanceToEnd = Vector3.Distance(latestTrackPoint, currentObj.transform.position); // Distance to last track piece
+            float vehicleDistanceFromStart = Vector3.Distance(trackPieceMemory[0].position, currentObj.transform.position); // Distance to first track piece
+            if (vehicleDistanceToEnd < minDistanceToEnd) {
+                minDistanceToEnd = vehicleDistanceToEnd;
+            }
+            if (vehicleDistanceFromStart < minDistanceToStart) {
+                minDistanceToStart = vehicleDistanceFromStart;
+            }
+        }
+
         // Conditional spawning interation loop
-        if (Vector3.Distance(latestTrackPoint, playerVehicleObject.transform.position) < 50) {
+        if (minDistanceToEnd < 50) {
             Debug.Log("in distance");
             var numTurns = CheckNumTurns();
             TrackSpawner(numTurns);
