@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 659284298231726464}
   m_Layer: 8
   m_Name: body
-  m_TagString: Untagged
+  m_TagString: VehicleBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 6712587918652903105}
   m_Layer: 8
   m_Name: Vehicle Bot
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

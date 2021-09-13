@@ -76,6 +76,14 @@ public class CarDriverAgent : Agent
         continuousActions[2] = Input.GetKey("space") == true ? 0f : 1f;
     }
 
+    // 
+    private void OnCollisionEnter(Collision other) {
+        // Collision Reward
+        if(other.collider.tag == "VehicleBody") {
+            AddReward(+0.5f);
+            Debug.Log("Collision Reward!");
+        }
+    }
 
     // Penalise the agent if it slides/hits the boundary walls of the track
     private void OnTriggerEnter(Collider other) {
@@ -85,11 +93,6 @@ public class CarDriverAgent : Agent
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
             AddReward(-0.5f);
-        }
-        // Collision Reward
-        if(other.tag == "Car") {
-            AddReward(+0.5f);
-            Debug.Log("Collision Reward!");
         }
     }
     private void OnTriggerStay(Collider other) {
