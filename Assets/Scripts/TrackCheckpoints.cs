@@ -110,4 +110,8 @@ public class TrackCheckpoints : MonoBehaviour
             OnVehicleWrongCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
         }
     }
+
+    public int findCarIndex(Transform transform) {
+        return carTransformList.IndexOf(transform);
+    }
 }

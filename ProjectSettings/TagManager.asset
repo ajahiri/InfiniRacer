@@ -8,6 +8,7 @@ TagManager:
   - Checkpoint
   - Boundary Wall
   - End Barrier
+  - Car
   layers:
   - Default
   - TransparentFX
