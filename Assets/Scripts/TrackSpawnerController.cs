@@ -187,6 +187,7 @@ public class TrackSpawnerController : MonoBehaviour
                                     Resources.Load<Transform>("TrackPieces/Adjusted_Heirarchy_Pieces/Loop_Right_Parent")
                                 ),
         };
+        
 
         TrackPieceDefinition[][] output = {flatPieces, pitch1Pieces, pitch2Pieces, elevation1Pieces, elevation2Pieces, rarePieces};
         return output;

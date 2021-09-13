@@ -22,6 +22,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
+    [SerializeField] private bool tiltCont;
 
     private Rigidbody vehicleRigidBody;
 
@@ -63,8 +64,14 @@ public class CarController : MonoBehaviour
     }
     private void GetInput()
     {
-        horizontalInput = Input.acceleration.x;
-        //horizontalInput = Input.GetAxis(HORIZONTAL);
+        if (tiltCont)
+        {
+            horizontalInput = Input.acceleration.x;
+        }
+        else { horizontalInput = Input.GetAxis(HORIZONTAL); }
+       
+        
+        
         verticalInput = Input.GetAxis(VERTICAL);
         isBraking = Input.GetKey(KeyCode.Space);
     }

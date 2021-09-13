@@ -39,6 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4990163292049114878}
+  - component: {fileID: 5804113801659056390}
   m_Layer: 0
   m_Name: Transition_Left_Pitch2_Inverse_Parent
   m_TagString: Untagged
@@ -61,6 +62,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5804113801659056390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6749957581089957004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c93f0fbe48fd34c956d9a700a7b0e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+  - {fileID: 236182384230183215, guid: 56daba767e52de84593f70dc4e5206de, type: 3}
+  - {fileID: 1813228579943888062, guid: c0df9f63ed453314492f973664ef7133, type: 3}
+  - {fileID: 6171524714695434134, guid: 228d724443bb3154387f5d5891f8b4e4, type: 3}
+  - {fileID: 2992605789010640439, guid: e0089f78ac96dcf4d8f31985073fb1e4, type: 3}
 --- !u!1001 &7906899055133259296
 PrefabInstance:
   m_ObjectHideFlags: 0
