@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TrackCheckpoints : MonoBehaviour
 {
+    System.Random random = new System.Random();
 
     // Events for crrect/wrong checkpoints with event args class to hold vehicle transform
     public event EventHandler<TrackCheckpointEventArgs> OnVehicleCorrectCheckpoint;
@@ -15,8 +16,10 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public bool isLoopingTrack;
+    public bool isTraining;
 
-    [SerializeField] private List<Transform> carTransformList;
+    [SerializeField] private List<Transform> initial_carTransformList;
+    private List<Transform> carTransformList = new List<Transform>(); 
     private List<Checkpoint> checkpointList = new List<Checkpoint>();
     private List<int> nextCheckpointIndexList = new List<int>();
     
@@ -33,10 +36,23 @@ public class TrackCheckpoints : MonoBehaviour
         //         checkpointList.Add(checkpoint);
         //     }
         // }
+        
+        if(isTraining) {
+            if(initial_carTransformList.Count < 5){
+                Debug.LogError("There must be at least 5 Vehicle Bot Transforms loaded into the 'Initial_ Car Transform List' in the CheckpointHandler class.");
+            } else {
+                // spawn random number of cars between 2 and 5 (inclusive)
+                int numCarsToSpawn = random.Next(2, 6);
+                carTransformList = initial_carTransformList.GetRange(0, numCarsToSpawn);
+            }
+        } else {
+            // spawn 2 cars from the initial carTransformList
+            carTransformList = initial_carTransformList.GetRange(0, 2);
+        }
 
         foreach (Transform carTransform in carTransformList) {
-            nextCheckpointIndexList.Add(0);
-        }
+                nextCheckpointIndexList.Add(0);
+            }
     }
 
     public void AddCheckpoints(Transform trackPiece) {
