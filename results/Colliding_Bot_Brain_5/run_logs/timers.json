@@ -1,0 +1,49 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1631552588",
+        "python_version": "3.9.5 (tags/v3.9.5:0a7dcbd, May  3 2021, 17:27:52) [MSC v.1928 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Python39\\Scripts\\mlagents-learn config\\TrackDriverBehaviour.yaml --initialize-from=Procedurally_Trained --run-id=Colliding_Bot_Brain_5",
+        "mlagents_version": "0.27.0",
+        "mlagents_envs_version": "0.27.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.9.0+cpu",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1631552596"
+    },
+    "total": 8.002059500000001,
+    "count": 1,
+    "self": 0.014604900000001919,
+    "children": {
+        "run_training.setup": {
+            "total": 0.13979640000000004,
+            "count": 1,
+            "self": 0.13979640000000004
+        },
+        "TrainerController.start_learning": {
+            "total": 7.8476582,
+            "count": 1,
+            "self": 0.00016590000000071825,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 7.5591337,
+                    "count": 1,
+                    "self": 7.5591337
+                },
+                "TrainerController._save_models": {
+                    "total": 0.2883585999999987,
+                    "count": 1,
+                    "self": 0.011652499999998511,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.2767061000000002,
+                            "count": 1,
+                            "self": 0.2767061000000002
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

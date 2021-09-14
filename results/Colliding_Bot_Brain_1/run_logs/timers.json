@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1631552228",
+        "python_version": "3.9.5 (tags/v3.9.5:0a7dcbd, May  3 2021, 17:27:52) [MSC v.1928 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Python39\\Scripts\\mlagents-learn config\\BotCollision_Hyperparams.yaml --initialize-from=Procedurally_Trained --run-id=Colliding_Bot_Brain_1",
+        "mlagents_version": "0.27.0",
+        "mlagents_envs_version": "0.27.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.9.0+cpu",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1631552250"
+    },
+    "total": 21.531471600000003,
+    "count": 1,
+    "self": 0.011255100000006735,
+    "children": {
+        "run_training.setup": {
+            "total": 0.1594313999999999,
+            "count": 1,
+            "self": 0.1594313999999999
+        },
+        "TrainerController.start_learning": {
+            "total": 21.360785099999998,
+            "count": 1,
+            "self": 0.00016739999999870747,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 21.3605969,
+                    "count": 1,
+                    "self": 21.3605969
+                },
+                "TrainerController._save_models": {
+                    "total": 2.0799999997933583e-05,
+                    "count": 1,
+                    "self": 2.0799999997933583e-05
+                }
+            }
+        }
+    }
+}

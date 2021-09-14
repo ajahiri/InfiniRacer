@@ -114,4 +114,8 @@ public class TrackCheckpoints : MonoBehaviour
     public int findCarIndex(Transform transform) {
         return carTransformList.IndexOf(transform);
     }
+
+    public List<Transform> getCarTransforms() {
+        return carTransformList;
+    }
 }
