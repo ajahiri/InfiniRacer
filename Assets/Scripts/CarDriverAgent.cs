@@ -62,10 +62,16 @@ public class CarDriverAgent : Agent
                 sensor.AddObservation(directionDot);
             }
         }
-        foreach(Transform t in trackCheckpoints.getCarTransforms()) {
-            if(t != transform) {
-                sensor.AddObservation(Vector3.Distance(transform.position, t.position));
+        if(trackCheckpoints.getCarTransforms().Count > 1) {
+            float closestDistance = float.MaxValue;
+            foreach(Transform t in trackCheckpoints.getCarTransforms()) {
+                if(t != transform) {
+                    if(Vector3.Distance(transform.position, t.position) < closestDistance) {
+                        closestDistance = Vector3.Distance(transform.position, t.position);
+                    }
+                }
             }
+            sensor.AddObservation(closestDistance);
         }
     }
 
