@@ -19,7 +19,8 @@ public class CarController : MonoBehaviour
     
     [SerializeField] private bool tiltCont;
 
-    [SerializeField] private float motorForce;
+
+    public float motorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
@@ -72,6 +73,20 @@ public class CarController : MonoBehaviour
         else { horizontalInput = Input.GetAxis(HORIZONTAL); }
         verticalInput = Input.GetAxis(VERTICAL);
         isBraking = Input.GetKey(KeyCode.Space);
+    }
+
+    public void GetBoost(float x)
+    {
+        BoostCoroutine(x);
+    }
+
+    IEnumerator BoostCoroutine(float boost)
+    {
+        motorForce *= boost;
+        yield return new WaitForSeconds(2);
+        motorForce /= boost;
+
+
     }
 
     private void HandleMotor()

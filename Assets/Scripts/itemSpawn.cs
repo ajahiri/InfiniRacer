@@ -16,9 +16,7 @@ public class itemSpawn : MonoBehaviour
 
     private void Spawn()
     {
-        var currentObj = Instantiate(item[Random.Range(0, item.Length)], new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-
-        currentObj.transform.parent = gameObject.transform;
+        var currentObj = Instantiate(item[Random.Range(0, item.Length)], new Vector3(Random.Range(transform.position.x-7, transform.position.x+7), transform.position.y+2, transform.position.z), Quaternion.identity);
 
     }
 }

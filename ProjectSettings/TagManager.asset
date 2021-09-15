@@ -9,6 +9,9 @@ TagManager:
   - Boundary Wall
   - End Barrier
   - Car
+  - boost
+  - rock
+  - bomb
   layers:
   - Default
   - TransparentFX
