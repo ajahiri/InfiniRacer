@@ -24,7 +24,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float vehicleStandardMass;
     [SerializeField] private bool tiltCont;
 
-    private Rigidbody vehicleRigidBody;
+    public Rigidbody vehicleRigidBody;
 
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;

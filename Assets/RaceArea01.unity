@@ -3107,6 +3107,7 @@ GameObject:
   - component: {fileID: 5996722975819219564}
   - component: {fileID: 1295372459652139769}
   - component: {fileID: 1295372459652139770}
+  - component: {fileID: 1295372459652139771}
   m_Layer: 0
   m_Name: lada_blue_rigged
   m_TagString: Untagged
@@ -3132,6 +3133,7 @@ MonoBehaviour:
   maxSteeringAngle: 45
   vehicleStandardMass: 680
   tiltCont: 0
+  vehicleRigidBody: {fileID: 0}
   frontLeftWheelCollider: {fileID: 9112701272501976361}
   frontRightWheelCollider: {fileID: 5438138380554628948}
   rearLeftWheelCollider: {fileID: 4228414576486054770}
@@ -3150,11 +3152,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7a30723a01092584e85e45365e8088a4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 22cd46996da3b624bb08935264560d8c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.57
-  m_Pitch: 1
-  Loop: 0
+  m_Volume: 1
+  m_Pitch: 0.5
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -3236,6 +3238,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1295372459652139771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295372459652139768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10dc512adbe8dec4abb1007660e88543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleRigidBody: {fileID: 0}
+  minPitch: 0.4
+  maxPitch: 2
+  maxSpeed: 30
 --- !u!23 &1635716602081423651
 MeshRenderer:
   m_ObjectHideFlags: 0
