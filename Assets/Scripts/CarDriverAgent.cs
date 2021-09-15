@@ -40,13 +40,15 @@ public class CarDriverAgent : Agent
 
     public override void OnEpisodeBegin() {
         trackCheckpoints.ResetAll();
-        //float carSpacing = transform.localScale.x * (1 + trackCheckpoints.findCarIndex(transform));
-        float carSpacing = 3 * (trackCheckpoints.findCarIndex(transform));
-        float x_axis = carSpacing + 16.2999992f;
-        // transform.localPosition = new Vector3(UnityEngine.Random.Range(5f, 15f), +0f, 2f);
-        transform.localPosition = new Vector3(x_axis,0.289999992f,1.78999996f);
-        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(0,0,0);
+        // Vehicle reset is handled by trackCheckpoints script as it will apply to all vehicles on the track
+        // Doesn't make much sense but this is needed to ensure all vehicles on the track are reset properly
+        // //float carSpacing = transform.localScale.x * (1 + trackCheckpoints.findCarIndex(transform));
+        // float carSpacing = 3 * (trackCheckpoints.findCarIndex(transform));
+        // float x_axis = carSpacing + 16.2999992f;
+        // // transform.localPosition = new Vector3(UnityEngine.Random.Range(5f, 15f), +0f, 2f);
+        // transform.localPosition = new Vector3(x_axis,0.289999992f,1.78999996f);
+        // gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        // transform.localRotation = Quaternion.Euler(0,0,0);
     }
 
     public override void CollectObservations(VectorSensor sensor) {
@@ -62,17 +64,20 @@ public class CarDriverAgent : Agent
                 sensor.AddObservation(directionDot);
             }
         }
-        if(trackCheckpoints.getCarTransforms().Count > 1) {
-            float closestDistance = float.MaxValue;
-            foreach(Transform t in trackCheckpoints.getCarTransforms()) {
-                if(t != transform) {
-                    if(Vector3.Distance(transform.position, t.position) < closestDistance) {
-                        closestDistance = Vector3.Distance(transform.position, t.position);
-                    }
-                }
-            }
-            sensor.AddObservation(closestDistance);
-        }
+        
+        // if(trackCheckpoints.getCarTransforms().Count > 1) {
+        //     float closestDistance = float.MaxValue;
+        //     foreach(Transform t in trackCheckpoints.getCarTransforms()) {
+        //         if(t != transform) {
+        //             float distance = Vector3.Distance(transform.position, t.position);
+        //             if(distance < closestDistance) {
+        //                 Debug.Log(distance);
+        //                 closestDistance = distance;
+        //             }
+        //         }
+        //     }
+        //     sensor.AddObservation(closestDistance);
+        // }
     }
 
     public override void OnActionReceived(ActionBuffers actions) {
@@ -105,7 +110,7 @@ public class CarDriverAgent : Agent
     // Penalise the agent if it slides/hits the boundary walls of the track
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "End Barrier") {
-            AddReward(-3f);
+            AddReward(-10f);
             EndEpisode();
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {

@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 2
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3
@@ -446,10 +446,10 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 5e58606ac01d901a9be804fa65a911f5, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: MoveToGoal
+  m_BehaviorName: TrackDriverBehaviour
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -484,18 +484,19 @@ MonoBehaviour:
   m_DetectableTags:
   - Checkpoint
   - Boundary Wall
-  m_RaysPerDirection: 3
-  m_MaxRayDegrees: 70
+  - Car
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 85
   m_SphereCastRadius: 0.45
-  m_RayLength: 20
+  m_RayLength: 45
   m_RayLayerMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   m_ObservationStacks: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 0, g: 0, b: 0, a: 1}
   m_StartVerticalOffset: 1.54
-  m_EndVerticalOffset: -0.3
+  m_EndVerticalOffset: 1.1
 --- !u!114 &6712587918652903105
 MonoBehaviour:
   m_ObjectHideFlags: 0

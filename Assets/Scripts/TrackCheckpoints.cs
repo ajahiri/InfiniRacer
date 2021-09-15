@@ -71,8 +71,20 @@ public class TrackCheckpoints : MonoBehaviour
     public void ResetAll() {
         nextCheckpointIndexList.Clear();
         checkpointList.Clear(); 
+        // Reset all cars
         foreach (Transform carTransform in carTransformList) {
+            // Reset next checkpoint index
             nextCheckpointIndexList.Add(0);
+
+            // Reset position
+            float carSpacing = 3 * findCarIndex(carTransform);
+            float x_axis = carSpacing + 16.2995396f;
+            carTransform.localRotation = Quaternion.Euler(0,0,0);
+            carTransform.localPosition = new Vector3(x_axis,0.119178146f,1.78931403f);
+
+            // Reset momentum
+            carTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            carTransform.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
         trackTarget.GetComponent<TrackSpawnerController>().ResetSpawner();
     }
