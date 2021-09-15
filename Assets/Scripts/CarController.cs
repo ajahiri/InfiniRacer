@@ -9,12 +9,15 @@ public class CarController : MonoBehaviour
 {
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
+    public bool isFlat = true;
 
     private float horizontalInput;
     private float verticalInput;
     private float currentSteeringAngle;
     private float currentBrakeForce;
     private bool isBraking;
+    
+    [SerializeField] private bool tiltCont;
 
     [SerializeField] private float motorForce;
     [SerializeField] private float brakeForce;
@@ -33,10 +36,26 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
 
+    private void Start()
+    {
+        vehicleRigidBody = GetComponent<Rigidbody>();
+
+    }
+    private void Update()
+    {
+        Vector3 tilt = Input.acceleration;
+
+        if (isFlat)
+            tilt = Quaternion.Euler(90, 0, 0) * tilt;
+
+
+        //vehicleRigidBody.AddForce(Input.acceleration);
+        Debug.DrawRay(transform.position + Vector3.up, tilt, Color.cyan);
+    }
+
     private void FixedUpdate()
     {
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
-        vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
         GetInput();
         HandleMotor();
@@ -46,7 +65,11 @@ public class CarController : MonoBehaviour
 
     private void GetInput()
     {
-        horizontalInput = Input.GetAxis(HORIZONTAL);
+        if (tiltCont)
+        {
+            horizontalInput = Input.acceleration.x;
+        }
+        else { horizontalInput = Input.GetAxis(HORIZONTAL); }
         verticalInput = Input.GetAxis(VERTICAL);
         isBraking = Input.GetKey(KeyCode.Space);
     }
