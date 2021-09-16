@@ -9,6 +9,7 @@ public class OptionsSceneManager : MonoBehaviour
     {
         Debug.Log("Going back to title scene...");
         SceneManager.LoadScene("TitleScene");
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
     public void ChangeAudioVolume(float newVolume)
@@ -16,5 +17,6 @@ public class OptionsSceneManager : MonoBehaviour
         Debug.Log($"Setting volume: {newVolume}");
         AudioListener.volume = newVolume;
         PlayerPrefs.SetFloat("GlobalGameVolume", newVolume);
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 }

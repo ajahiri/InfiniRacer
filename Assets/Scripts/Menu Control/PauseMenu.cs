@@ -29,6 +29,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
     public void PauseGame()
@@ -36,12 +37,14 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
     public void LoadMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Loading menu...");
     }
 
@@ -49,6 +52,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("RaceArea01");
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Restarting game...");
     }
 }
