@@ -57,7 +57,7 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
-        vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
+        //vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
         GetInput();
         HandleMotor();
         HandleSteering();

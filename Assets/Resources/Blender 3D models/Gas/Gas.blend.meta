@@ -1,12 +1,14 @@
 fileFormatVersion: 2
-guid: 9ddab203d23c25b43bc2c27112177554
+guid: 8d3630f1af506544eaf5d14ea9b1a6e5
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable:
+  internalIDToNameTable: []
+  externalObjects:
   - first:
-      74: -623603649343465320
-    second: Scene
-  externalObjects: {}
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fuel Canister
+    second: {fileID: 2100000, guid: ba3d7252dee374a4e83348e1fd53cc96, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -124,6 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
   - {fileID: 69975198337833028, guid: 56daba767e52de84593f70dc4e5206de, type: 3}
+  - {fileID: 915415754434485254, guid: 6dfc1f3b8f5397b45920ef865a7d8224, type: 3}
+  - {fileID: 2117552647854206356, guid: 1b924263122796c469fb5e8c30439d68, type: 3}
 --- !u!114 &994168870342648689
 MonoBehaviour:
   m_ObjectHideFlags: 0
