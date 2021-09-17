@@ -21,6 +21,7 @@ public class MoveToBallAgent : Agent
     }
     public override void OnActionReceived(ActionBuffers actions) {
         GetComponent<CarController>().SetInputs(actions.ContinuousActions[0], 0f, actions.DiscreteActions[0] != 0);
+        Debug.Log(actions.ContinuousActions[0]);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
