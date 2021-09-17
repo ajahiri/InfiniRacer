@@ -1832,10 +1832,6 @@ PrefabInstance:
       propertyPath: trackCheckpoints
       value: 
       objectReference: {fileID: 1792348876}
-    - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
-      propertyPath: m_BrainParameters.VectorObservationSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6227413447174444154, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2025,10 +2021,6 @@ PrefabInstance:
       propertyPath: trackCheckpoints
       value: 
       objectReference: {fileID: 1792348876}
-    - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
-      propertyPath: m_BrainParameters.VectorObservationSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6227413447174444154, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_RootOrder
       value: 5
