@@ -19,6 +19,7 @@ public class TrackCheckpoints : MonoBehaviour
     [SerializeField] private List<Transform> carTransformList;
     private List<Checkpoint> checkpointList = new List<Checkpoint>();
     private List<int> nextCheckpointIndexList = new List<int>();
+    private List<int> lastWrongCheckpointIndexList = new List<int>();
     
     // Target track parent, when used with the spawner, this will be useful
     [SerializeField] Transform trackTarget;
@@ -36,7 +37,12 @@ public class TrackCheckpoints : MonoBehaviour
 
         foreach (Transform carTransform in carTransformList) {
             nextCheckpointIndexList.Add(0);
+            lastWrongCheckpointIndexList.Add(-1);
         }
+    }
+
+    private void Awake() {
+        // ResetAll();
     }
 
     public void AddCheckpoints(Transform trackPiece) {
@@ -50,6 +56,7 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void RemoveCheckpoints(Transform trackPiece) {
+        // NOT USED (here for reference) was not efficient to update indexes
         // editingCheckpoint = true;
         // // Debug.Log("REMOVE CHECKPOINTS TRIGGERED", trackPiece);
         // Transform trackPieceCheckpoints = trackPiece.Find("Checkpoints");
@@ -65,16 +72,47 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void ResetCheckpoints(Transform vehicleTransform) {
+        // Soft reset refers to the resetting of 
         nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)] = 0;
+        lastWrongCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)] = -1;
+    }
+
+    public void softResetToCheckpoint(Transform vehicleTransform) {
+        if (checkpointList.Count < 4) {
+            // Safety as should not run on initial episode start
+            return;
+        }
+
+        // Get a checkpoint of the middle spawned track piece
+        Checkpoint targetCheckpoint = trackTarget.GetComponent<TrackSpawnerController>().getMiddleCheckpoint();
+
+
+
+        // Spawn vehicle to correct position according to middle checkpoint |targetCheckpoint.transform.forward|
+        vehicleTransform.localRotation = targetCheckpoint.transform.rotation;
+        vehicleTransform.localPosition = new Vector3(   
+                                                        targetCheckpoint.transform.position.x,
+                                                        targetCheckpoint.transform.position.y + UnityEngine.Random.Range(3, 8), // safety to ensure vehicle doesn't spawn inside track
+                                                        targetCheckpoint.transform.position.z
+                                                    );
+
+        // Set correct checkpoints indexes (note, correct checkpoint is next checkpoint ahead of where we spawned)
+        nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)] = checkpointList.IndexOf(targetCheckpoint) + 1;
+        lastWrongCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)] = -1;
+        // Reset momentum
+        vehicleTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        vehicleTransform.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }
 
     public void ResetAll() {
         nextCheckpointIndexList.Clear();
+        lastWrongCheckpointIndexList.Clear();
         checkpointList.Clear(); 
         // Reset all cars
         foreach (Transform carTransform in carTransformList) {
             // Reset next checkpoint index
             nextCheckpointIndexList.Add(0);
+            lastWrongCheckpointIndexList.Add(-1);
 
             // Reset position
             float carSpacing = 3 * findCarIndex(carTransform);
@@ -105,20 +143,28 @@ public class TrackCheckpoints : MonoBehaviour
     public void CarThroughCheckpoint(Checkpoint checkpoint, Transform carTransform) {
         int carIdx = carTransformList.IndexOf(carTransform);
         int nextCheckpointIndex = nextCheckpointIndexList[carIdx];
-       
+        int targetCheckpointIndex = checkpointList.IndexOf(checkpoint);
         // Things here might need to change for non looping tracks
         
-        if (checkpointList.IndexOf(checkpoint) == nextCheckpointIndex && nextCheckpointIndex >= 0) {
-            Debug.Log("correct checkpoint");
+        if (targetCheckpointIndex == nextCheckpointIndex && nextCheckpointIndex >= 0) {
+            // Debug.Log("correct checkpoint");
             if (isLoopingTrack) {
+                // special case for looping tracks
                 nextCheckpointIndexList[carIdx] = (nextCheckpointIndex + 1) % checkpointList.Count;
             } else {
                 nextCheckpointIndexList[carIdx] = (nextCheckpointIndex + 1);
             }
+            lastWrongCheckpointIndexList[carIdx] = -1; // reset last wrong
             OnVehicleCorrectCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
+        } else if (targetCheckpointIndex >= lastWrongCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] < nextCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] != -1) {
+            // special case, if car is a few checkpoints behind, dont give neg reward for going in the right direction but 
+            // technically going through the wrong checkpoint. treat it as a null case
+            // Debug.Log("null checkpoint");
+            // Do nothing... or might make this a neg reward but a lot smaller than standard wrong checkpoint
         } else {
             // wrong checkpoint
-            Debug.Log("wrong checkpoint");
+            // Debug.Log("wrong checkpoint");
+            lastWrongCheckpointIndexList[carIdx] = targetCheckpointIndex; // Update last wrong checkpoint index for this car
             OnVehicleWrongCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
         }
     }

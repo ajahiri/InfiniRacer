@@ -39,6 +39,7 @@ public class CarDriverAgent : Agent
     }
 
     public override void OnEpisodeBegin() {
+        /* Old system where all vehicles are reset (not a good approach)
         trackCheckpoints.ResetAll();
         // Vehicle reset is handled by trackCheckpoints script as it will apply to all vehicles on the track
         // Doesn't make much sense but this is needed to ensure all vehicles on the track are reset properly
@@ -49,6 +50,16 @@ public class CarDriverAgent : Agent
         // transform.localPosition = new Vector3(x_axis,0.289999992f,1.78999996f);
         // gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         // transform.localRotation = Quaternion.Euler(0,0,0);
+        */
+
+        /*  
+            **New Episode Reset System**
+            Reset a particular vehicle to the checkpoint that exists in the middle of the
+            procedurally spawned track. Due to episode end, model understands that it is 
+            "resetting" to a new state for that agent and substantial negative reward
+            reinforces against this outcome.
+        */
+        trackCheckpoints.softResetToCheckpoint(transform);
     }
 
     public override void CollectObservations(VectorSensor sensor) {
@@ -110,7 +121,13 @@ public class CarDriverAgent : Agent
     // Penalise the agent if it slides/hits the boundary walls of the track
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "End Barrier") {
-            AddReward(-10f);
+            AddReward(-2f);
+            /*
+             Do SOFT RESET for vehicle agent, hard reset should only be triggered when 
+             BOTH vehicles are to be reset with track checkpoints and track spawner is being reset.
+             Reason is to avoid one vehicle hard reset causing reset of both vehicles where in a particular
+             case that one vehicle may be doing well in that episode and SHOULD NOT be reset due to failure of other vehicle.
+            */
             EndEpisode();
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {

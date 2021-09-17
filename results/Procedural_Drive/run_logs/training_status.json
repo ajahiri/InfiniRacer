@@ -1,0 +1,65 @@
+{
+    "TrackDriverBehaviour": {
+        "checkpoints": [
+            {
+                "steps": 8499698,
+                "file_path": "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-8499698.onnx",
+                "reward": 180.76000067574637,
+                "creation_time": 1631839975.8388934,
+                "auxillary_file_paths": [
+                    "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-8499698.pt"
+                ]
+            },
+            {
+                "steps": 8998515,
+                "file_path": "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-8998515.onnx",
+                "reward": 181.84978168604155,
+                "creation_time": 1631842448.909249,
+                "auxillary_file_paths": [
+                    "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-8998515.pt"
+                ]
+            },
+            {
+                "steps": 9498827,
+                "file_path": "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-9498827.onnx",
+                "reward": 190.44999991522894,
+                "creation_time": 1631845060.6973538,
+                "auxillary_file_paths": [
+                    "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-9498827.pt"
+                ]
+            },
+            {
+                "steps": 9998827,
+                "file_path": "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-9998827.onnx",
+                "reward": 194.8522221883138,
+                "creation_time": 1631847561.5956154,
+                "auxillary_file_paths": [
+                    "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-9998827.pt"
+                ]
+            },
+            {
+                "steps": 10000494,
+                "file_path": "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-10000494.onnx",
+                "reward": 194.94175820822244,
+                "creation_time": 1631847561.676528,
+                "auxillary_file_paths": [
+                    "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-10000494.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 10000494,
+            "file_path": "results/Procedural_Drive/TrackDriverBehaviour.onnx",
+            "reward": 194.94175820822244,
+            "creation_time": 1631847561.676528,
+            "auxillary_file_paths": [
+                "results/Procedural_Drive/TrackDriverBehaviour/TrackDriverBehaviour-10000494.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.8.2+cu111"
+    }
+}

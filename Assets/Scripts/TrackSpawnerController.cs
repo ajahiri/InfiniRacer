@@ -372,6 +372,14 @@ public class TrackSpawnerController : MonoBehaviour
         latestTrackPoint = latestObject.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0); // Update latest point (where next track piece will spawn)  
     }
 
+    public Checkpoint getMiddleCheckpoint() {
+        int middleTrackIndex = trackPieceMemory.Count/2;
+        // Get target piece close to middle with some randomness to avoid case where multiple vehicle will spawn in same place
+        Transform targetTrack = trackPieceMemory[middleTrackIndex + Random.Range(- 1, trackPieceMemory.Count > 2 ? + 2 : 1)].targetObject;
+        Transform trackPieceCheckpoints = targetTrack.Find("Checkpoints"); // Get checkpoints from track piece
+        return trackPieceCheckpoints.GetChild(0).GetComponent<Checkpoint>(); // Return first checkpoint of track piece, at least 1 will always exist
+    }
+
     void FixedUpdate()
     {
         minDistanceToStart = Mathf.Infinity;
