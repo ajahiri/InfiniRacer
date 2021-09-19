@@ -1,6 +1,8 @@
 using UnityEngine.Audio;
 using System;
+using Random = UnityEngine.Random;
 using UnityEngine;
+
 
 public class AudioManager : MonoBehaviour
 {
@@ -25,6 +27,11 @@ public class AudioManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
         }
+    }
+    void Start()
+    {
+        //Play("Start sound");
+        //Play("BAckground"+Random.Range(1, 4));
     }
 
     public void Play (string name)

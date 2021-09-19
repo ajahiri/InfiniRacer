@@ -621,6 +621,36 @@ MonoBehaviour:
     pitch: 3
     loop: 0
     source: {fileID: 0}
+  - name: Start sound
+    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
+    volume: 0.62
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BAckground1
+    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
+    volume: 0.62
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BAckground2
+    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
+    volume: 0.62
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BAckground3
+    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
+    volume: 0.62
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: BAckground4
+    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
+    volume: 0.62
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &999355463
 Transform:
   m_ObjectHideFlags: 0
