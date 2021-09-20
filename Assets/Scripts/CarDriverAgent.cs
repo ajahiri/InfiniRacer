@@ -63,9 +63,9 @@ public class CarDriverAgent : Agent
     }
 
     public override void CollectObservations(VectorSensor sensor) {
-        // In addition to the Ray Perception Sensor, this observation will make sure the model learns to face the same direction as the checkpoints forward
+        // In addition to the Ray Perception Sensor, this observation will make sure the model learns to 
+        // face the same direction as the checkpoints forward
         // This ensures that it learns to keep itself pointing in the right direction
-        //Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(transform).transform.forward;
         if (trackCheckpoints.GetNumCheckpoints() > 0) {
             var nextCheckpoint = trackCheckpoints.GetNextCheckpoint(transform);
             if (nextCheckpoint != null) {
@@ -76,19 +76,19 @@ public class CarDriverAgent : Agent
             }
         }
         
-        // if(trackCheckpoints.getCarTransforms().Count > 1) {
-        //     float closestDistance = float.MaxValue;
-        //     foreach(Transform t in trackCheckpoints.getCarTransforms()) {
-        //         if(t != transform) {
-        //             float distance = Vector3.Distance(transform.position, t.position);
-        //             if(distance < closestDistance) {
-        //                 Debug.Log(distance);
-        //                 closestDistance = distance;
-        //             }
-        //         }
-        //     }
-        //     sensor.AddObservation(closestDistance);
-        // }
+        if(trackCheckpoints.getCarTransforms().Count > 1) {
+            float closestDistance = float.MaxValue;
+            foreach(Transform t in trackCheckpoints.getCarTransforms()) {
+                if(t != transform) {
+                    float distance = Vector3.Distance(transform.position, t.position);
+                    if(distance < closestDistance) {
+                        // Debug.Log(distance);
+                        closestDistance = distance;
+                    }
+                }
+            }
+            sensor.AddObservation(closestDistance);
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actions) {

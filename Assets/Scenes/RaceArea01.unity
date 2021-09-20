@@ -404,12 +404,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 693818256}
     - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
-      propertyPath: m_BehaviorType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
-      propertyPath: m_InferenceDevice
-      value: 0
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6227413447174444154, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_RootOrder
@@ -587,6 +583,10 @@ PrefabInstance:
       propertyPath: trackTarget
       value: 
       objectReference: {fileID: 217660178}
+    - target: {fileID: 707610398447909324, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
+      propertyPath: carTransformList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 707610398447909324, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
       propertyPath: carTransformList.Array.data[0]
       value: 

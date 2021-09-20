@@ -1,0 +1,29 @@
+{
+    "TrackDriverBehaviour": {
+        "checkpoints": [
+            {
+                "steps": 238321,
+                "file_path": "results/Procedural_Drive_2/TrackDriverBehaviour/TrackDriverBehaviour-238321.onnx",
+                "reward": -1149.3604999341462,
+                "creation_time": 1631951393.8052218,
+                "auxillary_file_paths": [
+                    "results/Procedural_Drive_2/TrackDriverBehaviour/TrackDriverBehaviour-238321.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 238321,
+            "file_path": "results/Procedural_Drive_2/TrackDriverBehaviour.onnx",
+            "reward": -1149.3604999341462,
+            "creation_time": 1631951393.8052218,
+            "auxillary_file_paths": [
+                "results/Procedural_Drive_2/TrackDriverBehaviour/TrackDriverBehaviour-238321.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.8.2+cu111"
+    }
+}
