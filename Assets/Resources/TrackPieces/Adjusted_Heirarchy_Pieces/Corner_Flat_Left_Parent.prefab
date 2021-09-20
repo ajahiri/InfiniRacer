@@ -110,6 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1011618907361343918}
+  - component: {fileID: -2215646581568893971}
   m_Layer: 0
   m_Name: Corner_Flat_Left_Parent
   m_TagString: Untagged

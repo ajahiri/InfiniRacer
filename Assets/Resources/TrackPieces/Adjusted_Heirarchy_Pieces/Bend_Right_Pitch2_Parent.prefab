@@ -134,6 +134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5433007842710427807}
+  - component: {fileID: 3927121216347193867}
   m_Layer: 0
   m_Name: Bend_Right_Pitch2_Parent
   m_TagString: Untagged

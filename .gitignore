@@ -102,3 +102,6 @@ Temporary Items
 
 # Python environments
 /python-environments/**/
+
+.fake
+.ionide

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6628535020882541039}
+  - component: {fileID: -571641835412038460}
   m_Layer: 0
   m_Name: Corner_Right_Pitch1_Parent
   m_TagString: Untagged
