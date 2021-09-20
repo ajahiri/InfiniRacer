@@ -61,6 +61,7 @@ public class CarController : MonoBehaviour
         HandleSteering();
         UpdateWheels();
     }
+
     private void GetInput()
     {
         horizontalInput = Input.acceleration.x;

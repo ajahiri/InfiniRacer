@@ -28,11 +28,13 @@ using UnityEngine;
 
 public class TrackSpawnerController : MonoBehaviour
 {
-    [SerializeField] GameObject playerVehicleObject;
+    [SerializeField] List<GameObject> vehicleObjects;
+    [SerializeField] GameObject checkpointHandlerObject;
     private struct TrackPieceDefinition
     {
         // Object Prefab (From resources directory)
         public Transform prefab;
+        
         public int startPitch, endPitch, startElevation, endElevation;
 
         public string orientationDirection; // straight, left, right
@@ -224,6 +226,10 @@ public class TrackSpawnerController : MonoBehaviour
     */    
     private List<TrackPieceObject> trackPieceMemory = new List<TrackPieceObject>();
 
+    // Distances, required for conditional spawning/deletion
+    float minDistanceToEnd = Mathf.Infinity;
+    float minDistanceToStart = Mathf.Infinity;
+
     // Origin game object where spawning starts
     private Transform spawnerTransformOrigin;
     void Start()
@@ -234,6 +240,10 @@ public class TrackSpawnerController : MonoBehaviour
         // Load track definitions
         trackPieceDefinitions = LoadTrackPieceDefinitions();
 
+        InitialiseTrack();
+    }
+
+    void InitialiseTrack() {
         // Instantiate the initial starting track piece where subsequent pieces will connect to
         var currentObj = Instantiate(trackPieceDefinitions[0][6].prefab, new Vector3(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z), Quaternion.identity, spawnerTransformOrigin);
         
@@ -241,6 +251,8 @@ public class TrackSpawnerController : MonoBehaviour
         // TransformPoint(...) will get us this transform in the global coordinate context
         latestTrackPoint = currentObj.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0);
         trackPieceMemory.Add(new TrackPieceObject(spawnerTransformOrigin.position, 0, 6, Quaternion.identity, currentObj));
+
+        checkpointHandlerObject.GetComponent<TrackCheckpoints>().AddCheckpoints(currentObj);
     }
 
     // Checks last 5 placed track pieces for number of turns
@@ -260,12 +272,23 @@ public class TrackSpawnerController : MonoBehaviour
         return numTurns;
     }
 
+    public void ResetSpawner() {
+        foreach (Transform child in transform) {
+            Destroy(child.gameObject);
+        }
+        trackPieceMemory.Clear();
+        InitialiseTrack();
+    }
+
     void TrackSpawner(int numTurns) {
         var finalPiece = trackPieceMemory[trackPieceMemory.Count - 1]; // Get last track piece
         var firstPiece = trackPieceMemory[0]; 
 
         // Track cleaner
-        if (trackPieceMemory.Count > 12) {
+        // if (trackPieceMemory.Count > 12) {
+        if (minDistanceToStart > 50f) {
+            // Update checkpoint handler on track piece removal
+            checkpointHandlerObject.GetComponent<TrackCheckpoints>().RemoveCheckpoints(firstPiece.targetObject);
             Destroy(firstPiece.targetObject.gameObject);
             trackPieceMemory.RemoveAt(0);
         }
@@ -340,6 +363,8 @@ public class TrackSpawnerController : MonoBehaviour
         // Instantiate the prefab
         var latestObject = Instantiate(newPieceDefinition.prefab, latestTrackPoint, newPieceRotation, spawnerTransformOrigin); // Spawn as child of spawner
 
+        checkpointHandlerObject.GetComponent<TrackCheckpoints>().AddCheckpoints(latestObject); // Append checkpoints relating to this piece
+
         // Position transform to last known "latestTrackPoint" after orientation has changed
         // Add new piece to the list
         trackPieceMemory.Add(new TrackPieceObject(latestTrackPoint, indexNewPieceX, indexNewPieceY, newPieceRotation, latestObject));
@@ -347,10 +372,35 @@ public class TrackSpawnerController : MonoBehaviour
         latestTrackPoint = latestObject.transform.GetChild(0).GetChild(0).transform.TransformPoint(0, 0, 0); // Update latest point (where next track piece will spawn)  
     }
 
+    public Checkpoint getMiddleCheckpoint() {
+        int middleTrackIndex = trackPieceMemory.Count/2;
+        // Get target piece close to middle with some randomness to avoid case where multiple vehicle will spawn in same place
+        Transform targetTrack = trackPieceMemory[middleTrackIndex + Random.Range(- 1, trackPieceMemory.Count > 2 ? + 2 : 1)].targetObject;
+        Transform trackPieceCheckpoints = targetTrack.Find("Checkpoints"); // Get checkpoints from track piece
+        return trackPieceCheckpoints.GetChild(0).GetComponent<Checkpoint>(); // Return first checkpoint of track piece, at least 1 will always exist
+    }
+
     void FixedUpdate()
     {
+        minDistanceToStart = Mathf.Infinity;
+        minDistanceToEnd = Mathf.Infinity;
+        // Calculate min.max distances
+        for (int i = 0; i < vehicleObjects.Count; i++)
+        {
+            GameObject currentObj = vehicleObjects[i];
+            float vehicleDistanceToEnd = Vector3.Distance(latestTrackPoint, currentObj.transform.position); // Distance to last track piece
+            float vehicleDistanceFromStart = Vector3.Distance(trackPieceMemory[0].position, currentObj.transform.position); // Distance to first track piece
+            if (vehicleDistanceToEnd < minDistanceToEnd) {
+                minDistanceToEnd = vehicleDistanceToEnd;
+            }
+            if (vehicleDistanceFromStart < minDistanceToStart) {
+                minDistanceToStart = vehicleDistanceFromStart;
+            }
+        }
+
         // Conditional spawning interation loop
-        if (Vector3.Distance(latestTrackPoint, playerVehicleObject.transform.position) < 50) {
+        if (minDistanceToEnd < 50) {
+            // Debug.Log("in distance");
             var numTurns = CheckNumTurns();
             TrackSpawner(numTurns);
         }

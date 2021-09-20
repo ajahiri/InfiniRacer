@@ -1,0 +1,29 @@
+{
+    "TrackDriverBehaviour": {
+        "checkpoints": [
+            {
+                "steps": 0,
+                "file_path": "results\\Colliding_Bot_Brain_5\\TrackDriverBehaviour\\TrackDriverBehaviour-0.onnx",
+                "reward": null,
+                "creation_time": 1631552596.3264902,
+                "auxillary_file_paths": [
+                    "results\\Colliding_Bot_Brain_5\\TrackDriverBehaviour\\TrackDriverBehaviour-0.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 0,
+            "file_path": "results\\Colliding_Bot_Brain_5\\TrackDriverBehaviour.onnx",
+            "reward": null,
+            "creation_time": 1631552596.3264902,
+            "auxillary_file_paths": [
+                "results\\Colliding_Bot_Brain_5\\TrackDriverBehaviour\\TrackDriverBehaviour-0.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.9.0+cpu"
+    }
+}
