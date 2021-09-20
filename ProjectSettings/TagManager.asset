@@ -9,6 +9,7 @@ TagManager:
   - Boundary Wall
   - End Barrier
   - Car
+  - RaceArea01
   layers:
   - Default
   - TransparentFX
