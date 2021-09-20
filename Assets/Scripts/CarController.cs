@@ -20,10 +20,6 @@ public class CarController : MonoBehaviour
     private float currentBrakeForce;
     private bool isBraking;
     private bool isDrifting;
-    
-    [SerializeField] private bool tiltCont;
-
-
     public float motorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
