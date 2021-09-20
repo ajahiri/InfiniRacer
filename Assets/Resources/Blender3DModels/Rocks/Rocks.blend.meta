@@ -3,7 +3,52 @@ guid: e890b04d1e9d5eb45b05330e5b5c1a49
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Little rock_BAKED
+    second: {fileID: 2100000, guid: 69709d0d44c55ff49a3a67c773755e5f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Photoscanned Rock 05_BAKED
+    second: {fileID: 2100000, guid: 8398bd6330579924ca71330f603feddc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rock 01
+    second: {fileID: 2100000, guid: fa95f95a3c18e2d4289d3774b7cc279f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rock 03
+    second: {fileID: 2100000, guid: 1f722c5d5b761b145ad24cc16b7265af, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone 01.001
+    second: {fileID: 2100000, guid: 2e95b2ee8b5485842bb2958e6f69f7e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_Color
+    second: {fileID: 2100000, guid: 8387b11504d97bb41ad1eaa25033c3d8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stone_Color.001
+    second: {fileID: 2100000, guid: cf9d47a22a69d3541b890adadacfdbab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rock
+    second: {fileID: 2100000, guid: b8d8ed3ca9208574d842c013eb55a3d9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rock 04_BAKED
+    second: {fileID: 2100000, guid: 246997092ed26864fab01644cbcacdb8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

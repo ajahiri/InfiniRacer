@@ -20,8 +20,11 @@ public class CarController : MonoBehaviour
     private float currentBrakeForce;
     private bool isBraking;
     private bool isDrifting;
+    
+    [SerializeField] private bool tiltCont;
 
-    [SerializeField] private float motorForce;
+
+    public float motorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
@@ -55,13 +58,12 @@ public class CarController : MonoBehaviour
 
         //vehicleRigidBody.AddForce(Input.acceleration);
         Debug.DrawRay(transform.position + Vector3.up, tilt, Color.cyan);
-
     }
+
     private void FixedUpdate()
     {
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
-
-        vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
+        //vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
         GetInput();
         HandleMotor();
         HandleSteering();
@@ -86,6 +88,18 @@ public class CarController : MonoBehaviour
 
         verticalInput = Input.GetAxis(VERTICAL);
         
+    }
+
+    public void GetBoost(float x)
+    {
+        BoostCoroutine(x);
+    }
+
+    IEnumerator BoostCoroutine(float boost)
+    {
+        motorForce *= boost;
+        yield return new WaitForSeconds(2);
+        motorForce /= boost;
     }
 
     private void HandleMotor()

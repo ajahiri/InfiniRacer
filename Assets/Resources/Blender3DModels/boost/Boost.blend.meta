@@ -8,52 +8,52 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_belt
-    second: {fileID: 2100000, guid: c59ab77c2f555434fad361704deabb2e, type: 2}
+    second: {fileID: 2100000, guid: 017e39a76cb740541a32cdd7d69646ee, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_bolt
-    second: {fileID: 2100000, guid: dd989776bda68f0459ddac21286f28ac, type: 2}
+    second: {fileID: 2100000, guid: 213cfa9e147bf9e4b82d29e3a52a17b4, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_bottom
-    second: {fileID: 2100000, guid: 009a2569a0f5d75478735c982992a98a, type: 2}
+    second: {fileID: 2100000, guid: 2d83bdabf32be1b4195e1bc14ee1386b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_glass
-    second: {fileID: 2100000, guid: 8d41d684435a2ff45b92cf984b6e2f1b, type: 2}
+    second: {fileID: 2100000, guid: d3e814ef6a09f7d4a99e5a5e58d7ad94, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_handle stainless 01
-    second: {fileID: 2100000, guid: 5b78b5f21cb7f9b4388015a6f49ae12b, type: 2}
+    second: {fileID: 2100000, guid: ea47bc665ca0fd645a857080fee00cdf, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_handle stainless 02
-    second: {fileID: 2100000, guid: d3ba3f558965ebe4c8234c2bcb5bbada, type: 2}
+    second: {fileID: 2100000, guid: cbe0f18ae5d3ef046a88fb981cabfa64, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_main
-    second: {fileID: 2100000, guid: cf4515fa66fca0540b30539c2bae6996, type: 2}
+    second: {fileID: 2100000, guid: 56b4ca894bcc21247a435a661e2608db, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_pressure gauge
-    second: {fileID: 2100000, guid: 64f48f5ba97e4af4e8fe5baa94ffbdde, type: 2}
+    second: {fileID: 2100000, guid: 4a94639852d0af94fa078f3db7d00480, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_range
-    second: {fileID: 2100000, guid: a5e86dcb40734e6419fc056bd216f539, type: 2}
+    second: {fileID: 2100000, guid: 43a28615c656c7e47af8d5c3511e6ea6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FE_tube
-    second: {fileID: 2100000, guid: 3410f6e1dcf3a10419c90bbf39777d88, type: 2}
+    second: {fileID: 2100000, guid: 5b8cf7956dfac814980379c55f6729dc, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

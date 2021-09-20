@@ -10,6 +10,9 @@ TagManager:
   - End Barrier
   - Car
   - RaceArea01
+  - boost
+  - rock
+  - bomb
   layers:
   - Default
   - TransparentFX
