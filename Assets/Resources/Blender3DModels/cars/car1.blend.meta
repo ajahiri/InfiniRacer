@@ -3,7 +3,87 @@ guid: 79b0320af90818244afea4ff41b30a2a
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FrontPlaqueImage
+    second: {fileID: 2100000, guid: 7c6702a6328eb9d4b92446369b959cee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: McLaren
+    second: {fileID: 2100000, guid: 33de32d0171934b4686a7dc77c9336a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: McLaren.black
+    second: {fileID: 2100000, guid: d04c856bcecd8554b94caca3ea913a1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal-brake_discs
+    second: {fileID: 2100000, guid: fdd88c8ee1e827e43b22409426ab442c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal-gray-smaller.001
+    second: {fileID: 2100000, guid: 52cff643fdef4784cb6cdca2dd219645, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal-red
+    second: {fileID: 2100000, guid: cf0e75590047a0344b4638a721911db8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tyres
+    second: {fileID: 2100000, guid: 39bf5547fa0bab6408d2a55d5b17d088, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: backights.emissions
+    second: {fileID: 2100000, guid: af1dac888acc20d4ab32ac97ddc22152, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: backights.off
+    second: {fileID: 2100000, guid: c7c0d96a64abce64299aa4ea499fa69b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass
+    second: {fileID: 2100000, guid: 18de53b1c7b92434c8b5407777ed3d1a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass.headlights
+    second: {fileID: 2100000, guid: e78c5ec454c675b4588aeab7008d5b61, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: headights.emissions
+    second: {fileID: 2100000, guid: 552c08258c4ed2f4cbe6b8bdd3e9bdc2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mirrors
+    second: {fileID: 2100000, guid: f0c71462e1d3f8347a60965191d4a053, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plastic.black
+    second: {fileID: 2100000, guid: 28ff592ba2ef97443a0f12d93d361b2c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: side_indicators
+    second: {fileID: 2100000, guid: 34f8911a212145f47909b90905da1fa6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stand
+    second: {fileID: 2100000, guid: 7bbf0d69d6b37ea43aa6a28884b1f6f9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
