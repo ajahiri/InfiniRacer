@@ -33,6 +33,13 @@ public class BotCarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
 
+    [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
+
+    private void Start() {
+        // Set custom center of mass to fix flipping issue
+        vehicleRigidBody = GetComponent<Rigidbody>();
+        vehicleRigidBody.centerOfMass = customCenterofMass;
+    }
     private void FixedUpdate()
     {
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering

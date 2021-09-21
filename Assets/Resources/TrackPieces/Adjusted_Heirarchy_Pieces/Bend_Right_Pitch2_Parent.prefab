@@ -134,7 +134,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5433007842710427807}
-  - component: {fileID: 3927121216347193867}
   m_Layer: 0
   m_Name: Bend_Right_Pitch2_Parent
   m_TagString: Untagged
@@ -2543,10 +2542,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 23096930275366144, guid: 93d49fecad3da3e48b7e97286aa86145, type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: d690ddf5ccdf00cf9be7f7464780c292, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93d49fecad3da3e48b7e97286aa86145, type: 3}
 --- !u!4 &7888112195538605006 stripped

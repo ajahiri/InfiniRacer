@@ -509,10 +509,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bd1a463da68b8a787719a0bc474ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 9000
+  motorForce: 15000
   brakeForce: 10000
   maxSteeringAngle: 45
-  vehicleStandardMass: 680
+  vehicleStandardMass: 550
   frontLeftWheelCollider: {fileID: 3651047934339561745}
   frontRightWheelCollider: {fileID: 551083256475364204}
   rearLeftWheelCollider: {fileID: 8535352504123768650}
@@ -643,8 +643,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -704,8 +704,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -765,8 +765,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -860,8 +860,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0

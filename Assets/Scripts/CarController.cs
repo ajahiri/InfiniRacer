@@ -40,9 +40,13 @@ public class CarController : MonoBehaviour
 
     public ParticleSystem[] smoke;
 
+    [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
+
     private void Start()
     {
+        // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
+        vehicleRigidBody.centerOfMass = customCenterofMass;
     }
     private void Update()
     {
