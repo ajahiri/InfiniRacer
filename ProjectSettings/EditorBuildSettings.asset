@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/OptionsScene.unity
     guid: 9d53d843b3d7e4743969143857c23112
   - enabled: 1
-    path: Assets/RaceArea01.unity
+    path: Assets/Scenes/RaceArea_ML_Test.unity
     guid: 9e222cffcbeca29428370cad7f7e8b23
   - enabled: 0
     path: 
@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/RaceArea01.unity
+    guid: d672a9c3d07c55500865654a19b17124
   m_configObjects: {}
