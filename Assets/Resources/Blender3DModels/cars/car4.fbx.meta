@@ -1,0 +1,287 @@
+fileFormatVersion: 2
+guid: cd18e05c93407a34e93887e97296fcb9
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AIR-INFLOW
+    second: {fileID: 2100000, guid: 699e064bdb616d2448fcc38da0e51184, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BRAKE-CLAMP
+    second: {fileID: 2100000, guid: 3506c3f62f505354187b6ff90d08b9a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BRAKE-INDICATOR
+    second: {fileID: 2100000, guid: baa42a3c6b5e386428cbe11b74c16ef2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: COCKPIT-BASE
+    second: {fileID: 2100000, guid: 03808643b24703948bc81a90b57a40a8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ENGINE
+    second: {fileID: 2100000, guid: e8a8c6238930eb942b95de225b20d328, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FENDER-L
+    second: {fileID: 2100000, guid: f831989134035a6449c5292e22fa4a58, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FENDER-R
+    second: {fileID: 2100000, guid: 5a9163941ffb77149b22ac395ca3ed1f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FUEL-CAP
+    second: {fileID: 2100000, guid: 9ec866c3d10708249b5624090ab1ad80, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GLASS
+    second: {fileID: 2100000, guid: 917b005469bbd6e4cae12cc100571a5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HUD-HERE
+    second: {fileID: 2100000, guid: d87e5a4f0e09a894ea6f31bd637c1735, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAIN-BODY
+    second: {fileID: 2100000, guid: fd4f027a8b501c441b0dbabf1405b6ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAIN-CHASIS
+    second: {fileID: 2100000, guid: 80578a60716628440ae26dff0ee13192, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAIN-HEADLIGHT
+    second: {fileID: 2100000, guid: 0f765134009250a46b54b0ea639709aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-1686
+    second: {fileID: 2100000, guid: c33295752f0e6a04e96c3779f4342e6a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-3579
+    second: {fileID: 2100000, guid: 367696544eaada64aa040f64bf1882f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-4619
+    second: {fileID: 2100000, guid: 352d71d7695b13045881e7a621dc860f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-6315
+    second: {fileID: 2100000, guid: e81c9c6ff144de94481b507a8902d652, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-6482
+    second: {fileID: 2100000, guid: 9f037890ce9e3fc4bbe748371a83e4b3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-6495
+    second: {fileID: 2100000, guid: c69686e11fdc7ec43b4e14f44246c930, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-6598
+    second: {fileID: 2100000, guid: a4dd704c32fa3b74cb2cf77acc926550, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-7985
+    second: {fileID: 2100000, guid: a7b3e9cc715d50d48aba13c5742040d8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-9534
+    second: {fileID: 2100000, guid: be61bf74b4fd3f243844fd8655f0d121, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-9573
+    second: {fileID: 2100000, guid: 7f3894001627d8c4aadceb291345b7a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-9574
+    second: {fileID: 2100000, guid: 87acdc4717df6fc408860d4d69668799, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-9846
+    second: {fileID: 2100000, guid: ee9bb9bce36d7e14f9fcf8df8e540e98, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-9873
+    second: {fileID: 2100000, guid: f4a36442f1ae14341a93d8c1f74a2a92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MISC-9876
+    second: {fileID: 2100000, guid: 42085bbb337e050448689850b14a2d38, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: e7d732bce1acd254fb60c559b2f4f171, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RACING-SEAT
+    second: {fileID: 2100000, guid: ba9e2feb501a8ef4186895ed9cf8f879, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SAFETY-HARNEST
+    second: {fileID: 2100000, guid: c999f69168a767c49aff84339985207c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SIDE-MIRROR
+    second: {fileID: 2100000, guid: 183f4e9a6943283439f966da2a2e9bd3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SIGNAL-INDICATOR
+    second: {fileID: 2100000, guid: a14f96790a0238448908b933f23d446f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SIGNAL-INDICATOR-R
+    second: {fileID: 2100000, guid: 28884ee06d31a004c82e47fbe3ca1380, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SIGNAL-INDICATOR-R.001
+    second: {fileID: 2100000, guid: e8160607abc534e4dad83b9b11ce2e08, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: STEERING-HANDLE
+    second: {fileID: 2100000, guid: 1494d341522a7d945a8e4a49ca85e149, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: STEERING-HUD
+    second: {fileID: 2100000, guid: 4521a129b2d5f6c43b6bed012414f4d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tire-Detail
+    second: {fileID: 2100000, guid: 5882a1975024b3149a89ba95a98b4652, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

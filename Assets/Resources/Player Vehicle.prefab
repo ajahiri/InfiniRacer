@@ -175,8 +175,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.019197728, y: 0.005, z: 0.043234065}
-  m_Center: {x: -0.00008336931, y: 0.005, z: 0.0016328883}
+  m_Size: {x: 0.019197728, y: 0.006, z: 0.043234065}
+  m_Center: {x: 0, y: 0.0055, z: 0.0016328883}
 --- !u!65 &4464263502515996901
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186,7 +186,7 @@ BoxCollider:
   m_GameObject: {fileID: 1951755516227143184}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.01595999, y: 0.0045315386, z: 0.021696059}
   m_Center: {x: 0.0000000059604637, y: 0.0124335755, z: -0.0021726862}
@@ -393,8 +393,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -489,8 +489,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -550,8 +550,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -612,8 +612,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0.15, z: 0}
   m_Radius: 0.32
   m_SuspensionSpring:
-    spring: 70000
-    damper: 4500
+    spring: 4500
+    damper: 350
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -829,6 +829,7 @@ MonoBehaviour:
   smoke:
   - {fileID: 1074889940234104825}
   - {fileID: 4791730513100090602}
+  customCenterofMass: {x: 0, y: 0, z: 0}
 --- !u!114 &1951543163
 MonoBehaviour:
   m_ObjectHideFlags: 0
