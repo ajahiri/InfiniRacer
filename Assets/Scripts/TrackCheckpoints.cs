@@ -156,7 +156,8 @@ public class TrackCheckpoints : MonoBehaviour
             }
             lastWrongCheckpointIndexList[carIdx] = -1; // reset last wrong
             OnVehicleCorrectCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
-        } else if (targetCheckpointIndex >= lastWrongCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] < nextCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] != -1) {
+        } else if (targetCheckpointIndex >= lastWrongCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx]
+                   < nextCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] != -1) {
             // special case, if car is a few checkpoints behind, dont give neg reward for going in the right direction but 
             // technically going through the wrong checkpoint. treat it as a null case
             // Debug.Log("null checkpoint");

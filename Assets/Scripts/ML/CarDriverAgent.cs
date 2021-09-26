@@ -75,7 +75,7 @@ public class CarDriverAgent : Agent
                 sensor.AddObservation(directionDot);
             }
         }
-        
+        // observe distance to other cars on the track (if there are other cars on the track)
         if(trackCheckpoints.getCarTransforms().Count > 1) {
             float closestDistance = float.MaxValue;
             foreach(Transform t in trackCheckpoints.getCarTransforms()) {
