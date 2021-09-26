@@ -47,6 +47,7 @@ public class CarController : MonoBehaviour
         // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.centerOfMass = customCenterofMass;
+
     }
     private void Update()
     {
@@ -78,8 +79,9 @@ public class CarController : MonoBehaviour
             horizontalInput = Input.acceleration.x;
             isBraking = Input.touchCount > 0;
         }
-        else { 
-            horizontalInput = Input.GetAxis(HORIZONTAL); 
+        else
+        {
+            horizontalInput = Input.GetAxis(HORIZONTAL);
             isBraking = Input.GetKey(KeyCode.Space);
         }
 
@@ -87,7 +89,7 @@ public class CarController : MonoBehaviour
         if (Input.GetKey(KeyCode.L)) isDrifting = false;
 
         verticalInput = Input.GetAxis(VERTICAL);
-        
+
     }
 
     public void GetBoost(float x)
@@ -104,14 +106,17 @@ public class CarController : MonoBehaviour
 
     private void HandleMotor()
     {
-        if (verticalInput == -1) {
+        if (verticalInput == -1)
+        {
             rearLeftWheelCollider.motorTorque = -motorForce;
             rearRightWheelCollider.motorTorque = -motorForce;
-        } else {
+        }
+        else
+        {
             rearLeftWheelCollider.motorTorque = isBraking ? 0 : motorForce;
             rearRightWheelCollider.motorTorque = isBraking ? 0 : motorForce;
         }
-        
+
         currentBrakeForce = isBraking ? brakeForce : 0f;
         ApplyBraking();
     }
@@ -170,8 +175,9 @@ public class CarController : MonoBehaviour
             {
                 smoke[i].Play();
             }
-            
-        } else
+
+        }
+        else
         {
             DriftSingleWheel(rearLeftWheelCollider);
             DriftSingleWheel(rearRightWheelCollider);
@@ -199,7 +205,8 @@ public class CarController : MonoBehaviour
 
                 motorForce = motorForce / 4;
 
-            } else
+            }
+            else
             {
                 WheelFrictionCurve forwardFriction = wheelCollider.forwardFriction;
                 forwardFriction.stiffness = 1f;
@@ -214,6 +221,6 @@ public class CarController : MonoBehaviour
 
                 motorForce = 10000;
             }
-        }  
-    } 
+        }
+    }
 }
