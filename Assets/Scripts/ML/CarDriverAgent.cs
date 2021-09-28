@@ -11,9 +11,22 @@ public class CarDriverAgent : Agent
     [SerializeField] private TrackCheckpoints trackCheckpoints;
 
     private BotCarController botCarController;
+    private int lastEpisodeResetCount = 0;
 
     private void Awake() {
         botCarController = GetComponent<BotCarController>();
+    }
+
+    private void FixedUpdate()
+    {
+        // Will ensure every 40 episodes, the track and cars do a hard reset
+        int episodes = gameObject.GetComponent<Agent>().CompletedEpisodes;
+        if (episodes > 0 && episodes % 30 == 0 && lastEpisodeResetCount != episodes)
+        {
+            // Do a hard reset
+            trackCheckpoints.ResetAll();
+            lastEpisodeResetCount = episodes;
+        }
     }
 
     private void Start() {
@@ -76,6 +89,7 @@ public class CarDriverAgent : Agent
             }
         }
         // observe distance to other cars on the track (if there are other cars on the track)
+        /*
         if(trackCheckpoints.getCarTransforms().Count > 1) {
             float closestDistance = float.MaxValue;
             foreach(Transform t in trackCheckpoints.getCarTransforms()) {
@@ -89,6 +103,7 @@ public class CarDriverAgent : Agent
             }
             sensor.AddObservation(closestDistance);
         }
+        */
     }
 
     public override void OnActionReceived(ActionBuffers actions) {
