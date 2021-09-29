@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6628535020882541039}
-  - component: {fileID: -571641835412038460}
   m_Layer: 0
   m_Name: Corner_Right_Pitch1_Parent
   m_TagString: Untagged
@@ -46,7 +45,7 @@ GameObject:
   - component: {fileID: 2046581178990426789}
   m_Layer: 0
   m_Name: Checkpoints
-  m_TagString: Untagged
+  m_TagString: Checkpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,7 +108,7 @@ GameObject:
   - component: {fileID: 3768528650893260353}
   m_Layer: 0
   m_Name: Boundary Walls
-  m_TagString: Untagged
+  m_TagString: Boundary Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

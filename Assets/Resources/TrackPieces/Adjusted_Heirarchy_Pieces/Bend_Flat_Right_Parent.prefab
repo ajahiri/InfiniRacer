@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1499266197535216834}
   m_Layer: 0
   m_Name: Boundry Walls
-  m_TagString: Untagged
+  m_TagString: Boundary Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1058997465570832179}
-  - component: {fileID: 5973167009749794480}
   m_Layer: 0
   m_Name: Bend_Flat_Right_Parent
   m_TagString: Untagged
@@ -113,7 +112,7 @@ GameObject:
   - component: {fileID: 6249641500069716614}
   m_Layer: 0
   m_Name: Checkpoints
-  m_TagString: Untagged
+  m_TagString: Checkpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

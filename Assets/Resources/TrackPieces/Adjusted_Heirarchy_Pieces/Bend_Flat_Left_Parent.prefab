@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1058997465570832179}
-  - component: {fileID: -3103297877949891845}
   m_Layer: 0
   m_Name: Bend_Flat_Left_Parent
   m_TagString: Untagged
