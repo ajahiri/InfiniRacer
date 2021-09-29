@@ -123,7 +123,7 @@ public class CarDriverAgent : Agent
         // Collision Reward
         if(other.collider.tag == "VehicleBody") {
             AddReward(+0.7f);
-            //Debug.Log("Collision Reward!");
+            Debug.Log("Collision Reward!");
         }
     }
 

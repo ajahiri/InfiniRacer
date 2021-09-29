@@ -1,0 +1,65 @@
+{
+    "botCollision_behaviour_Nate": {
+        "checkpoints": [
+            {
+                "steps": 3999955,
+                "file_path": "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-3999955.onnx",
+                "reward": 124.21199841022491,
+                "creation_time": 1632897819.339998,
+                "auxillary_file_paths": [
+                    "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-3999955.pt"
+                ]
+            },
+            {
+                "steps": 4499946,
+                "file_path": "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-4499946.onnx",
+                "reward": 160.0916649401188,
+                "creation_time": 1632901952.7919,
+                "auxillary_file_paths": [
+                    "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-4499946.pt"
+                ]
+            },
+            {
+                "steps": 4999965,
+                "file_path": "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-4999965.onnx",
+                "reward": 156.39999916691048,
+                "creation_time": 1632906056.3752337,
+                "auxillary_file_paths": [
+                    "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-4999965.pt"
+                ]
+            },
+            {
+                "steps": 5499989,
+                "file_path": "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-5499989.onnx",
+                "reward": 33.914291688374114,
+                "creation_time": 1632910115.391329,
+                "auxillary_file_paths": [
+                    "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-5499989.pt"
+                ]
+            },
+            {
+                "steps": 5732292,
+                "file_path": "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-5732292.onnx",
+                "reward": 238.75,
+                "creation_time": 1632912266.5680695,
+                "auxillary_file_paths": [
+                    "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-5732292.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5732292,
+            "file_path": "results\\ppo\\botCollision_behaviour_Nate.onnx",
+            "reward": 238.75,
+            "creation_time": 1632912266.5680695,
+            "auxillary_file_paths": [
+                "results\\ppo\\botCollision_behaviour_Nate\\botCollision_behaviour_Nate-5732292.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
