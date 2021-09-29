@@ -1,37 +1,52 @@
+// Ayush Kanwal 13403187 (29/09/2021); fuel system works now.
+// needs another if to stop car when fuel is 0.
 using UnityEngine;
 using UnityEngine.UI;
 public class FuelSystem : MonoBehaviour
 {
     public Text FuelText;
     public Image FuelBar;
-    public Image[] FuelPoints;
 
-    float Fuel, maxFuel = 100;
+    float Fuel;
+    float maxFuel = 30f;
     float FuelConsumptionRate;
+    public float baseInterval = 1f;
+
 
     private void Start()
     {
+        FuelConsumptionRate = baseInterval;
         Fuel = maxFuel;
     }
 
     private void Update()
     {
-        FuelText.text = "Fuel: " + Fuel + "%";
-        if (Fuel > maxFuel) Fuel = maxFuel;
 
-        FuelConsumptionRate = 3f * Time.deltaTime;
-
-        FuelBarFiller();
+        if (Fuel > 0)
+        {
+            if (FuelConsumptionRate > 0)
+            {
+                FuelConsumptionRate -= Time.deltaTime;
+            }
+            else
+            {
+                FuelConsumptionRate = baseInterval;
+                Fuel -= 1f;
+            }
+        }
+        else
+        {
+            // game over
+        }
         ColorChanger();
-    }
+        FuelBarFiller();
+        FuelText.text = "Fuel: " + Fuel + "%";
 
+
+    }
     void FuelBarFiller()
     {
         FuelBar.fillAmount = Mathf.Lerp(FuelBar.fillAmount, (Fuel / maxFuel), FuelConsumptionRate);
-        for (int i = 0; i < FuelPoints.Length; i++)
-        {
-            FuelPoints[i].enabled = !DisplayFuelPoint(Fuel, i);
-        }
     }
     void ColorChanger()
     {
@@ -39,20 +54,10 @@ public class FuelSystem : MonoBehaviour
         FuelBar.color = FuelColor;
 
     }
-
-    bool DisplayFuelPoint(float _Fuel, int pointNumber)
-    {
-        return ((pointNumber * 10) >= _Fuel);
-    }
-    public void Damage(float FuelPoints)
-    {
-        if (Fuel > 0)
-            Fuel -= FuelPoints;
-    }
-    public void Heal(float FuelPoints)
+    public void fuelPickUp(float fuelCan)
     {
         if (Fuel < maxFuel)
-            Fuel += FuelPoints;
+            Fuel += fuelCan;
     }
 }
 
