@@ -1,5 +1,8 @@
 // Ayush Kanwal 13403187 (29/09/2021); fuel system works now.
 // needs another if to stop car when fuel is 0.
+
+// Wai Yan Myint Thu 13334483 (30/09/21) refueling upon collision with gas tanks
+
 using UnityEngine;
 using UnityEngine.UI;
 public class FuelSystem : MonoBehaviour
@@ -11,6 +14,10 @@ public class FuelSystem : MonoBehaviour
     float maxFuel = 30f;
     float FuelConsumptionRate;
     public float baseInterval = 1f;
+    public int lastTime;
+    public float timer;
+
+    [SerializeField] GameObject playerCar;
 
 
     private void Start()
@@ -21,6 +28,8 @@ public class FuelSystem : MonoBehaviour
 
     private void Update()
     {
+
+
 
         if (Fuel > 0)
         {
@@ -37,16 +46,18 @@ public class FuelSystem : MonoBehaviour
         else
         {
             // game over
-        }
+        } 
         ColorChanger();
-        FuelBarFiller();
+        //FuelBarFiller();
         FuelText.text = "Fuel: " + Fuel + "%";
-
 
     }
     void FuelBarFiller()
     {
+        Fuel += 3.0f;
+        Debug.Log("Fuel is " + Fuel);
         FuelBar.fillAmount = Mathf.Lerp(FuelBar.fillAmount, (Fuel / maxFuel), FuelConsumptionRate);
+        ColorChanger();
     }
     void ColorChanger()
     {
@@ -58,6 +69,15 @@ public class FuelSystem : MonoBehaviour
     {
         if (Fuel < maxFuel)
             Fuel += fuelCan;
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "boost")
+        {
+            FuelBarFiller();
+            Debug.Log("Collision with gas tank. Fuel is " + Fuel);
+        }
     }
 }
 
