@@ -46,9 +46,10 @@ public class CarDriverAgent : Agent
         if (e.vehicleTransform == transform) {
             AddReward(+1f);
             //Debug.Log("correct checkpoint in agent");
-
+            
+            checkpointCount++;
             //Gives higher reward for faster epsiode
-            if(checkpointCount >= 1000) {
+            if(checkpointCount >= 200) {
                 EndEpisode();
             }
         }
