@@ -17,6 +17,7 @@ public class onCollision : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().Play("boost");
             Destroy(col.gameObject);
+            GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>().FuelBarFiller();
             speed.GetBoost(2);
         }
         if (col.gameObject.tag == "rock")

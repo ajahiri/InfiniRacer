@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class FuelSystem : MonoBehaviour
 {
     public Text FuelText;
@@ -16,9 +17,6 @@ public class FuelSystem : MonoBehaviour
     public float baseInterval = 1f;
     public int lastTime;
     public float timer;
-
-    [SerializeField] GameObject playerCar;
-
 
     private void Start()
     {
@@ -45,19 +43,24 @@ public class FuelSystem : MonoBehaviour
         }
         else
         {
-            // game over
+            //
         } 
         ColorChanger();
         //FuelBarFiller();
         FuelText.text = "Fuel: " + Fuel + "%";
 
     }
-    void FuelBarFiller()
+    public void FuelBarFiller()
     {
         Fuel += 3.0f;
+        if(Fuel > 30f)
+        {
+            Fuel = 30f;
+        }
         Debug.Log("Fuel is " + Fuel);
         FuelBar.fillAmount = Mathf.Lerp(FuelBar.fillAmount, (Fuel / maxFuel), FuelConsumptionRate);
         ColorChanger();
+        Debug.Log("Collision with gas tank. Fuel is " + Fuel);
     }
     void ColorChanger()
     {
@@ -71,13 +74,6 @@ public class FuelSystem : MonoBehaviour
             Fuel += fuelCan;
     }
 
-    public void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "boost")
-        {
-            FuelBarFiller();
-            Debug.Log("Collision with gas tank. Fuel is " + Fuel);
-        }
-    }
+   
 }
 
