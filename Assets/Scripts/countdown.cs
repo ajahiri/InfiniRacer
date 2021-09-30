@@ -46,6 +46,9 @@ public class countdown : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Disable car controller script before countdown begins
+        GameObject.FindWithTag("Player").GetComponent<CarController>().enabled = false;
+
         //Copying colors but changing alpha value to 0
         threeColAlpha = new Color(threeCol.r, threeCol.g, threeCol.b, 0.0f);
         twoColAlpha = new Color(twoCol.r, twoCol.g, twoCol.b, 0.0f);
@@ -84,6 +87,7 @@ public class countdown : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        //Makes sure numbers/letters are in front of the camera
         three.transform.position = gameObject.transform.position + numOffset;
         two.transform.position = gameObject.transform.position + numOffset;
         one.transform.position = gameObject.transform.position + numOffset;
@@ -91,26 +95,35 @@ public class countdown : MonoBehaviour
         children[2].position = gameObject.transform.position + gOffset;
         children[3].position = gameObject.transform.position + oOffset;
 
+        //Keeps track of the current time by adding up the time between each frame
         timer += Time.deltaTime;
+
+        //If within correct time frame "1" gamobjects mesh is enabled and begins fading 
         if((int)timer < (startBuffer+timeBetweenNums) && (int)timer >= startBuffer && threeRoutine == null){
             StartCoroutine(threeFade(timeBetweenNums));
         }
-
+        //If within correct time frame "2" gamobject's mesh is enabled and begins fading 
         if((int)timer < (startBuffer+timeBetweenNums+timeBetweenNums) && (int)timer >= (startBuffer+timeBetweenNums) && twoRoutine == null){
             two.GetComponent<MeshRenderer>().enabled = true;
             StartCoroutine(twoFade(timeBetweenNums));
         }
-
+        //If within correct time frame "3" gamobject's mesh is enabled and begins fading 
         if((int)timer < (startBuffer+timeBetweenNums+timeBetweenNums+timeBetweenNums) && (int)timer >= (startBuffer+timeBetweenNums+timeBetweenNums) && oneRoutine == null){
             one.GetComponent<MeshRenderer>().enabled = true;
             StartCoroutine(oneFade(timeBetweenNums));
         }
-
+        //If within correct time frame "GO!" gamobject's mesh is enabled and begins fading 
         if((int)timer < (startBuffer+timeBetweenNums+timeBetweenNums+timeBetweenNums+timeBetweenNums) && (int)timer >= (startBuffer+timeBetweenNums+timeBetweenNums+timeBetweenNums) && goRoutine == null){
             foreach(MeshRenderer r in go.GetComponentsInChildren<MeshRenderer>()){
                 r.enabled = true;
             }
+            //Enables car controller script as "GO!" appears on screen
+            GameObject.FindWithTag("Player").GetComponent<CarController>().enabled = true;
             StartCoroutine(goFade(timeBetweenNums));
+        }
+        //Disables this script when countdown is done
+        if((int)timer > (startBuffer+timeBetweenNums+timeBetweenNums+timeBetweenNums+1) && goRoutine == null){
+            this.enabled = false;
         }
     }
 
@@ -129,7 +142,7 @@ public class countdown : MonoBehaviour
         }
         //Clean up
         yield return null;
-        three.GetComponent<MeshRenderer>().enabled = true;
+        three.GetComponent<MeshRenderer>().enabled = false;
         threeRoutine = null;
     }
 
@@ -189,7 +202,7 @@ public class countdown : MonoBehaviour
         //Clean up
         yield return null;        
         foreach(MeshRenderer r in go.GetComponentsInChildren<MeshRenderer>()){
-            r.enabled = false;
+           r.enabled = false;
         }    
         goRoutine = null;
     }
