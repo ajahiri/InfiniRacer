@@ -5344,7 +5344,7 @@ GameObject:
   - component: {fileID: 107368380215979640}
   - component: {fileID: 5897354091258332008}
   - component: {fileID: 479086557746799149}
-  - component: {fileID: 8570764575229757517}
+  - component: {fileID: 2433892613290846752}
   m_Layer: 0
   m_Name: Camaro
   m_TagString: Player
@@ -5429,7 +5429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   rb: {fileID: 0}
---- !u!114 &8570764575229757517
+--- !u!114 &2433892613290846752
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5441,6 +5441,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f92dd8c5fe8aef4fbe06b4cb61e8e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effects:
+  - {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  - {fileID: 1025285306637258, guid: d8f0099df63275647a8bcf646df1ca00, type: 3}
+  - {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
 --- !u!1 &4111650435603530523
 GameObject:
   m_ObjectHideFlags: 0

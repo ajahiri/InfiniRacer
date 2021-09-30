@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 310314901219152007}
   - component: {fileID: 571204946379582749}
   - component: {fileID: 2734004823897388919}
-  - component: {fileID: 830197047476660728}
+  - component: {fileID: 1771367106305379653}
   m_Layer: 0
   m_Name: Audi R8
   m_TagString: Player
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   rb: {fileID: 0}
---- !u!114 &830197047476660728
+--- !u!114 &1771367106305379653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -423,6 +423,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f92dd8c5fe8aef4fbe06b4cb61e8e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effects:
+  - {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  - {fileID: 1025285306637258, guid: d8f0099df63275647a8bcf646df1ca00, type: 3}
+  - {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9, type: 3}
 --- !u!1 &3896132262957625579
 GameObject:
   m_ObjectHideFlags: 0

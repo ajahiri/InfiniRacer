@@ -593,30 +593,6 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: BAckground1
-    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
-    volume: 0.62
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: BAckground2
-    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
-    volume: 0.62
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: BAckground3
-    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
-    volume: 0.62
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: BAckground4
-    clip: {fileID: 8300000, guid: edc14f33ae851a44384a360991e40c10, type: 3}
-    volume: 0.62
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
 --- !u!4 &478735914
 Transform:
   m_ObjectHideFlags: 0
@@ -825,6 +801,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7115203738024779039, guid: b980c93ee8d7943fd8521a3085c1ef82, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635176653274990500, guid: b980c93ee8d7943fd8521a3085c1ef82, type: 3}
+      propertyPath: motorForce
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7635176653274990501, guid: b980c93ee8d7943fd8521a3085c1ef82, type: 3}
@@ -2551,6 +2531,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1835064941}
     m_Modifications:
+    - target: {fileID: 4185093024349898601, guid: 111f6faf03ef9544ca3ee2e278740424, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8694909894505538205, guid: 111f6faf03ef9544ca3ee2e278740424, type: 3}
       propertyPath: m_Name
       value: lambo
