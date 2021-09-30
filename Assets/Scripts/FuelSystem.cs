@@ -46,21 +46,13 @@ public class FuelSystem : MonoBehaviour
             //
         } 
         ColorChanger();
-        //FuelBarFiller();
+        FuelBarFiller();
         FuelText.text = "Fuel: " + Fuel + "%";
 
     }
     public void FuelBarFiller()
     {
-        Fuel += 3.0f;
-        if(Fuel > 30f)
-        {
-            Fuel = 30f;
-        }
-        Debug.Log("Fuel is " + Fuel);
         FuelBar.fillAmount = Mathf.Lerp(FuelBar.fillAmount, (Fuel / maxFuel), FuelConsumptionRate);
-        ColorChanger();
-        Debug.Log("Collision with gas tank. Fuel is " + Fuel);
     }
     void ColorChanger()
     {
@@ -68,12 +60,30 @@ public class FuelSystem : MonoBehaviour
         FuelBar.color = FuelColor;
 
     }
-    public void fuelPickUp(float fuelCan)
+    public void FuelPickUp(float fuelCan)
     {
         if (Fuel < maxFuel)
-            Fuel += fuelCan;
-    }
-
-   
+        {
+            if (Fuel == 28)
+            {
+                fuelCan = 2;
+                Fuel += fuelCan;
+            } 
+            else if (Fuel == 29)
+            {
+                fuelCan = 1;
+                Fuel += fuelCan;
+            } 
+            else if (Fuel == 30)
+            {
+                fuelCan = 0;
+                Fuel += fuelCan;
+            } 
+            else
+            {
+                Fuel += fuelCan;
+            }
+        }           
+    }  
 }
 
