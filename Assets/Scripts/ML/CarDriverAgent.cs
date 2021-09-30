@@ -12,6 +12,8 @@ public class CarDriverAgent : Agent
 
     private BotCarController botCarController;
     private int lastEpisodeResetCount = 0;
+    //steps since last correct checkpoint
+    private int lastCheckpointSteps = 0;
 
     private void Awake() {
         botCarController = GetComponent<BotCarController>();
@@ -27,6 +29,8 @@ public class CarDriverAgent : Agent
             trackCheckpoints.ResetAll();
             lastEpisodeResetCount = episodes;
         }
+
+        lastCheckpointSteps++;
     }
 
     private void Start() {
@@ -39,6 +43,11 @@ public class CarDriverAgent : Agent
         if (e.vehicleTransform == transform) {
             AddReward(+1f);
             //Debug.Log("correct checkpoint in agent");
+
+            //Gives higher reward for faster travel between checkpoints
+            AddReward(+2f / lastCheckpointSteps);
+            Debug.Log("Steps since last checkpoint: " + lastCheckpointSteps);
+            lastCheckpointSteps = 0;
         }
         
     }
@@ -123,13 +132,13 @@ public class CarDriverAgent : Agent
         // Collision Reward
         if(other.collider.tag == "VehicleBody") {
             AddReward(+0.7f);
-            Debug.Log("Collision Reward!");
+            //Debug.Log("Collision Reward!");
         }
     }
 
     private void OnCollisionStay(Collision other) {
         if(other.collider.tag == "VehicleBody") {
-            AddReward(-0.2f);
+            AddReward(-0.5f);
         }    
     }
 
