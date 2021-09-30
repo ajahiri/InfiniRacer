@@ -12,9 +12,8 @@ public class CarDriverAgent : Agent
 
     private BotCarController botCarController;
     private int lastEpisodeResetCount = 0;
-    //steps since last correct checkpoint
-    private int lastCheckpointSteps = 0;
-
+    // counts how many checkpoints have been passed in the current episode
+    private int checkpointCount = 0;
     private void Awake() {
         botCarController = GetComponent<BotCarController>();
     }
@@ -30,7 +29,11 @@ public class CarDriverAgent : Agent
             lastEpisodeResetCount = episodes;
         }
 
-        lastCheckpointSteps++;
+        trackCheckpoints.EvaluatePlaces();
+        if(trackCheckpoints.isFirst(transform)) {
+            Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
+            AddReward(+1.0e-4f);
+        }
     }
 
     private void Start() {
@@ -44,12 +47,11 @@ public class CarDriverAgent : Agent
             AddReward(+1f);
             //Debug.Log("correct checkpoint in agent");
 
-            //Gives higher reward for faster travel between checkpoints
-            AddReward(+2f / lastCheckpointSteps);
-            Debug.Log("Steps since last checkpoint: " + lastCheckpointSteps);
-            lastCheckpointSteps = 0;
+            //Gives higher reward for faster epsiode
+            if(checkpointCount >= 1000) {
+                EndEpisode();
+            }
         }
-        
     }
 
     // Same as above but with negative reward
@@ -81,6 +83,8 @@ public class CarDriverAgent : Agent
             "resetting" to a new state for that agent and substantial negative reward
             reinforces against this outcome.
         */
+        
+        checkpointCount = 0;
         trackCheckpoints.softResetToCheckpoint(transform);
     }
 
