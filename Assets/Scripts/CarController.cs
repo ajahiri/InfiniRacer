@@ -220,6 +220,7 @@ public class CarController : MonoBehaviour
                 wheelCollider.sidewaysFriction = sidewayFriction;
 
                 motorForce = 10000;
+                
             }
         }
     }
