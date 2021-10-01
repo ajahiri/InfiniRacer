@@ -123,8 +123,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-  - {fileID: 2081067659827431477, guid: 56daba767e52de84593f70dc4e5206de, type: 3}
-  - {fileID: 4643560518313934173, guid: fc0d184f46fc369d3b81834ccd7a1bb0, type: 3}
+  - {fileID: 3005938622184997137, guid: 56daba767e52de84593f70dc4e5206de, type: 3}
+  - {fileID: 1569535294620703853, guid: fc0d184f46fc369d3b81834ccd7a1bb0, type: 3}
+  - {fileID: 8592433256001776804, guid: 008ca4935571d9f849f288a1b313dd6e, type: 3}
+  diff: 6
 --- !u!114 &994168870342648689
 MonoBehaviour:
   m_ObjectHideFlags: 0
