@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenuUI;
+    [SerializeField] GameObject GameElementsUI;
 
     bool gameIsPaused = false;
 
@@ -28,6 +29,7 @@ public class PauseMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
+        GameElementsUI.SetActive(true);
         Time.timeScale = 1f;
         gameIsPaused = false;
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
@@ -36,6 +38,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenuUI.SetActive(true);
+        GameElementsUI.SetActive(false);
         Time.timeScale = 0f;
         gameIsPaused = true;
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
