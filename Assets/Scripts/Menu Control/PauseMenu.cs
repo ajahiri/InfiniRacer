@@ -8,7 +8,14 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject pauseMenuUI;
     [SerializeField] GameObject GameElementsUI;
 
+    CarController carController;
+
     bool gameIsPaused = false;
+
+    void Start()
+    {
+        carController = GameObject.Find("lambo").gameObject.transform.GetComponent<CarController>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -59,4 +66,17 @@ public class PauseMenu : MonoBehaviour
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Restarting game...");
     }
+
+    public void Drift()
+    {
+        carController.UpdateDrift();
+        Debug.Log("Drift button is pressed");
+    }
+
+    public void Brake()
+    {
+        carController.ApplyBraking();
+        Debug.Log("Brake button is pressed");
+    }
+
 }
