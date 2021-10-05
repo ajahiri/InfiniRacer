@@ -534,7 +534,7 @@ PrefabInstance:
     - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 09bb8bbecee932e4ba023afd845f3916, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: c7cb51f96705a134992a9d2fe725045f, type: 3}
     - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_BehaviorName
       value: botCollision_behaviour_Nate
@@ -1886,7 +1886,7 @@ PrefabInstance:
     - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 09bb8bbecee932e4ba023afd845f3916, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: c7cb51f96705a134992a9d2fe725045f, type: 3}
     - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_BehaviorName
       value: botCollision_behaviour_Nate
@@ -2119,7 +2119,7 @@ PrefabInstance:
     - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 09bb8bbecee932e4ba023afd845f3916, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: f443b6eb34af9314e87bbe6db9da7529, type: 3}
     - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_BehaviorName
       value: botCollision_behaviour_Nate
@@ -2182,7 +2182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6712587918652903104, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}

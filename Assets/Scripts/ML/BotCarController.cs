@@ -35,6 +35,13 @@ public class BotCarController : MonoBehaviour
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
 
+    public float getCurrentSteeringAngle() {
+        return currentSteeringAngle;
+    }
+
+    public float getVerticleInput() {
+        return verticalInput;
+    }
     private void Start() {
         // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
@@ -54,7 +61,7 @@ public class BotCarController : MonoBehaviour
         horizontalInput = newHorizontal;
         verticalInput = newVertical;
         isBraking = brakingInput;
-        // Debug.Log("setting inputs " + horizontalInput + " " + verticalInput + " " + isBraking);
+        //Debug.Log("setting inputs " + horizontalInput + " " + verticalInput + " " + isBraking);
     }
 
     private void HandleMotor()

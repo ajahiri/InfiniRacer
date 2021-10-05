@@ -13,6 +13,7 @@ TagManager:
   - boost
   - rock
   - bomb
+  - FrontWheel
   layers:
   - Default
   - TransparentFX

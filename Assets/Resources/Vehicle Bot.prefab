@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 551083256475364204}
   m_Layer: 8
   m_Name: Front_Right_Wheel
-  m_TagString: Untagged
+  m_TagString: FrontWheel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 3651047934339561745}
   m_Layer: 8
   m_Name: Front_Left_Wheel
-  m_TagString: Untagged
+  m_TagString: FrontWheel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

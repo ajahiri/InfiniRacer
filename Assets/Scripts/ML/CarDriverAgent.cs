@@ -14,6 +14,7 @@ public class CarDriverAgent : Agent
     private int lastEpisodeResetCount = 0;
     // counts how many checkpoints have been passed in the current episode
     private int checkpointCount = 0;
+    private float lastWheelDirection = 0f;
     private void Awake() {
         botCarController = GetComponent<BotCarController>();
     }
@@ -29,13 +30,46 @@ public class CarDriverAgent : Agent
             lastEpisodeResetCount = episodes;
         }
 
+        rewardFirstPlace();
+
+        rewardStraightSteering();
+
+        rewardHighSpeed();
+
+    }
+
+    private void rewardFirstPlace() {
         trackCheckpoints.EvaluatePlaces();
         if(trackCheckpoints.isFirst(transform)) {
             Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
             AddReward(+1.0e-4f);
         }
     }
+    private void rewardStraightSteering() {
+        float wheelDirection = botCarController.getCurrentSteeringAngle();
+        float directionChange = wheelDirection - lastWheelDirection;
 
+        if(directionChange == 0f) {
+            AddReward(0.01f);        
+        } else if(directionChange > 0f && directionChange < 45f) {
+            AddReward(+ 1.0e-3f / directionChange); // gives higher rewards for less direction change (when less than 45)
+        } else {
+            AddReward(- 1.0e-3f * directionChange); // gives lower penalty for less direction change (when more than 45)
+        }
+        lastWheelDirection = wheelDirection;
+    }
+
+    private void rewardHighSpeed() {
+        float currentSpeed = botCarController.getVerticleInput();
+        // no penalty for reversing
+        if(currentSpeed > 0) {
+            // going forward
+            AddReward(currentSpeed * 0.01f);
+        } else if( currentSpeed == 0) {
+            // stationary
+            AddReward(-0.1f);
+        } 
+    }
     private void Start() {
         trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
         trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;
@@ -48,8 +82,8 @@ public class CarDriverAgent : Agent
             //Debug.Log("correct checkpoint in agent");
             
             checkpointCount++;
-            //Gives higher reward for faster epsiode
             if(checkpointCount >= 200) {
+                AddReward(1.5f / (float)Math.Pow((StepCount * 1.0e-4f), 3));
                 EndEpisode();
             }
         }
@@ -102,6 +136,9 @@ public class CarDriverAgent : Agent
                 sensor.AddObservation(directionDot);
             }
         }
+
+        
+
         // observe distance to other cars on the track (if there are other cars on the track)
         /*
         if(trackCheckpoints.getCarTransforms().Count > 1) {
@@ -136,7 +173,7 @@ public class CarDriverAgent : Agent
     private void OnCollisionEnter(Collision other) {
         // Collision Reward
         if(other.collider.tag == "VehicleBody") {
-            AddReward(+0.7f);
+            AddReward(+0.9f);
             //Debug.Log("Collision Reward!");
         }
     }
