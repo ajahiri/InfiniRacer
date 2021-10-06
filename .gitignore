@@ -105,3 +105,6 @@ Temporary Items
 
 .fake
 .ionide
+
+# Cubemaps
+/[Aa]ssets/[Ss]kyboxes/[Mm]aterials/[Cc]ubemaps
