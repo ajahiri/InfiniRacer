@@ -11,12 +11,10 @@ public class FuelSystem : MonoBehaviour
     public Text FuelText;
     public Image FuelBar;
 
-    float Fuel;
-    float maxFuel = 30f;
+    public float Fuel;
+    float maxFuel = 30.0f;
     float FuelConsumptionRate;
     public float baseInterval = 1f;
-    public int lastTime;
-    public float timer;
 
     private void Start()
     {
@@ -26,9 +24,6 @@ public class FuelSystem : MonoBehaviour
 
     private void Update()
     {
-
-
-
         if (Fuel > 0)
         {
             if (FuelConsumptionRate > 0)
@@ -41,14 +36,13 @@ public class FuelSystem : MonoBehaviour
                 Fuel -= 1f;
             }
         }
-        else
+        else if (Fuel == 0)
         {
-            //
+            
         } 
         ColorChanger();
         FuelBarFiller();
         FuelText.text = "Fuel: " + Fuel + "%";
-
     }
     public void FuelBarFiller()
     {

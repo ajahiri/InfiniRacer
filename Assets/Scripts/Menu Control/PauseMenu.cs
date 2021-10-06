@@ -6,8 +6,16 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenuUI;
+    [SerializeField] GameObject GameElementsUI;
+
+    CarController carController;
 
     bool gameIsPaused = false;
+
+    void Start()
+    {
+        carController = GameObject.Find("lambo").gameObject.transform.GetComponent<CarController>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -17,7 +25,8 @@ public class PauseMenu : MonoBehaviour
             if (gameIsPaused)
             {
                 ResumeGame();
-            } else
+            }
+            else
             {
                 PauseGame();
             }
@@ -27,17 +36,19 @@ public class PauseMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
+        GameElementsUI.SetActive(true);
         Time.timeScale = 1f;
         gameIsPaused = false;
-        //Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
     public void PauseGame()
     {
         pauseMenuUI.SetActive(true);
+        GameElementsUI.SetActive(false);
         Time.timeScale = 0f;
         gameIsPaused = true;
-        //Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
     public void LoadMenu()
@@ -52,7 +63,20 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("RaceArea01");
-        //Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Restarting game...");
     }
+
+    public void Drift()
+    {
+        carController.UpdateDrift();
+        Debug.Log("Drift button is pressed");
+    }
+
+    public void Brake()
+    {
+        carController.ApplyBraking();
+        Debug.Log("Brake button is pressed");
+    }
+
 }

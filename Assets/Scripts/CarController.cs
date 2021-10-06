@@ -39,6 +39,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearRightWheelTransform;
 
     public ParticleSystem[] smoke;
+    FuelSystem fuel;
+    public GameOver gameOver;
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
 
@@ -47,6 +49,9 @@ public class CarController : MonoBehaviour
         // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.centerOfMass = customCenterofMass;
+
+        fuel = GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>();
+        //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
 
     }
     private void Update()
@@ -59,6 +64,14 @@ public class CarController : MonoBehaviour
 
         //vehicleRigidBody.AddForce(Input.acceleration);
         Debug.DrawRay(transform.position + Vector3.up, tilt, Color.cyan);
+
+        if (fuel.Fuel == 0)
+        {
+            motorForce = 0;
+            GetBoost(0);
+            Debug.Log("motorForce is " + motorForce);
+            gameOver.GameOverScreen();
+        }
     }
 
     private void FixedUpdate()
@@ -121,7 +134,7 @@ public class CarController : MonoBehaviour
         ApplyBraking();
     }
 
-    private void ApplyBraking()
+    public void ApplyBraking()
     {
         frontLeftWheelCollider.brakeTorque = currentBrakeForce;
         frontRightWheelCollider.brakeTorque = currentBrakeForce;
@@ -165,7 +178,7 @@ public class CarController : MonoBehaviour
         wheelTransform.SetPositionAndRotation(pos, rot);
     }
 
-    private void UpdateDrift()
+    public void UpdateDrift()
     {
         if (isDrifting)
         {
