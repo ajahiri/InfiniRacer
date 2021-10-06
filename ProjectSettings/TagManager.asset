@@ -15,6 +15,7 @@ TagManager:
   - bomb
   - trackP
   - Track Start Area
+  - FrontWheel
   layers:
   - Default
   - TransparentFX

@@ -20,6 +20,9 @@ public class TrackCheckpoints : MonoBehaviour
     private List<Checkpoint> checkpointList = new List<Checkpoint>();
     private List<int> nextCheckpointIndexList = new List<int>();
     private List<int> lastWrongCheckpointIndexList = new List<int>();
+    private List<int> lastHitCheckpoint = new List<int>();
+    private List<int> tie = new List<int>();
+    private int firstPlace = -1;
     
     // Target track parent, when used with the spawner, this will be useful
     [SerializeField] Transform trackTarget;
@@ -38,6 +41,7 @@ public class TrackCheckpoints : MonoBehaviour
         foreach (Transform carTransform in carTransformList) {
             nextCheckpointIndexList.Add(0);
             lastWrongCheckpointIndexList.Add(-1);
+            lastHitCheckpoint.Add(0);
         }
     }
 
@@ -75,6 +79,7 @@ public class TrackCheckpoints : MonoBehaviour
         // Soft reset refers to the resetting of 
         nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)] = 0;
         lastWrongCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)] = -1;
+        lastHitCheckpoint[carTransformList.IndexOf(vehicleTransform)] = 0;
     }
 
     public void softResetToCheckpoint(Transform vehicleTransform) {
@@ -113,6 +118,7 @@ public class TrackCheckpoints : MonoBehaviour
             // Reset next checkpoint index
             nextCheckpointIndexList.Add(0);
             lastWrongCheckpointIndexList.Add(-1);
+            lastHitCheckpoint.Add(0);
 
             // Reset position
             float carSpacing = 3 * findCarIndex(carTransform);
@@ -144,6 +150,7 @@ public class TrackCheckpoints : MonoBehaviour
         int carIdx = carTransformList.IndexOf(carTransform);
         int nextCheckpointIndex = nextCheckpointIndexList[carIdx];
         int targetCheckpointIndex = checkpointList.IndexOf(checkpoint);
+        lastHitCheckpoint[findCarIndex(carTransform)] = targetCheckpointIndex;
         // Things here might need to change for non looping tracks
         
         if (targetCheckpointIndex == nextCheckpointIndex && nextCheckpointIndex >= 0) {
@@ -156,7 +163,8 @@ public class TrackCheckpoints : MonoBehaviour
             }
             lastWrongCheckpointIndexList[carIdx] = -1; // reset last wrong
             OnVehicleCorrectCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
-        } else if (targetCheckpointIndex >= lastWrongCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] < nextCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] != -1) {
+        } else if (targetCheckpointIndex >= lastWrongCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx]
+                   < nextCheckpointIndexList[carIdx] && lastWrongCheckpointIndexList[carIdx] != -1) {
             // special case, if car is a few checkpoints behind, dont give neg reward for going in the right direction but 
             // technically going through the wrong checkpoint. treat it as a null case
             // Debug.Log("null checkpoint");
@@ -173,7 +181,91 @@ public class TrackCheckpoints : MonoBehaviour
         return carTransformList.IndexOf(transform);
     }
 
+    public Transform findCarTransform(int carIdx) {
+        return carTransformList[carIdx];
+    }
+
     public List<Transform> getCarTransforms() {
         return carTransformList;
+    }
+
+    public bool isFirst(Transform car) {
+        int carIdx = findCarIndex(car);
+
+        if(firstPlace == carIdx) {
+            return true;
+        } else {
+            return isTieFirst(car);
+        }
+    }
+    
+    // is there a tie for first place?
+    public bool isTieFirst(Transform car) {
+        int carIdx = findCarIndex(car);
+        if(tie.Count > 1) {
+            foreach(int vehicle in tie) {
+                if(carIdx == vehicle) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public List<Transform> getTie() {
+        List<Transform> tieList = new List<Transform>();
+
+        foreach(int carIdx in tie) {
+            Transform carTransform = findCarTransform(carIdx);
+            tieList.Add(carTransform);
+        }
+        return tieList;
+    }
+
+    // runs every update
+    public void EvaluatePlaces() {
+        int highestNextCheckpoint = -1; 
+        int highestLastCheckpoint = -1;
+        List<int> leaders = new List<int>();
+        tie.Clear();
+        firstPlace = -1;
+
+        foreach(int nextCheckpoint in nextCheckpointIndexList) {
+            int vehicleIndex = nextCheckpointIndexList.IndexOf(nextCheckpoint);
+            int lastCheckpoint = lastHitCheckpoint[vehicleIndex];
+            if(nextCheckpoint > highestNextCheckpoint && lastCheckpoint > highestLastCheckpoint) {
+                highestNextCheckpoint = nextCheckpoint;
+                highestLastCheckpoint = lastCheckpoint;
+                leaders.Clear();
+                leaders.Add(vehicleIndex);
+                firstPlace = vehicleIndex;
+            }
+            else if(nextCheckpoint == highestNextCheckpoint && lastCheckpoint == highestLastCheckpoint) {
+                leaders.Add(vehicleIndex);
+            }
+        }
+
+        if(leaders.Count > 1) {
+            float closestDist = -1f;
+            foreach(int leaderCarIdx in leaders) {
+                Transform car = carTransformList[leaderCarIdx];
+                Transform checkpoint = checkpointList[highestNextCheckpoint].transform;
+                float dist = Vector3.Distance(checkpoint.position , car.position);
+
+                if(dist > closestDist) {
+                    firstPlace = leaderCarIdx;
+                    tie.Clear();
+                    tie.Add(leaderCarIdx);
+                }
+                else if(dist == closestDist) {
+                    //tie
+                    tie.Add(leaderCarIdx);
+                }
+            }
+
+            if(tie.Count > 1) {
+                firstPlace = -1;
+            }      
+        }
     }
 }

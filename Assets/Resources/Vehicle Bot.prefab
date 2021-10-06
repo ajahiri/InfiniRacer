@@ -422,7 +422,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
+  MaxStep: 13000
   trackCheckpoints: {fileID: 0}
 --- !u!114 &3806244905884723721
 MonoBehaviour:
@@ -521,6 +521,7 @@ MonoBehaviour:
   frontRightWheelTransform: {fileID: 6743170336886493886}
   rearLeftWheelTransform: {fileID: 2611212156710571769}
   rearRightWheelTransform: {fileID: 7608395345622830607}
+  customCenterofMass: {x: 0, y: 0, z: 0}
 --- !u!1 &7548002792711536043
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +615,7 @@ GameObject:
   - component: {fileID: 551083256475364204}
   m_Layer: 8
   m_Name: Front_Right_Wheel
-  m_TagString: Untagged
+  m_TagString: FrontWheel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -675,7 +676,7 @@ GameObject:
   - component: {fileID: 3651047934339561745}
   m_Layer: 8
   m_Name: Front_Left_Wheel
-  m_TagString: Untagged
+  m_TagString: FrontWheel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

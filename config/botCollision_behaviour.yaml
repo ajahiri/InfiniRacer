@@ -1,0 +1,33 @@
+behaviors:
+  botCollision_behaviour:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 20000
+      buffer_size: 40000
+      learning_rate: 3.0e-4
+      beta: 5.0e-4
+      epsilon: 0.15
+      lambd: 0.95
+      num_epoch: 5
+      learning_rate_schedule: linear
+    network_settings:
+      normalize: false
+      hidden_units: 175
+      num_layers: 2
+    reward_signals:
+      # reinforsment learning
+      extrinsic:
+        strength: 0.7
+        gamma: 0.991
+      # Generative Adversarial Imitation Learning (gail) - imitates the demo and attempts to improve
+      gail:
+        strength: 0.9
+        demo_path: Demos
+        use_vail: false 
+    # immitation learning - imitates the demo and does NOT attempt to improve
+    behavioral_cloning:
+        strength: 0.8
+        demo_path: Demos
+    max_steps: 2e6
+    time_horizon: 64
+    summary_freq: 10000
