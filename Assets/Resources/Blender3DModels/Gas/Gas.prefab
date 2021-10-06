@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5293975112662989210}
   - component: {fileID: 6817080554758264647}
   - component: {fileID: 1655746525037795642}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gas
   m_TagString: boost
   m_Icon: {fileID: 0}
