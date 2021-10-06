@@ -9208,6 +9208,7 @@ MonoBehaviour:
   smoke:
   - {fileID: 5680400064116271369}
   - {fileID: 8320361850320518096}
+  gameOver: {fileID: 471726378567261334, guid: e510717b61da5e64c94da0679e44139c, type: 3}
   customCenterofMass: {x: 0, y: 0, z: 0}
 --- !u!114 &5750045043525073917
 MonoBehaviour:

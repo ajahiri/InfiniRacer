@@ -9,12 +9,14 @@ public class TitleSceneManager : MonoBehaviour
     {
         Debug.Log("Starting game...");
         SceneManager.LoadScene("RaceArea01");
+        FindObjectOfType<AudioManager>().Play("Start sound");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
     public void SelectCar()
     {
         Debug.Log("Selecting car");
         SceneManager.LoadScene("CarSelectionScene");
+  
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
 
     }

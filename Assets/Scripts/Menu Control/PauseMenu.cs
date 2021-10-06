@@ -14,7 +14,7 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        carController = GameObject.Find("lambo").gameObject.transform.GetComponent<CarController>();
+        carController = GameObject.FindGameObjectWithTag("Player").gameObject.transform.GetComponent<CarController>();
     }
 
     // Update is called once per frame
@@ -36,6 +36,7 @@ public class PauseMenu : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenuUI.SetActive(false);
+        FindObjectOfType<AudioManager>().Play("CarEngine");
         GameElementsUI.SetActive(true);
         Time.timeScale = 1f;
         gameIsPaused = false;
@@ -45,6 +46,7 @@ public class PauseMenu : MonoBehaviour
     public void PauseGame()
     {
         pauseMenuUI.SetActive(true);
+        FindObjectOfType<AudioManager>().Stop("CarEngine");
         GameElementsUI.SetActive(false);
         Time.timeScale = 0f;
         gameIsPaused = true;
@@ -63,6 +65,8 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("RaceArea01");
+        FindObjectOfType<AudioManager>().Play("CarEngine");
+        FindObjectOfType<AudioManager>().Play("Start sound");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Restarting game...");
     }

@@ -7,6 +7,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+
 
 public class CarController : MonoBehaviour
 {
@@ -40,21 +43,26 @@ public class CarController : MonoBehaviour
 
     public ParticleSystem[] smoke;
     FuelSystem fuel;
-    public GameOver gameOver;
+    private bool tepeat;
+         
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
 
+
+ 
+
     private void Start()
     {
+        tepeat = false;
+        //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
         // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.centerOfMass = customCenterofMass;
-
         fuel = GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>();
-        //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
+        //gameOver.Disable();
 
     }
-    private void Update()
+    public void Update()
     {
         Vector3 tilt = Input.acceleration;
 
@@ -65,13 +73,20 @@ public class CarController : MonoBehaviour
         //vehicleRigidBody.AddForce(Input.acceleration);
         Debug.DrawRay(transform.position + Vector3.up, tilt, Color.cyan);
 
-        if (fuel.Fuel == 0)
+        if (fuel.Fuel == 0 && tepeat == false)
         {
-            motorForce = 0;
-            GetBoost(0);
-            Debug.Log("motorForce is " + motorForce);
-            gameOver.GameOverScreen();
+            tepeat = true;
+            GameoverSeq();
         }
+    }
+    public void GameoverSeq()
+    {
+        motorForce = 0;
+        GetBoost(0f);
+        FindObjectOfType<AudioManager>().Stop("CarEngine");
+        FindObjectOfType<AudioManager>().Play("Game Over");
+        Debug.Log("motorForce is " + motorForce);
+        SceneManager.LoadScene("GameOver");
     }
 
     private void FixedUpdate()
