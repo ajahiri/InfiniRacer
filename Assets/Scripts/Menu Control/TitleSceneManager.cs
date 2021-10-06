@@ -11,6 +11,13 @@ public class TitleSceneManager : MonoBehaviour
         SceneManager.LoadScene("RaceArea01");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
+    public void SelectCar()
+    {
+        Debug.Log("Selecting car");
+        SceneManager.LoadScene("CarSelectionScene");
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+
+    }
 
     public void ViewOptions()
     {

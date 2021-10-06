@@ -30,8 +30,7 @@ public class AudioManager : MonoBehaviour
     }
     void Start()
     {
-        //Play("Start sound");
-        //Play("BAckground"+Random.Range(1, 4));
+        Play("Start sound");
     }
 
     public void Play (string name)

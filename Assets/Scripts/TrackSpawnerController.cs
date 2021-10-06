@@ -28,7 +28,7 @@ using UnityEngine;
 
 public class TrackSpawnerController : MonoBehaviour
 {
-    [SerializeField] List<GameObject> vehicleObjects;
+    public List<GameObject> vehicleObjects;
     [SerializeField] GameObject checkpointHandlerObject;
     private struct TrackPieceDefinition
     {
@@ -236,6 +236,7 @@ public class TrackSpawnerController : MonoBehaviour
     void Start()
     {
         // Get transform of spawner object
+        vehicleObjects.Add(GameObject.FindGameObjectWithTag("Player"));
         spawnerTransformOrigin = GetComponent<Transform>();
 
         // Load track definitions

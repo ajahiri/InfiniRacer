@@ -16,13 +16,13 @@ public class TrackCheckpoints : MonoBehaviour
 
     public bool isLoopingTrack;
 
-    [SerializeField] private List<Transform> carTransformList;
+    public List<Transform> carTransformList;
     private List<Checkpoint> checkpointList = new List<Checkpoint>();
     private List<int> nextCheckpointIndexList = new List<int>();
     private List<int> lastWrongCheckpointIndexList = new List<int>();
-    
+
     // Target track parent, when used with the spawner, this will be useful
-    [SerializeField] Transform trackTarget;
+    private Transform trackTarget;
     private void Start() {
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
@@ -34,6 +34,8 @@ public class TrackCheckpoints : MonoBehaviour
         //         checkpointList.Add(checkpoint);
         //     }
         // }
+        carTransformList.Add(GameObject.FindGameObjectWithTag("Player").transform);
+        trackTarget = GameObject.FindGameObjectWithTag("Player").transform;
 
         foreach (Transform carTransform in carTransformList) {
             nextCheckpointIndexList.Add(0);
