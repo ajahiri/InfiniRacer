@@ -236,7 +236,7 @@ public class TrackSpawnerController : MonoBehaviour
     void Start()
     {
         // Get transform of spawner object
-        vehicleObjects.Add(GameObject.FindGameObjectWithTag("Player"));
+        vehicleObjects.Add(GameObject.FindWithTag("Player"));
         spawnerTransformOrigin = GetComponent<Transform>();
 
         // Load track definitions

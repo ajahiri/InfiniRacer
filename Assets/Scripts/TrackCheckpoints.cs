@@ -40,7 +40,9 @@ public class TrackCheckpoints : MonoBehaviour
         //         checkpointList.Add(checkpoint);
         //     }
         // }
-        carTransformList.Add(GameObject.FindGameObjectWithTag("Player").transform);
+        carTransformList.Add(GameObject.FindWithTag("Player").transform);
+
+        Debug.Log("num of car transforms: " + carTransformList.Count);
 
         foreach (Transform carTransform in carTransformList) {
             nextCheckpointIndexList.Add(0);
@@ -218,15 +220,18 @@ public class TrackCheckpoints : MonoBehaviour
             var placementList = new List<PlacementObj>();
             for (int i = 0; i < carTransformList.Count; i++)
             {
-                var carTransform = carTransformList[i];
+                if (checkpointList.Count > 1)
+                {
+                    var carTransform = carTransformList[i];
 
-                // Get next checkpoint distance
-                var nextCheckpoint = checkpointList[nextCheckpointIndexList[i]];
-                var nextDistance = nextCheckpoint ? Vector3.Distance(nextCheckpoint.transform.position, carTransform.position) : 9999f;
+                    // Get next checkpoint distance
+                    var nextCheckpoint = checkpointList[nextCheckpointIndexList[i]];
+                    var nextDistance = nextCheckpoint ? Vector3.Distance(nextCheckpoint.transform.position, carTransform.position) : 9999f;
 
-                var listItem = new PlacementObj(i, lastHitCheckpoint[i], nextDistance);
-                placementList.Add(listItem);
-                //Debug.Log("Car IDX: " + i + " LastHit: " + lastHitCheckpoint[i] + " Distance: " + nextDistance);
+                    var listItem = new PlacementObj(i, lastHitCheckpoint[i], nextDistance);
+                    placementList.Add(listItem);
+                    //Debug.Log("Car IDX: " + i + " LastHit: " + lastHitCheckpoint[i] + " Distance: " + nextDistance);
+                }
             }
 
             // Sort placement list based on last hit checkpoint THEN checkpoint distance

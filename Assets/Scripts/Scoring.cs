@@ -14,9 +14,8 @@ public class Scoring : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        trackCheckpointsScript = GameObject.FindObjectOfType<TrackCheckpoints>();
+        trackCheckpointsScript = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
         placementText = transform.GetChild(0).GetComponent<Text>();
-        Debug.Log(trackCheckpointsScript);
         playerObject = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(AddScore());   
     }
@@ -40,11 +39,5 @@ public class Scoring : MonoBehaviour
             }
             yield return new WaitForSeconds(1f);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
