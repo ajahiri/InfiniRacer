@@ -40,6 +40,7 @@ public class CarController : MonoBehaviour
 
     public ParticleSystem[] smoke;
     FuelSystem fuel;
+    GameObject buttons;
     public GameOver gameOver;
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
@@ -50,9 +51,8 @@ public class CarController : MonoBehaviour
         vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.centerOfMass = customCenterofMass;
 
-        fuel = GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>();
-        //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
-
+        fuel = GameObject.Find("FuelBar").gameObject.GetComponent<FuelSystem>();
+        buttons = GameObject.Find("gameElementsActive");
     }
     private void Update()
     {
@@ -65,13 +65,7 @@ public class CarController : MonoBehaviour
         //vehicleRigidBody.AddForce(Input.acceleration);
         Debug.DrawRay(transform.position + Vector3.up, tilt, Color.cyan);
 
-        if (fuel.Fuel == 0)
-        {
-            motorForce = 0;
-            GetBoost(0);
-            Debug.Log("motorForce is " + motorForce);
-            gameOver.GameOverScreen();
-        }
+        OutOfFuel();
     }
 
     private void FixedUpdate()
@@ -153,6 +147,7 @@ public class CarController : MonoBehaviour
             for (int i = 0; i < smoke.Length; i++)
             {
                 smoke[i].Play();
+                Debug.Log("It's braking");
             }
         }
     }
@@ -182,6 +177,7 @@ public class CarController : MonoBehaviour
     {
         if (isDrifting)
         {
+            Debug.Log("it's drifting");
             DriftSingleWheel(rearLeftWheelCollider);
             DriftSingleWheel(rearRightWheelCollider);
             for (int i = 0; i < smoke.Length; i++)
@@ -237,5 +233,22 @@ public class CarController : MonoBehaviour
         }
     }
 
+    void OutOfFuel()
+    {
+        if (fuel.Fuel == 0)
+        {
+            if (vehicleRigidBody.velocity.magnitude > 0.5)
+            {
+                motorForce = -20000;
+            }
+            else
+            {
+                vehicleRigidBody.velocity = Vector3.zero;
+                vehicleRigidBody.angularVelocity = Vector3.zero;
+                buttons.SetActive(false);
+                gameOver.GameOverScreen();
+            }
+        }
+    }
     
 }

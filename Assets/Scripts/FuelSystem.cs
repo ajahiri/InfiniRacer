@@ -5,7 +5,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
 public class FuelSystem : MonoBehaviour
 {
     public Text FuelText;
