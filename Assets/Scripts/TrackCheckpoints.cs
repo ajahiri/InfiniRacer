@@ -150,6 +150,10 @@ public class TrackCheckpoints : MonoBehaviour
         return null;
     }
 
+    public Checkpoint GetCheckpoint(int index) {
+        return checkpointList[index];
+    }
+
     public void CarThroughCheckpoint(Checkpoint checkpoint, Transform carTransform) {
         Debug.Log("car through checkpoint");
 
