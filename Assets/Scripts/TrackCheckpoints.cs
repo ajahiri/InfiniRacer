@@ -28,7 +28,7 @@ public class TrackCheckpoints : MonoBehaviour
     private List<int> carPlacementList = new List<int>();
     
     // Target track parent, when used with the spawner, this will be useful
-    private Transform trackTarget;
+    public Transform trackTarget;
     private void Start() {
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
@@ -41,7 +41,6 @@ public class TrackCheckpoints : MonoBehaviour
         //     }
         // }
         carTransformList.Add(GameObject.FindGameObjectWithTag("Player").transform);
-        trackTarget = GameObject.FindGameObjectWithTag("Player").transform;
 
         foreach (Transform carTransform in carTransformList) {
             nextCheckpointIndexList.Add(0);
@@ -152,6 +151,8 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void CarThroughCheckpoint(Checkpoint checkpoint, Transform carTransform) {
+        Debug.Log("car through checkpoint");
+
         int carIdx = carTransformList.IndexOf(carTransform);
         int nextCheckpointIndex = nextCheckpointIndexList[carIdx];
         int targetCheckpointIndex = checkpointList.IndexOf(checkpoint);

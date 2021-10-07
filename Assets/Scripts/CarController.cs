@@ -230,15 +230,6 @@ public class CarController : MonoBehaviour
         rearRightWheelCollider.sidewaysFriction = sidewayFriction;
 
         motorForce = originalMotorForce / 4;
-
-        WheelHit wheelHitLeft;
-        WheelHit wheelHitRight;
-
-        if (rearLeftWheelCollider.GetGroundHit(out wheelHitLeft) && rearRightWheelCollider.GetGroundHit(out wheelHitRight))
-        {
-            
-        }
-
     }
     private void disableDrifting()
     {

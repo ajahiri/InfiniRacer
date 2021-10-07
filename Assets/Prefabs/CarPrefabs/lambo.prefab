@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 9187443593891813740}
   m_Layer: 0
   m_Name: body
-  m_TagString: Untagged
+  m_TagString: VehicleBody
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9208,7 +9208,6 @@ MonoBehaviour:
   smoke:
   - {fileID: 5680400064116271369}
   - {fileID: 8320361850320518096}
-  gameOver: {fileID: 471726378567261334, guid: e510717b61da5e64c94da0679e44139c, type: 3}
   customCenterofMass: {x: 0, y: 0, z: 0}
 --- !u!114 &5750045043525073917
 MonoBehaviour:
