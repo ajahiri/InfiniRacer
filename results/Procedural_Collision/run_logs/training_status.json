@@ -1,0 +1,65 @@
+{
+    "TrackDriverBehaviour": {
+        "checkpoints": [
+            {
+                "steps": 8499993,
+                "file_path": "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-8499993.onnx",
+                "reward": -849.6972301953459,
+                "creation_time": 1632276020.226259,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-8499993.pt"
+                ]
+            },
+            {
+                "steps": 8999739,
+                "file_path": "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-8999739.onnx",
+                "reward": -857.1544435015716,
+                "creation_time": 1632277450.3167205,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-8999739.pt"
+                ]
+            },
+            {
+                "steps": 9498930,
+                "file_path": "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-9498930.onnx",
+                "reward": -624.6249744708722,
+                "creation_time": 1632278952.3921704,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-9498930.pt"
+                ]
+            },
+            {
+                "steps": 9999064,
+                "file_path": "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-9999064.onnx",
+                "reward": -977.9485567395932,
+                "creation_time": 1632280386.64967,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-9999064.pt"
+                ]
+            },
+            {
+                "steps": 10000731,
+                "file_path": "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-10000731.onnx",
+                "reward": -974.0045886216341,
+                "creation_time": 1632280386.7436907,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-10000731.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 10000731,
+            "file_path": "results\\Procedural_Collision\\TrackDriverBehaviour.onnx",
+            "reward": -974.0045886216341,
+            "creation_time": 1632280386.7436907,
+            "auxillary_file_paths": [
+                "results\\Procedural_Collision\\TrackDriverBehaviour\\TrackDriverBehaviour-10000731.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3305023729343453981}
   - component: {fileID: 6509434635656499807}
   - component: {fileID: 3005938622184997142}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Boost
   m_TagString: boost
   m_Icon: {fileID: 0}

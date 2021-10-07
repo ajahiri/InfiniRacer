@@ -9,7 +9,7 @@ public class onCollision : MonoBehaviour
 
     public void Start()
     {
-        speed = GetComponent<CarController>();
+        speed = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
     }
 
     void OnCollisionEnter(Collision col)
@@ -19,8 +19,8 @@ public class onCollision : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("boost");
             Instantiate(effects[2], col.gameObject.transform.position, col.gameObject.transform.rotation);
             Destroy(col.gameObject);
-            GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>().FuelPickUp(3.0f);
-            speed.GetBoost(2);
+            GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>().FuelPickUp(15.0f);
+            speed.GetBoost(3f);
         }
         if (col.gameObject.tag == "rock")
         {

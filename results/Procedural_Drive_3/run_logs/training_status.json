@@ -1,0 +1,47 @@
+{
+    "botCollision_behaviour": {
+        "checkpoints": [
+            {
+                "steps": 499958,
+                "file_path": "results\\Procedural_Drive_3\\botCollision_behaviour\\botCollision_behaviour-499958.onnx",
+                "reward": -609.1154054907652,
+                "creation_time": 1632677174.7172823,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Drive_3\\botCollision_behaviour\\botCollision_behaviour-499958.pt"
+                ]
+            },
+            {
+                "steps": 999968,
+                "file_path": "results\\Procedural_Drive_3\\botCollision_behaviour\\botCollision_behaviour-999968.onnx",
+                "reward": 46.75788941822554,
+                "creation_time": 1632678764.0839176,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Drive_3\\botCollision_behaviour\\botCollision_behaviour-999968.pt"
+                ]
+            },
+            {
+                "steps": 1226057,
+                "file_path": "results\\Procedural_Drive_3\\botCollision_behaviour\\botCollision_behaviour-1226057.onnx",
+                "reward": -297.84446857207354,
+                "creation_time": 1632679583.0729089,
+                "auxillary_file_paths": [
+                    "results\\Procedural_Drive_3\\botCollision_behaviour\\botCollision_behaviour-1226057.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1226057,
+            "file_path": "results\\Procedural_Drive_3\\botCollision_behaviour.onnx",
+            "reward": -297.84446857207354,
+            "creation_time": 1632679583.0729089,
+            "auxillary_file_paths": [
+                "results\\Procedural_Drive_3\\botCollision_behaviour\\botCollision_behaviour-1226057.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
