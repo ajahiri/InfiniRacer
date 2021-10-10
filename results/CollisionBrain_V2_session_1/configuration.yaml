@@ -1,0 +1,88 @@
+default_settings: null
+behaviors:
+  botCollision_behaviour_V2:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 40000
+      buffer_size: 80000
+      learning_rate: 0.0003
+      beta: 5.0e-05
+      epsilon: 0.15
+      lambd: 0.95
+      num_epoch: 8
+      learning_rate_schedule: linear
+    network_settings:
+      normalize: false
+      hidden_units: 175
+      num_layers: 2
+      vis_encode_type: simple
+      memory: null
+      goal_conditioning_type: hyper
+    reward_signals:
+      extrinsic:
+        gamma: 0.991
+        strength: 0.4
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+      gail:
+        gamma: 0.99
+        strength: 0.9
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+        learning_rate: 7.0e-05
+        encoding_size: null
+        use_actions: false
+        use_vail: false
+        demo_path: Demos_V2
+    init_path: null
+    keep_checkpoints: 5
+    checkpoint_interval: 500000
+    max_steps: 100000000000000000000
+    time_horizon: 64
+    summary_freq: 10000
+    threaded: false
+    self_play: null
+    behavioral_cloning:
+      demo_path: Demos_V2
+      steps: 0
+      strength: 0.8
+      samples_per_update: 0
+      num_epoch: null
+      batch_size: null
+env_settings:
+  env_path: null
+  env_args: null
+  base_port: 5005
+  num_envs: 1
+  seed: -1
+engine_settings:
+  width: 84
+  height: 84
+  quality_level: 5
+  time_scale: 20
+  target_frame_rate: -1
+  capture_frame_rate: 60
+  no_graphics: false
+environment_parameters: null
+checkpoint_settings:
+  run_id: CollisionBrain_V2_session_1
+  initialize_from: null
+  load_model: false
+  resume: false
+  force: true
+  train_model: false
+  inference: false
+  results_dir: results
+torch_settings:
+  device: null
+debug: false

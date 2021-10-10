@@ -13,10 +13,14 @@ public class CarDriverAgent : Agent
     private BotCarController botCarController;
     private int lastEpisodeResetCount = 0;
     // counts how many checkpoints have been passed in the current episode
-    private int checkpointCount = 0;
-    private float lastWheelDirection = 0f;
+    private int checkpointCount;
+    private float lastWheelDirection;
+    private float wheelDirectionChange;
     private void Awake() {
         botCarController = GetComponent<BotCarController>();
+        checkpointCount = 0;
+        lastWheelDirection = 0;
+        wheelDirectionChange = 0;
     }
 
     private void FixedUpdate()
@@ -30,7 +34,9 @@ public class CarDriverAgent : Agent
             lastEpisodeResetCount = episodes;
         }
 
-        rewardFirstPlace();
+        //updateMotorForce();
+
+        //rewardFirstPlace();
 
         rewardStraightSteering();
 
@@ -38,37 +44,51 @@ public class CarDriverAgent : Agent
 
     }
 
+    private void updateMotorForce(){
+        if(trackCheckpoints.getCarTransforms().Count > 1) {
+            float distanceToFirst = 1f;
+            foreach(Transform t in trackCheckpoints.getCarTransforms()) {
+                if(t != transform && trackCheckpoints.isFirst(t)) {
+                    distanceToFirst = Vector3.Distance(transform.position, t.position);
+                    float adjustment = distanceToFirst * 10000f;
+                    if(adjustment < float.MaxValue) {
+                        botCarController.adjustMotorForce(adjustment);
+                        Debug.Log("Car " + trackCheckpoints.findCarIndex(transform) + ": " + botCarController.getMotorForce());
+                    }
+                } else {
+                    botCarController.defaultMotorForce();
+                }
+            }
+        }
+    }
     private void rewardFirstPlace() {
         trackCheckpoints.EvaluatePlaces();
         if(trackCheckpoints.isFirst(transform)) {
-            Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
+            //Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
             AddReward(+1.0e-4f);
         }
     }
     private void rewardStraightSteering() {
         float wheelDirection = botCarController.getCurrentSteeringAngle();
-        float directionChange = wheelDirection - lastWheelDirection;
+        wheelDirectionChange = wheelDirection - lastWheelDirection;
 
-        if(directionChange == 0f) {
+        if(wheelDirectionChange == 0f) {
             AddReward(0.01f);        
-        } else if(directionChange > 0f && directionChange < 45f) {
-            AddReward(+ 1.0e-3f / directionChange); // gives higher rewards for less direction change (when less than 45)
+        } else if(wheelDirectionChange > 0f && wheelDirectionChange < 45f) {
+            AddReward(+ 0.01f / wheelDirectionChange); // gives higher rewards for less direction change (when less than 45)
         } else {
-            AddReward(- 1.0e-3f * directionChange); // gives lower penalty for less direction change (when more than 45)
+            AddReward(- 0.1f * wheelDirectionChange); // gives lower penalty for less direction change (when more than 45)
         }
         lastWheelDirection = wheelDirection;
     }
 
     private void rewardHighSpeed() {
-        float currentSpeed = botCarController.getVerticleInput();
+        bool reversing = botCarController.isReversing();
         // no penalty for reversing
-        if(currentSpeed > 0) {
+        if(!reversing) {
             // going forward
-            AddReward(currentSpeed * 0.01f);
-        } else if( currentSpeed == 0) {
-            // stationary
-            AddReward(-0.1f);
-        } 
+            AddReward(0.5f);
+        }
     }
     private void Start() {
         trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
@@ -86,6 +106,7 @@ public class CarDriverAgent : Agent
                 AddReward(1.5f / (float)Math.Pow((StepCount * 1.0e-4f), 3));
                 EndEpisode();
             }
+            Debug.Log(checkpointCount);
         }
     }
 
@@ -120,7 +141,7 @@ public class CarDriverAgent : Agent
         */
         
         checkpointCount = 0;
-        trackCheckpoints.softResetToCheckpoint(transform);
+        //trackCheckpoints.softResetToCheckpoint(transform);
     }
 
     public override void CollectObservations(VectorSensor sensor) {
@@ -137,7 +158,7 @@ public class CarDriverAgent : Agent
             }
         }
 
-        
+        sensor.AddObservation(wheelDirectionChange);
 
         // observe distance to other cars on the track (if there are other cars on the track)
         /*
@@ -159,14 +180,19 @@ public class CarDriverAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions) {
         BotCarController targetScript = gameObject.GetComponent<BotCarController>();
-        targetScript.SetInputs(actions.ContinuousActions[0], actions.ContinuousActions[1], actions.ContinuousActions[2] == 0f);
+        targetScript.SetInputs(actions.ContinuousActions[0], actions.DiscreteActions[0] == 0);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut) {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
+
         continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
-        continuousActions[2] = Input.GetKey("space") == true ? 0f : 1f;
+        if(Input.GetKey(KeyCode.DownArrow)) {
+            discreteActions[0] = 0;
+        } else {
+            discreteActions[0] = 1;
+        }
     }
 
     // 
