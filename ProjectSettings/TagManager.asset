@@ -13,6 +13,10 @@ TagManager:
   - boost
   - rock
   - bomb
+  - trackP
+  - Track Start Area
+  - LOLgg
+  - GameOver
   - FrontWheel
   layers:
   - Default
@@ -24,8 +28,8 @@ TagManager:
   - Checkpoints
   - Walls
   - VehicleBot
-  - 
-  - 
+  - Rocks
+  - TrackItems
   - 
   - 
   - 

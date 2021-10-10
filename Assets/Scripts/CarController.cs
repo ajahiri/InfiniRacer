@@ -7,6 +7,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+
 
 public class CarController : MonoBehaviour
 {
@@ -21,6 +24,12 @@ public class CarController : MonoBehaviour
     private bool isBraking;
     private bool isDrifting;
     public float motorForce;
+
+    // Remembering original values for proper use of speed up and drift
+    private float originalMotorForce;
+    private WheelFrictionCurve originalForwardFriction;
+    private WheelFrictionCurve originalSidewayFriction;
+
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
@@ -39,16 +48,30 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearRightWheelTransform;
 
     public ParticleSystem[] smoke;
+    FuelSystem fuel;
+    private bool tepeat;
+         
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
 
+
+ 
+
     private void Start()
     {
+        tepeat = false;
+        //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
         // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
         vehicleRigidBody.centerOfMass = customCenterofMass;
+        fuel = GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>();
+        //gameOver.Disable();
+
+        originalForwardFriction = rearLeftWheelCollider.forwardFriction;
+        originalSidewayFriction = rearLeftWheelCollider.sidewaysFriction;
+        originalMotorForce = motorForce;
     }
-    private void Update()
+    public void Update()
     {
         Vector3 tilt = Input.acceleration;
 
@@ -58,6 +81,21 @@ public class CarController : MonoBehaviour
 
         //vehicleRigidBody.AddForce(Input.acceleration);
         Debug.DrawRay(transform.position + Vector3.up, tilt, Color.cyan);
+
+        if (fuel.Fuel == 0 && tepeat == false)
+        {
+            tepeat = true;
+            GameoverSeq();
+        }
+    }
+    public void GameoverSeq()
+    {
+        motorForce = 0;
+        GetBoost(0f);
+        FindObjectOfType<AudioManager>().Stop("CarEngine");
+        FindObjectOfType<AudioManager>().Play("Game Over");
+        Debug.Log("motorForce is " + motorForce);
+        SceneManager.LoadScene("GameOver");
     }
 
     private void FixedUpdate()
@@ -68,7 +106,6 @@ public class CarController : MonoBehaviour
         HandleMotor();
         HandleSteering();
         UpdateWheels();
-        UpdateDrift();
     }
 
     private void GetInput()
@@ -78,51 +115,63 @@ public class CarController : MonoBehaviour
             horizontalInput = Input.acceleration.x;
             isBraking = Input.touchCount > 0;
         }
-        else { 
-            horizontalInput = Input.GetAxis(HORIZONTAL); 
+        else
+        {
+            horizontalInput = Input.GetAxis(HORIZONTAL);
             isBraking = Input.GetKey(KeyCode.Space);
         }
 
-        if (Input.GetKey(KeyCode.K)) isDrifting = true;
-        if (Input.GetKey(KeyCode.L)) isDrifting = false;
+        // if (Input.GetKey(KeyCode.K)) isDrifting = true;
+        // if (Input.GetKey(KeyCode.L)) isDrifting = false;
+        if (Input.GetKey(KeyCode.K))
+        {
+            enableDrifting();
+        }
+        if (Input.GetKey(KeyCode.L))
+        {
+            disableDrifting();
+        }
 
         verticalInput = Input.GetAxis(VERTICAL);
-        
+
     }
 
     public void GetBoost(float x)
     {
-        BoostCoroutine(x);
+        StartCoroutine(BoostCoroutine(x));
     }
 
     IEnumerator BoostCoroutine(float boost)
     {
-        motorForce *= boost;
-        yield return new WaitForSeconds(2);
-        motorForce /= boost;
+        motorForce = originalMotorForce * boost;
+        yield return new WaitForSeconds(5);
+        motorForce = originalMotorForce;
     }
 
     private void HandleMotor()
     {
-        if (verticalInput == -1) {
+        if (verticalInput == -1)
+        {
             rearLeftWheelCollider.motorTorque = -motorForce;
             rearRightWheelCollider.motorTorque = -motorForce;
-        } else {
+        }
+        else
+        {
             rearLeftWheelCollider.motorTorque = isBraking ? 0 : motorForce;
             rearRightWheelCollider.motorTorque = isBraking ? 0 : motorForce;
         }
-        
+
         currentBrakeForce = isBraking ? brakeForce : 0f;
         ApplyBraking();
     }
 
-    private void ApplyBraking()
+    public void ApplyBraking()
     {
         frontLeftWheelCollider.brakeTorque = currentBrakeForce;
         frontRightWheelCollider.brakeTorque = currentBrakeForce;
         rearLeftWheelCollider.brakeTorque = currentBrakeForce;
         rearRightWheelCollider.brakeTorque = currentBrakeForce;
-        if (!isBraking)
+        if (!isBraking && !isDrifting)
         {
             for (int i = 0; i < smoke.Length; i++)
             {
@@ -160,60 +209,36 @@ public class CarController : MonoBehaviour
         wheelTransform.SetPositionAndRotation(pos, rot);
     }
 
-    private void UpdateDrift()
+    private void enableDrifting()
     {
-        if (isDrifting)
+        isDrifting = true;
+        for (int i = 0; i < smoke.Length; i++)
         {
-            DriftSingleWheel(rearLeftWheelCollider);
-            DriftSingleWheel(rearRightWheelCollider);
-            for (int i = 0; i < smoke.Length; i++)
-            {
-                smoke[i].Play();
-            }
-            
-        } else
-        {
-            DriftSingleWheel(rearLeftWheelCollider);
-            DriftSingleWheel(rearRightWheelCollider);
+            smoke[i].Play();
         }
+        // Left rear
+        WheelFrictionCurve forwardFriction = rearLeftWheelCollider.forwardFriction;
+        forwardFriction.stiffness = 0.7f;
+        forwardFriction.asymptoteValue = 1.0f;
+        WheelFrictionCurve sidewayFriction = rearLeftWheelCollider.sidewaysFriction;
+        sidewayFriction.stiffness = 0.7f;
+        sidewayFriction.asymptoteValue = 0.8f;
+
+        rearLeftWheelCollider.forwardFriction = forwardFriction;
+        rearLeftWheelCollider.sidewaysFriction = sidewayFriction;
+        rearRightWheelCollider.forwardFriction = forwardFriction;
+        rearRightWheelCollider.sidewaysFriction = sidewayFriction;
+
+        motorForce = originalMotorForce / 4;
     }
-
-    private void DriftSingleWheel(WheelCollider wheelCollider)
+    private void disableDrifting()
     {
-        WheelHit wheelHit;
+        isDrifting = false;
+        rearLeftWheelCollider.forwardFriction = originalForwardFriction;
+        rearLeftWheelCollider.sidewaysFriction = originalSidewayFriction;
+        rearRightWheelCollider.forwardFriction = originalForwardFriction;
+        rearRightWheelCollider.sidewaysFriction = originalSidewayFriction;
 
-        if (wheelCollider.GetGroundHit(out wheelHit))
-        {
-            if (isDrifting)
-            {
-                WheelFrictionCurve forwardFriction = wheelCollider.forwardFriction;
-                forwardFriction.stiffness = 0.7f;
-                forwardFriction.asymptoteValue = 1.0f;
-                wheelCollider.forwardFriction = forwardFriction;
-
-                WheelFrictionCurve sidewayFriction = wheelCollider.sidewaysFriction;
-                float tempoSidewayFriction = sidewayFriction.asymptoteValue;
-                sidewayFriction.stiffness = 0.7f;
-                sidewayFriction.asymptoteValue = 0.8f;
-                wheelCollider.sidewaysFriction = sidewayFriction;
-
-                motorForce = motorForce / 4;
-
-            } else
-            {
-                WheelFrictionCurve forwardFriction = wheelCollider.forwardFriction;
-                forwardFriction.stiffness = 1f;
-                forwardFriction.asymptoteValue = 0.5f;
-                wheelCollider.forwardFriction = forwardFriction;
-
-                WheelFrictionCurve sidewayFriction = wheelCollider.sidewaysFriction;
-                float tempoSidewayFriction = sidewayFriction.asymptoteValue;
-                sidewayFriction.stiffness = 1f;
-                sidewayFriction.asymptoteValue = 1.3f;
-                wheelCollider.sidewaysFriction = sidewayFriction;
-
-                motorForce = 10000;
-            }
-        }  
-    } 
+        motorForce = originalMotorForce;
+    }
 }

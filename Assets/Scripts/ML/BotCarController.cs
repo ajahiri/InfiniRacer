@@ -64,7 +64,7 @@ public class BotCarController : MonoBehaviour
     {
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
         vehicleRigidBody = GetComponent<Rigidbody>();
-        vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
+        // vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
         HandleMotor();
         HandleSteering();
         UpdateWheels();

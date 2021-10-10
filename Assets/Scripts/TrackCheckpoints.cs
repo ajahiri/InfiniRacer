@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,16 +17,18 @@ public class TrackCheckpoints : MonoBehaviour
 
     public bool isLoopingTrack;
 
-    [SerializeField] private List<Transform> carTransformList;
+    public List<Transform> carTransformList;
     private List<Checkpoint> checkpointList = new List<Checkpoint>();
     private List<int> nextCheckpointIndexList = new List<int>();
     private List<int> lastWrongCheckpointIndexList = new List<int>();
     private List<int> lastHitCheckpoint = new List<int>();
     private List<int> tie = new List<int>();
     private int firstPlace = -1;
+
+    private List<int> carPlacementList = new List<int>();
     
     // Target track parent, when used with the spawner, this will be useful
-    [SerializeField] Transform trackTarget;
+    public Transform trackTarget;
     private void Start() {
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
@@ -37,16 +40,18 @@ public class TrackCheckpoints : MonoBehaviour
         //         checkpointList.Add(checkpoint);
         //     }
         // }
+        carTransformList.Add(GameObject.FindWithTag("Player").transform);
+
+        Debug.Log("num of car transforms: " + carTransformList.Count);
 
         foreach (Transform carTransform in carTransformList) {
             nextCheckpointIndexList.Add(0);
             lastWrongCheckpointIndexList.Add(-1);
             lastHitCheckpoint.Add(0);
+            carPlacementList.Add(0);
         }
-    }
 
-    private void Awake() {
-        // ResetAll();
+        StartCoroutine(updatePlacements());
     }
 
     public void AddCheckpoints(Transform trackPiece) {
@@ -119,6 +124,7 @@ public class TrackCheckpoints : MonoBehaviour
             nextCheckpointIndexList.Add(0);
             lastWrongCheckpointIndexList.Add(-1);
             lastHitCheckpoint.Add(0);
+            carPlacementList.Add(0);
 
             // Reset position
             float carSpacing = 3 * findCarIndex(carTransform);
@@ -146,7 +152,13 @@ public class TrackCheckpoints : MonoBehaviour
         return null;
     }
 
+    public Checkpoint GetCheckpoint(int index) {
+        return checkpointList[index];
+    }
+
     public void CarThroughCheckpoint(Checkpoint checkpoint, Transform carTransform) {
+        Debug.Log("car through checkpoint");
+
         int carIdx = carTransformList.IndexOf(carTransform);
         int nextCheckpointIndex = nextCheckpointIndexList[carIdx];
         int targetCheckpointIndex = checkpointList.IndexOf(checkpoint);
@@ -176,6 +188,64 @@ public class TrackCheckpoints : MonoBehaviour
             OnVehicleWrongCheckpoint?.Invoke(this, new TrackCheckpointEventArgs { vehicleTransform = carTransform});
         }
     }
+
+    // Placement system ARIAN
+    private List<PlacementObj> vehiclePlacementList = new List<PlacementObj>();
+    public struct PlacementObj
+    {
+        public PlacementObj(int x, int y, float z)
+        {
+            carIDX = x;
+            lastHitCheckpoint = y;
+            distanceToNextCheckpoint = z;
+        }
+
+        public int carIDX;
+        public int lastHitCheckpoint;
+        public float distanceToNextCheckpoint;
+    }
+
+    public bool isFirstPlace(Transform transform)
+    {
+        var vehicleIndex = findCarIndex(transform);
+        return vehiclePlacementList.Count > 0 ? vehiclePlacementList[0].carIDX == vehicleIndex : false;
+    }
+
+    IEnumerator updatePlacements()
+    {
+        // Placement object
+        // [CarIDX | lastHitCheckpoint | distanceToNextCheckpoint]
+        for(; ; )
+        {
+            var placementList = new List<PlacementObj>();
+            for (int i = 0; i < carTransformList.Count; i++)
+            {
+                if (checkpointList.Count > 1)
+                {
+                    var carTransform = carTransformList[i];
+
+                    // Get next checkpoint distance
+                    var nextCheckpoint = checkpointList[nextCheckpointIndexList[i]];
+                    var nextDistance = nextCheckpoint ? Vector3.Distance(nextCheckpoint.transform.position, carTransform.position) : 9999f;
+
+                    var listItem = new PlacementObj(i, lastHitCheckpoint[i], nextDistance);
+                    placementList.Add(listItem);
+                    //Debug.Log("Car IDX: " + i + " LastHit: " + lastHitCheckpoint[i] + " Distance: " + nextDistance);
+                }
+            }
+
+            // Sort placement list based on last hit checkpoint THEN checkpoint distance
+            var orderedList = placementList.OrderByDescending(x => x.lastHitCheckpoint).ThenBy(x => x.distanceToNextCheckpoint);
+
+            //Debug.Log("First Place " + orderedList.ToList()[0].carIDX);
+
+            vehiclePlacementList = orderedList.ToList();
+            
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    // End Placement System ARIAN
 
     public int findCarIndex(Transform transform) {
         return carTransformList.IndexOf(transform);

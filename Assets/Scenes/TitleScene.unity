@@ -413,11 +413,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6953484506367104166, guid: 4faf5b3b5e7674641b7254900e7e2c37, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartGame
+      value: SelectCar
       objectReference: {fileID: 0}
     - target: {fileID: 6953484506367104166, guid: 4faf5b3b5e7674641b7254900e7e2c37, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MainMenuSceneManager, Assembly-CSharp
+      value: TitleSceneManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6953484506367104166, guid: 4faf5b3b5e7674641b7254900e7e2c37, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -709,6 +709,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8723703897521174647, guid: 4e9d96a2986e54ad0a04ef94af36bb55, type: 3}
+      propertyPath: m_text
+      value: InifiniRacer
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e9d96a2986e54ad0a04ef94af36bb55, type: 3}
 --- !u!224 &784083170 stripped
@@ -757,7 +761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2647608162988149525, guid: 4faf5b3b5e7674641b7254900e7e2c37, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 45
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 2647608162988149525, guid: 4faf5b3b5e7674641b7254900e7e2c37, type: 3}
       propertyPath: m_LocalPosition.x

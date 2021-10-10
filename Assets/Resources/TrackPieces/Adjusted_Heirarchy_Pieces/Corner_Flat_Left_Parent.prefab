@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 1147206001235973225}
   m_Layer: 0
   m_Name: Boundary Walls
-  m_TagString: Untagged
+  m_TagString: Boundary Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 1101926269279133387}
   m_Layer: 0
   m_Name: Checkpoints
-  m_TagString: Untagged
+  m_TagString: Checkpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1011618907361343918}
-  - component: {fileID: -2215646581568893971}
   m_Layer: 0
   m_Name: Corner_Flat_Left_Parent
   m_TagString: Untagged

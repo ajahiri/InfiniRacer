@@ -64,7 +64,7 @@ public class CarDriverAgent : Agent
     private void rewardFirstPlace() {
         trackCheckpoints.EvaluatePlaces();
         if(trackCheckpoints.isFirst(transform)) {
-            //Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
+           // Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
             AddReward(+1.0e-4f);
         }
     }

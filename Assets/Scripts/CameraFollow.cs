@@ -6,12 +6,18 @@ public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Vector3 positionalOffset;
     [SerializeField] private Quaternion directionalOffset;
-    [SerializeField] private Transform target;
+    private Transform target;
     [SerializeField] private float translateSpeed;
     [SerializeField] private float rotationSpeed;
     private Vector3 velocity = Vector3.zero;
 
     public float smoothTime = 1F;
+
+
+    void Start()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     void FixedUpdate()
     {
