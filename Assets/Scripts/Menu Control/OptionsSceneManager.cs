@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class OptionsSceneManager : MonoBehaviour
 {
@@ -19,8 +20,13 @@ public class OptionsSceneManager : MonoBehaviour
         PlayerPrefs.SetFloat("GlobalGameVolume", newVolume);
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
-    public void ChangeNoBots(int NoBots)
+    public void ChangeNoBots()
     {
-        // add code here.
+        int numBots = (int)GameObject.Find("numBots").GetComponent<Slider>().value;
+        Debug.Log(numBots);
+        PlayerPrefs.SetInt("GlobalBotNum", numBots);
+        GameObject.Find("BotNum").GetComponent<saveBotNum>().setBotNum(numBots);
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+
     }
 }

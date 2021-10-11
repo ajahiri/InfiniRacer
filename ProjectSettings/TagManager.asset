@@ -18,6 +18,7 @@ TagManager:
   - LOLgg
   - GameOver
   - FrontWheel
+  - TrackSpawner
   layers:
   - Default
   - TransparentFX
