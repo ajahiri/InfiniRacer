@@ -184,6 +184,7 @@ public class CarController : MonoBehaviour
             for (int i = 0; i < smoke.Length; i++)
             {
                 smoke[i].Play();
+                Debug.Log("It's braking");
             }
         }
     }
