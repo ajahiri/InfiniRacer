@@ -17,7 +17,7 @@ behaviors:
     reward_signals:
       # reinforsment learning
       extrinsic:
-        strength: 0.4
+        strength: 0.3
         gamma: 0.991
       # Generative Adversarial Imitation Learning (gail) - builds a NN that is evaluated against the performance of the demo 
       #  --does not require a lot of demos to work well--
