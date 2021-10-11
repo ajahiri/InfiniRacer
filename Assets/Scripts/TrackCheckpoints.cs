@@ -40,6 +40,10 @@ public class TrackCheckpoints : MonoBehaviour
         //         checkpointList.Add(checkpoint);
         //     }
         // }
+        GameObject[] botObjects = GameObject.FindGameObjectsWithTag("Car");
+        foreach(GameObject bot in botObjects){
+            carTransformList.Add(bot.transform);
+        }
         carTransformList.Add(GameObject.FindWithTag("Player").transform);
 
         Debug.Log("num of car transforms: " + carTransformList.Count);

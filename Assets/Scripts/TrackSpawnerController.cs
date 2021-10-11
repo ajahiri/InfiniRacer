@@ -233,8 +233,11 @@ public class TrackSpawnerController : MonoBehaviour
 
     // Origin game object where spawning starts
     private Transform spawnerTransformOrigin;
+    private int numBotsToLoad = 1;
+
     void Start()
     {
+        LoadBots(5);
         // Get transform of spawner object
         vehicleObjects.Add(GameObject.FindWithTag("Player"));
         spawnerTransformOrigin = GetComponent<Transform>();
@@ -244,7 +247,31 @@ public class TrackSpawnerController : MonoBehaviour
 
         InitialiseTrack();
     }
-
+    public void LoadBots(int numToLoad) {
+        float startPos = 9.625f;
+        float spacing = 2.6875f;
+        float xPos = startPos;
+        int itt = 0;
+        while(itt < numToLoad) {
+            GameObject BotPrefab = Resources.Load<GameObject>("Vehicle Bot");
+            if(itt > 1 && itt <= 3){
+                if(itt % 2 == 0) {
+                    xPos = startPos + spacing;
+                } else {
+                    xPos = startPos - spacing;
+                }
+            } else if (itt > 1 && itt > 3) {
+                if(itt % 2 == 0){
+                    xPos = startPos + (2 * spacing);
+                } else {
+                    xPos = startPos - (2 * spacing);
+                }
+            }
+            GameObject newVehicle = Instantiate(BotPrefab, new Vector3(xPos, 0.08440538f, 45.6f), Quaternion.identity); //init new vehcile
+            vehicleObjects.Add(newVehicle);
+            itt++;
+        }
+    }
     void InitialiseTrack() {
         // Instantiate the initial starting track piece where subsequent pieces will connect to
         var currentObj = Instantiate(trackPieceDefinitions[0][6].prefab, new Vector3(spawnerTransformOrigin.position.x, spawnerTransformOrigin.position.y, spawnerTransformOrigin.position.z), Quaternion.identity, spawnerTransformOrigin);
