@@ -19,4 +19,8 @@ public class OptionsSceneManager : MonoBehaviour
         PlayerPrefs.SetFloat("GlobalGameVolume", newVolume);
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
+    public void ChangeNoBots(int NoBots)
+    {
+        // add code here.
+    }
 }

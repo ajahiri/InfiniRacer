@@ -1,6 +1,4 @@
 // Ayush Kanwal 13403187 (29/09/2021); fuel system works now.
-// needs another if to stop car when fuel is 0.
-
 // Wai Yan Myint Thu 13334483 (30/09/21) refueling upon collision with gas tanks
 
 using UnityEngine;
@@ -12,7 +10,7 @@ public class FuelSystem : MonoBehaviour
     public Image FuelBar;
 
     public float Fuel;
-    float maxFuel = 30.0f;
+    float maxFuel = 30f;
     float FuelConsumptionRate;
     public float baseInterval = 1f;
 
@@ -33,22 +31,26 @@ public class FuelSystem : MonoBehaviour
             else
             {
                 FuelConsumptionRate = baseInterval;
-                Fuel -= 1f;
+                Fuel -= 1;
             }
         }
         else if (Fuel == 0)
         {
-            
-        } 
+
+        }
         ColorChanger();
         FuelBarFiller();
-        FuelText.text = "Fuel: " + Fuel + "%";
+        int FuelTextValue;
+
+        FuelTextValue = Mathf.FloorToInt((Fuel / maxFuel) * 100f);
+        FuelText.text = "Fuel: " + FuelTextValue + "%";
     }
     public void FuelBarFiller()
     {
+
         FuelBar.fillAmount = Mathf.Lerp(FuelBar.fillAmount, (Fuel / maxFuel), FuelConsumptionRate);
     }
-    void ColorChanger()
+    private void ColorChanger()
     {
         Color FuelColor = Color.Lerp(Color.red, Color.green, (Fuel / maxFuel));
         FuelBar.color = FuelColor;
@@ -60,24 +62,24 @@ public class FuelSystem : MonoBehaviour
         {
             if (Fuel == 28)
             {
-                fuelCan = 2;
+                fuelCan = 2f;
                 Fuel += fuelCan;
-            } 
+            }
             else if (Fuel == 29)
             {
-                fuelCan = 1;
+                fuelCan = 1f;
                 Fuel += fuelCan;
-            } 
+            }
             else if (Fuel == 30)
             {
-                fuelCan = 0;
+                fuelCan = 0f;
                 Fuel += fuelCan;
-            } 
+            }
             else
             {
                 Fuel += fuelCan;
             }
-        }           
-    }  
+        }
+    }
 }
 
