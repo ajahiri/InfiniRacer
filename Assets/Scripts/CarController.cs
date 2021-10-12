@@ -30,6 +30,8 @@ public class CarController : MonoBehaviour
     private WheelFrictionCurve originalForwardFriction;
     private WheelFrictionCurve originalSidewayFriction;
 
+    private TrackCheckpoints trackCheckpointsScript;
+
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
@@ -67,6 +69,8 @@ public class CarController : MonoBehaviour
         fuel = GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>();
         //gameOver.Disable();
 
+        trackCheckpointsScript = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
+
         originalForwardFriction = rearLeftWheelCollider.forwardFriction;
         originalSidewayFriction = rearLeftWheelCollider.sidewaysFriction;
         originalMotorForce = motorForce;
@@ -87,7 +91,28 @@ public class CarController : MonoBehaviour
             tepeat = true;
             GameoverSeq();
         }
+
+        CheckWrongWay();
     }
+
+    private void CheckWrongWay()
+    {
+        var nextCheckpoint = trackCheckpointsScript.GetNextCheckpoint(transform);
+        var checkpointForward = nextCheckpoint.transform.forward;
+        var vehicleForward = transform.forward;
+        var dotProd = Vector3.Dot(checkpointForward, vehicleForward);
+
+        if (dotProd > 0)
+        {
+            // Facing the right way
+
+        } else
+        {
+            // Facing the wrong way
+
+        }
+    }
+
     public void GameoverSeq()
     {
         motorForce = 0;
