@@ -367,6 +367,7 @@ GameObject:
   - component: {fileID: 3806244905884723725}
   - component: {fileID: 2057166844875460089}
   - component: {fileID: 6712587918652903105}
+  - component: {fileID: -6416877705771216136}
   m_Layer: 8
   m_Name: Vehicle Bot
   m_TagString: Car
@@ -436,7 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 2
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 1
@@ -447,8 +448,8 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
-  m_BehaviorName: TrackDriverBehaviour
+  m_BehaviorType: 0
+  m_BehaviorName: botCollision_behaviour_V2
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -465,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 6
+  DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
 --- !u!114 &2057166844875460089
 MonoBehaviour:
@@ -522,6 +523,22 @@ MonoBehaviour:
   rearLeftWheelTransform: {fileID: 2611212156710571769}
   rearRightWheelTransform: {fileID: 7608395345622830607}
   customCenterofMass: {x: 0, y: 0, z: 0}
+--- !u!114 &-6416877705771216136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6712587918652903104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Record: 0
+  NumStepsToRecord: 0
+  DemonstrationName: 
+  DemonstrationDirectory: 
 --- !u!1 &7548002792711536043
 GameObject:
   m_ObjectHideFlags: 0

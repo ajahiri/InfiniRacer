@@ -1,12 +1,12 @@
 default_settings: null
 behaviors:
-  botCollision_behaviour_V2_session_1:
+  botCollision_behaviour_V2:
     trainer_type: ppo
     hyperparameters:
       batch_size: 40000
       buffer_size: 80000
       learning_rate: 0.0003
-      beta: 0.0005
+      beta: 5.0e-05
       epsilon: 0.15
       lambd: 0.95
       num_epoch: 8
@@ -21,7 +21,7 @@ behaviors:
     reward_signals:
       extrinsic:
         gamma: 0.991
-        strength: 0.7
+        strength: 0.3
         network_settings:
           normalize: false
           hidden_units: 128
@@ -55,7 +55,7 @@ behaviors:
     behavioral_cloning:
       demo_path: Demos_V2
       steps: 0
-      strength: 0.6
+      strength: 0.8
       samples_per_update: 0
       num_epoch: null
       batch_size: null
@@ -84,5 +84,5 @@ checkpoint_settings:
   inference: false
   results_dir: results
 torch_settings:
-  device: null
+  device: cuda
 debug: false

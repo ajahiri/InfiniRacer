@@ -93,6 +93,8 @@ public class CarDriverAgent : Agent
         }
     }
     private void Start() {
+        Application.runInBackground = true;
+
         trackCheckpoints = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
         trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
         trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;

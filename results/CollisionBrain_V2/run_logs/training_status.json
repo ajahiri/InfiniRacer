@@ -1,4 +1,26 @@
 {
+    "botCollision_behaviour_V2": {
+        "checkpoints": [
+            {
+                "steps": 3767,
+                "file_path": "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-3767.onnx",
+                "reward": 3586.5083932876587,
+                "creation_time": 1634031361.173222,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-3767.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3767,
+            "file_path": "results\\CollisionBrain_V2\\botCollision_behaviour_V2.onnx",
+            "reward": 3586.5083932876587,
+            "creation_time": 1634031361.173222,
+            "auxillary_file_paths": [
+                "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-3767.pt"
+            ]
+        }
+    },
     "metadata": {
         "stats_format_version": "0.3.0",
         "mlagents_version": "0.27.0",

@@ -264,14 +264,14 @@ public class TrackSpawnerController : MonoBehaviour
         float xPos = startPos;
         int itt = 0;
         while(itt < numToLoad) {
-            GameObject BotPrefab = Resources.Load<GameObject>("Vehicle Bot");
-            if(itt > 1 && itt <= 3){
+            GameObject BotPrefab = Resources.Load<GameObject>("Vehicle Bot"); //move this out of while loop
+            if(itt > 0 && itt <= 2){
                 if(itt % 2 == 0) {
                     xPos = startPos + spacing;
                 } else {
                     xPos = startPos - spacing;
                 }
-            } else if (itt > 1 && itt > 3) {
+            } else if (itt > 0 && itt > 2) {
                 if(itt % 2 == 0){
                     xPos = startPos + (2 * spacing);
                 } else {
