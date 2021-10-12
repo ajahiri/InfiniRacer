@@ -233,11 +233,16 @@ public class TrackSpawnerController : MonoBehaviour
 
     // Origin game object where spawning starts
     private Transform spawnerTransformOrigin;
+    [SerializeField] public int numBotsToLoad = 1;
 
     void Start()
     {
-        int numBotsToLoad = GameObject.FindObjectOfType<saveBotNum>().botNum;
-        LoadBots(numBotsToLoad);
+        saveBotNum BotNum = GameObject.FindObjectOfType<saveBotNum>();
+        if(BotNum != null) {
+            numBotsToLoad = BotNum.botNum;
+        }
+        LoadBots(BotNum.botNum);
+
         // Get transform of spawner object
         vehicleObjects.Add(GameObject.FindWithTag("Player"));
         spawnerTransformOrigin = GetComponent<Transform>();
