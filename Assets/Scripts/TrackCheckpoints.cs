@@ -44,7 +44,12 @@ public class TrackCheckpoints : MonoBehaviour
         foreach(GameObject bot in botObjects){
             carTransformList.Add(bot.transform);
         }
-        carTransformList.Add(GameObject.FindWithTag("Player").transform);
+        var player = GameObject.FindWithTag("Player");
+        if (player)
+        {
+            carTransformList.Add(player.transform);
+        }
+        
 
         Debug.Log("num of car transforms: " + carTransformList.Count);
 

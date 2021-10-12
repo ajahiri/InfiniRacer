@@ -8,7 +8,7 @@ using Unity.MLAgents.Actuators;
 
 public class CarDriverAgent : Agent 
 {
-    [SerializeField] private TrackCheckpoints trackCheckpoints;
+    private TrackCheckpoints trackCheckpoints;
 
     private BotCarController botCarController;
     private int lastEpisodeResetCount = 0;
@@ -22,6 +22,8 @@ public class CarDriverAgent : Agent
         lastWheelDirection = 0;
         wheelDirectionChange = 0;
     }
+
+
 
     private void FixedUpdate()
     {
@@ -91,6 +93,7 @@ public class CarDriverAgent : Agent
         }
     }
     private void Start() {
+        trackCheckpoints = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
         trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
         trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;
     }
@@ -141,7 +144,7 @@ public class CarDriverAgent : Agent
         */
         
         checkpointCount = 0;
-        //trackCheckpoints.softResetToCheckpoint(transform);
+        trackCheckpoints.softResetToCheckpoint(transform);
     }
 
     public override void CollectObservations(VectorSensor sensor) {
@@ -214,6 +217,7 @@ public class CarDriverAgent : Agent
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "End Barrier") {
             AddReward(-2f);
+            Debug.Log("END BARRIER COLLISION TRIGGERED");
             /*
              Do SOFT RESET for vehicle agent, hard reset should only be triggered when 
              BOTH vehicles are to be reset with track checkpoints and track spawner is being reset.

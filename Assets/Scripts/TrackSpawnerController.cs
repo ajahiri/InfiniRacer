@@ -237,14 +237,20 @@ public class TrackSpawnerController : MonoBehaviour
 
     void Start()
     {
+        // Load bots
         saveBotNum BotNum = GameObject.FindObjectOfType<saveBotNum>();
-        if(BotNum != null) {
+        if (BotNum != null)
+        {
             numBotsToLoad = BotNum.botNum;
         }
         LoadBots(numBotsToLoad);
 
         // Get transform of spawner object
-        vehicleObjects.Add(GameObject.FindWithTag("Player"));
+        var player = GameObject.FindWithTag("Player");
+        if (player)
+        {
+            vehicleObjects.Add(player);
+        }
         spawnerTransformOrigin = GetComponent<Transform>();
 
         // Load track definitions

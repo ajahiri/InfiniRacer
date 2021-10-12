@@ -423,7 +423,6 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 13000
-  trackCheckpoints: {fileID: 707610398447909324, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
 --- !u!114 &3806244905884723721
 MonoBehaviour:
   m_ObjectHideFlags: 0
