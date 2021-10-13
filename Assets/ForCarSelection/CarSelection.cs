@@ -29,6 +29,7 @@ public class CarSelection : MonoBehaviour
 
     public void ChangeCar(int _change)
     {
+        FindObjectOfType<AudioManager>().Play("Swoosh");
         currentCar += _change;
         SelectCar(currentCar);
     }

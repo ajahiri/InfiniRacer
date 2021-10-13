@@ -48,7 +48,8 @@ public class countdown : MonoBehaviour
     {
         //Disable car controller script before countdown begins
         GameObject.FindWithTag("Player").GetComponent<CarController>().enabled = false;
-
+        GameObject.Find("FuelBar").GetComponent<FuelSystem>().enabled = false;
+        
         //Copying colors but changing alpha value to 0
         threeColAlpha = new Color(threeCol.r, threeCol.g, threeCol.b, 0.0f);
         twoColAlpha = new Color(twoCol.r, twoCol.g, twoCol.b, 0.0f);
@@ -65,9 +66,10 @@ public class countdown : MonoBehaviour
         three.GetComponent<MeshRenderer>().materials[1].color = outline;
         two.GetComponent<MeshRenderer>().materials[1].color = outline;
         one.GetComponent<MeshRenderer>().materials[0].color = outline;
+        FindObjectOfType<AudioManager>().Play("Start sound");
 
         //Looping through GO! prefabs children and applying color as well as disabling renders for until its needed
-        foreach(MeshRenderer r in go.GetComponentsInChildren<MeshRenderer>()){
+        foreach (MeshRenderer r in go.GetComponentsInChildren<MeshRenderer>()){
             r.materials[1].color = goCol;
             r.materials[0].color = outline;
             r.enabled = false;
@@ -76,6 +78,7 @@ public class countdown : MonoBehaviour
         //Disabling renders for numbers until they are needed
         two.GetComponent<MeshRenderer>().enabled = false;
         one.GetComponent<MeshRenderer>().enabled = false;
+        
 
         children = go.GetComponentsInChildren<Transform>();
         gOffset = children[2].position - gameObject.transform.position;
@@ -118,7 +121,9 @@ public class countdown : MonoBehaviour
                 r.enabled = true;
             }
             //Enables car controller script as "GO!" appears on screen
+            GameObject.Find("FuelBar").GetComponent<FuelSystem>().enabled = true;
             GameObject.FindWithTag("Player").GetComponent<CarController>().enabled = true;
+            
             StartCoroutine(goFade(timeBetweenNums));
         }
         //Disables this script when countdown is done

@@ -7,13 +7,14 @@ public class TitleSceneManager : MonoBehaviour
 {
     public void StartGame()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Starting game...");
         SceneManager.LoadScene("RaceArea01");
-        FindObjectOfType<AudioManager>().Play("Start sound");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
     public void SelectCar()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Selecting car");
         SceneManager.LoadScene("CarSelectionScene");
   
@@ -23,6 +24,7 @@ public class TitleSceneManager : MonoBehaviour
 
     public void ViewOptions()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Viewing options...");
         SceneManager.LoadScene("OptionsScene");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms

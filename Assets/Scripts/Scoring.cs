@@ -6,7 +6,7 @@ using UnityEngine;
 public class Scoring : MonoBehaviour
 {
     private GameObject playerObject;
-    private int score = 0;
+    public int score = 0;
 
     private TrackCheckpoints trackCheckpointsScript;
     private Text placementText;
@@ -24,6 +24,8 @@ public class Scoring : MonoBehaviour
     {
         bool isFirstPlace = trackCheckpointsScript.isFirstPlace(playerObject.transform);
         placementText.text = isFirstPlace ? "1st" : "2nd";
+        gameObject.GetComponent<Text>().text = "Score: " + score;
+        FindObjectOfType<highscore>().CheckScore(score);
     }
 
     IEnumerator AddScore()
@@ -35,9 +37,12 @@ public class Scoring : MonoBehaviour
             if (isFirstPlace)
             {
                 score += 100;
-                gameObject.GetComponent<Text>().text = "Score: " + score;
             }
             yield return new WaitForSeconds(1f);
         }
+    }
+    public void CoinPickup()
+    {
+        score += 50;
     }
 }

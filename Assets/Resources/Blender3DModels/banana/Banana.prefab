@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4870101419275250224}
   m_Layer: 10
   m_Name: Banana
-  m_TagString: boost
+  m_TagString: banana
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

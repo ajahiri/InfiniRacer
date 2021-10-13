@@ -7,6 +7,7 @@ public class OptionsSceneManager : MonoBehaviour
 {
     public void GoBackToTitleScene()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Going back to title scene...");
         SceneManager.LoadScene("TitleScene");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms

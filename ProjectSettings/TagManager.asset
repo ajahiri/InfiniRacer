@@ -18,6 +18,9 @@ TagManager:
   - LOLgg
   - GameOver
   - FrontWheel
+  - banana
+  - coin
+  - fuel
   layers:
   - Default
   - TransparentFX

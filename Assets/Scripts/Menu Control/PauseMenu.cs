@@ -35,6 +35,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         pauseMenuUI.SetActive(false);
         FindObjectOfType<AudioManager>().Play("CarEngine");
         GameElementsUI.SetActive(true);
@@ -45,6 +46,7 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         pauseMenuUI.SetActive(true);
         FindObjectOfType<AudioManager>().Stop("CarEngine");
         GameElementsUI.SetActive(false);
@@ -55,6 +57,7 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
@@ -63,10 +66,10 @@ public class PauseMenu : MonoBehaviour
 
     public void RestartGame()
     {
+        FindObjectOfType<AudioManager>().Play("button press");
         Time.timeScale = 1f;
         SceneManager.LoadScene("RaceArea01");
         FindObjectOfType<AudioManager>().Play("CarEngine");
-        FindObjectOfType<AudioManager>().Play("Start sound");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Restarting game...");
     }

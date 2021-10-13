@@ -19,7 +19,6 @@ public class onCollision : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("boost");
             Instantiate(effects[2], col.gameObject.transform.position, col.gameObject.transform.rotation);
             Destroy(col.gameObject);
-            GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>().FuelPickUp(15.0f);
             speed.GetBoost(3f);
         }
         if (col.gameObject.tag == "rock")
@@ -33,6 +32,24 @@ public class onCollision : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("bomb");
             Instantiate(effects[0], col.gameObject.transform.position, col.gameObject.transform.rotation);
             Destroy(col.gameObject);
+        }
+        if (col.gameObject.tag == "banana")
+        {
+            FindObjectOfType<AudioManager>().Play("banana");
+            Destroy(col.gameObject);
+            
+        }
+        if (col.gameObject.tag == "coin")
+        {
+            FindObjectOfType<AudioManager>().Play("coin");
+            Destroy(col.gameObject);
+            FindObjectOfType<Scoring>().CoinPickup();
+        }
+        if (col.gameObject.tag == "fuel")
+        {
+            FindObjectOfType<AudioManager>().Play("fuel");
+            Destroy(col.gameObject);
+            GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>().FuelPickUp(15.0f);
         }
     }
 }
