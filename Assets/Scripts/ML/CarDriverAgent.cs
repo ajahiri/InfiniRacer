@@ -14,13 +14,13 @@ public class CarDriverAgent : Agent
     private int lastEpisodeResetCount = 0;
     // counts how many checkpoints have been passed in the current episode
     private int checkpointCount;
-    private float lastWheelDirection;
-    private float wheelDirectionChange;
+    private float currentWheelAngle;
+    private float lastWheelAngle;
+    private float wheelAngleChange;
+    private float speed;
+    private float speedSum;
     private void Awake() {
         botCarController = GetComponent<BotCarController>();
-        checkpointCount = 0;
-        lastWheelDirection = 0;
-        wheelDirectionChange = 0;
     }
 
 
@@ -36,14 +36,19 @@ public class CarDriverAgent : Agent
             lastEpisodeResetCount = episodes;
         }
 
+        speedSum += speed;
+        
+        speed = GetComponent<Rigidbody>().velocity.magnitude;
+        rewardHighSpeed();
+
+        currentWheelAngle = botCarController.getCurrentSteeringAngle();
+        wheelAngleChange = currentWheelAngle - lastWheelAngle;
+        rewardStraightSteering();
+        lastWheelAngle = currentWheelAngle;
+
         //updateMotorForce();
 
         //rewardFirstPlace();
-
-        rewardStraightSteering();
-
-        rewardHighSpeed();
-
     }
 
     private void updateMotorForce(){
@@ -71,25 +76,20 @@ public class CarDriverAgent : Agent
         }
     }
     private void rewardStraightSteering() {
-        float wheelDirection = botCarController.getCurrentSteeringAngle();
-        wheelDirectionChange = wheelDirection - lastWheelDirection;
-
-        if(wheelDirectionChange == 0f) {
-            AddReward(0.01f);        
-        } else if(wheelDirectionChange > 0f && wheelDirectionChange < 45f) {
-            AddReward(+ 0.01f / wheelDirectionChange); // gives higher rewards for less direction change (when less than 45)
+        if(wheelAngleChange == 0f) {
+            AddReward(0.1f);        
+        } else if(wheelAngleChange > 0f && wheelAngleChange < 45f) {
+            AddReward(+ 0.01f / wheelAngleChange); // gives higher rewards for less Angle change (when less than 45)
         } else {
-            AddReward(- 0.1f * wheelDirectionChange); // gives lower penalty for less direction change (when more than 45)
+            AddReward(- 0.5f * wheelAngleChange); // gives lower penalty for less Angle change (when more than 45)
         }
-        lastWheelDirection = wheelDirection;
     }
-
     private void rewardHighSpeed() {
         bool reversing = botCarController.isReversing();
-        // no penalty for reversing
+        // no reward/penalty for reversing
         if(!reversing) {
             // going forward
-            AddReward(0.5f);
+            AddReward(speed * 0.01f); // heuristic avg speeds usually range from 16 - 18
         }
     }
     private void Start() {
@@ -108,10 +108,10 @@ public class CarDriverAgent : Agent
             
             checkpointCount++;
             if(checkpointCount >= 200) {
-                AddReward(1.5f / (float)Math.Pow((StepCount * 1.0e-4f), 3));
+                Debug.Log("Avg Speed: " + speedSum / StepCount);
                 EndEpisode();
             }
-            Debug.Log(checkpointCount);
+            //Debug.Log(checkpointCount);
         }
     }
 
@@ -144,26 +144,32 @@ public class CarDriverAgent : Agent
             "resetting" to a new state for that agent and substantial negative reward
             reinforces against this outcome.
         */
-        
         checkpointCount = 0;
+        lastWheelAngle = 0;
+        wheelAngleChange = 0;
+        speed = 0;
+        speedSum = 0;
+
         trackCheckpoints.softResetToCheckpoint(transform);
     }
 
     public override void CollectObservations(VectorSensor sensor) {
         // In addition to the Ray Perception Sensor, this observation will make sure the model learns to 
-        // face the same direction as the checkpoints forward
-        // This ensures that it learns to keep itself pointing in the right direction
+        // face the same Angle as the checkpoints forward
+        // This ensures that it learns to keep itself pointing in the right Angle
         if (trackCheckpoints.GetNumCheckpoints() > 0) {
             var nextCheckpoint = trackCheckpoints.GetNextCheckpoint(transform);
             if (nextCheckpoint != null) {
                 Vector3 checkpointForward = nextCheckpoint.transform.TransformDirection(Vector3.forward);
         
-                float directionDot = Vector3.Dot(transform.forward, checkpointForward);
-                sensor.AddObservation(directionDot);
+                float AngleDot = Vector3.Dot(transform.forward, checkpointForward);
+                sensor.AddObservation(AngleDot);
             }
         }
 
-        sensor.AddObservation(wheelDirectionChange);
+        sensor.AddObservation(wheelAngleChange);
+
+        sensor.AddObservation(speed);
 
         // observe distance to other cars on the track (if there are other cars on the track)
         /*
