@@ -1,4 +1,6 @@
 {
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
   "files.exclude": {
     "**/.DS_Store": true,
     "**/.git": true,
@@ -51,5 +53,5 @@
     "ProjectSettings/": true,
     "temp/": true,
     "Temp/": true
-  }
+  },
 }
