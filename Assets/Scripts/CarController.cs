@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; 
 
 
 
@@ -52,6 +53,7 @@ public class CarController : MonoBehaviour
     public ParticleSystem[] smoke;
     FuelSystem fuel;
     private bool tepeat;
+    private GameObject wrongway;
          
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
@@ -74,6 +76,8 @@ public class CarController : MonoBehaviour
         originalForwardFriction = rearLeftWheelCollider.forwardFriction;
         originalSidewayFriction = rearLeftWheelCollider.sidewaysFriction;
         originalMotorForce = motorForce;
+
+        wrongway = GameObject.FindWithTag("WrongWay");
     }
     public void Update()
     {
@@ -101,14 +105,14 @@ public class CarController : MonoBehaviour
         var checkpointForward = nextCheckpoint.transform.forward;
         var vehicleForward = transform.forward;
         var dotProd = Vector3.Dot(checkpointForward, vehicleForward);
-
+        Debug.Log(dotProd);
         if (dotProd > 0)
         {
-            // Facing the right way
+            wrongway.GetComponent<Text>().enabled = false;
 
         } else
         {
-            // Facing the wrong way
+            wrongway.GetComponent<Text>().enabled = true;
 
         }
     }

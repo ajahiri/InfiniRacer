@@ -21,6 +21,8 @@ TagManager:
   - banana
   - coin
   - fuel
+  - CheckpointHandler
+  - WrongWay
   layers:
   - Default
   - TransparentFX

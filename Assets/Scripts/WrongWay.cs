@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class WrongWay : MonoBehaviour
 {
     private GameObject checkpointHandlerObject;
-    [SerializeField] GameObject trackHandlerObject;
     [SerializeField] GameObject wrongway;
     private GameObject car;
     private int index = 0;
