@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: 5e3bbe1ddddf63e429e528aca39d1783
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      74: -7834658387857552887
+    second: radioactive-symbol|BodyAction
+  - first:
+      74: 4657037829828306161
+    second: radioactive-symbol|BoltsAction
+  - first:
+      74: -8598114104128122994
+    second: radioactive-symbol|FinsAction
+  - first:
+      74: 1757147259984027074
+    second: radioactive-symbol|Mk6 Nuclear BombAction
+  - first:
+      74: -2095399404774937268
+    second: radioactive-symbol|radioactive-symbolAction
+  - first:
+      74: -7617882051219819613
+    second: Mk6 Nuclear Bomb|BodyAction
+  - first:
+      74: -2757724046904875986
+    second: Mk6 Nuclear Bomb|BoltsAction
+  - first:
+      74: -3224354606670757683
+    second: Mk6 Nuclear Bomb|FinsAction
+  - first:
+      74: 6861270549759614370
+    second: Mk6 Nuclear Bomb|Mk6 Nuclear BombAction
+  - first:
+      74: 8278740576027537079
+    second: Mk6 Nuclear Bomb|radioactive-symbolAction
+  - first:
+      74: 7324902299161373439
+    second: Fins|BodyAction
+  - first:
+      74: 6732530844758749220
+    second: Fins|BoltsAction
+  - first:
+      74: -1517450217598876633
+    second: Fins|FinsAction
+  - first:
+      74: -960738375385854560
+    second: Fins|Mk6 Nuclear BombAction
+  - first:
+      74: 7229943972826689027
+    second: Fins|radioactive-symbolAction
+  - first:
+      74: -5379583029175638312
+    second: Bolts|BodyAction
+  - first:
+      74: 7553760479663347871
+    second: Bolts|BoltsAction
+  - first:
+      74: -8620007005416044367
+    second: Bolts|FinsAction
+  - first:
+      74: 7793670639933351289
+    second: Bolts|Mk6 Nuclear BombAction
+  - first:
+      74: 4083598115851051516
+    second: Bolts|radioactive-symbolAction
+  - first:
+      74: 4219266326801906582
+    second: Body|BodyAction
+  - first:
+      74: -3527729794515321493
+    second: Body|BoltsAction
+  - first:
+      74: 3473504671368279318
+    second: Body|FinsAction
+  - first:
+      74: -7516053092944247966
+    second: Body|Mk6 Nuclear BombAction
+  - first:
+      74: 6985058870404815810
+    second: Body|radioactive-symbolAction
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
