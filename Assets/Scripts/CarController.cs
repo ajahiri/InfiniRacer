@@ -6,7 +6,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
@@ -17,21 +19,21 @@ public class CarController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private float currentSteeringAngle;
-    private float currentBrakeForce;
-    private bool isBraking;
-    private bool isDrifting;
+    public float currentBrakeForce;
+    public bool isBraking;
+    public bool isDrifting;
     public float motorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
     [SerializeField] private bool tiltCont;
 
-    private Rigidbody vehicleRigidBody;
+    public Rigidbody vehicleRigidBody;
 
-    [SerializeField] private WheelCollider frontLeftWheelCollider;
-    [SerializeField] private WheelCollider frontRightWheelCollider;
-    [SerializeField] private WheelCollider rearLeftWheelCollider;
-    [SerializeField] private WheelCollider rearRightWheelCollider;
+    [SerializeField] public WheelCollider frontLeftWheelCollider;
+    [SerializeField] public WheelCollider frontRightWheelCollider;
+    [SerializeField] public WheelCollider rearLeftWheelCollider;
+    [SerializeField] public WheelCollider rearRightWheelCollider;
 
     [SerializeField] private Transform frontLeftWheelTransform;
     [SerializeField] private Transform frontRightWheelTransform;
@@ -111,7 +113,7 @@ public class CarController : MonoBehaviour
         motorForce /= boost;
     }
 
-    private void HandleMotor()
+    public void HandleMotor()
     {
         if (verticalInput == -1)
         {
@@ -147,7 +149,6 @@ public class CarController : MonoBehaviour
             for (int i = 0; i < smoke.Length; i++)
             {
                 smoke[i].Play();
-                Debug.Log("It's braking");
             }
         }
     }
