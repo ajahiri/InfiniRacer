@@ -1,8 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectId;
-const dbClient = new MongoClient('mongodb+srv://infiniracer:27x3VP7W90MGqYrf@infiniracer.ifeau.mongodb.net/InfiniRacer?retryWrites=true&w=majority', {useNewURLParser: true, useUnifiedTopology: true});
-
 const functions = require("firebase-functions");
+const dbClient = new MongoClient(`mongodb+srv://infiniracer:${functions.config().infiniracer.dbpass}@infiniracer.ifeau.mongodb.net/InfiniRacer?retryWrites=true&w=majority`, {useNewURLParser: true, useUnifiedTopology: true});
 
 // Create attention session
 exports.CreateAttentionSession = functions.region('australia-southeast1').https.onRequest(async (req,res) => {
@@ -38,9 +37,7 @@ exports.ReadAttentionSession = functions.region('australia-southeast1').https.on
         const db = dbClient.db('InfiniRacer');
         const attentionSessions = db.collection("AttentionSessions");
 
-        const allSessions = await attentionSessions.find().toArray();
-
-        const targetSession = await allSessions.findOne({_id: new ObjectID(sessionID)});
+        const targetSession = await attentionSessions.findOne({_id: new ObjectID(sessionID)});
 
         return res.status(200).send(targetSession);
     } catch (err) {
