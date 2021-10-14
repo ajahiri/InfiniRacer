@@ -2,22 +2,40 @@
     "botCollision_behaviour_V2": {
         "checkpoints": [
             {
-                "steps": 3767,
-                "file_path": "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-3767.onnx",
-                "reward": 3586.5083932876587,
-                "creation_time": 1634031361.173222,
+                "steps": 74861,
+                "file_path": "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-74861.onnx",
+                "reward": -1276.9778912514448,
+                "creation_time": 1634193128.7363572,
                 "auxillary_file_paths": [
-                    "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-3767.pt"
+                    "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-74861.pt"
+                ]
+            },
+            {
+                "steps": 136848,
+                "file_path": "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-136848.onnx",
+                "reward": -3981.8732453776943,
+                "creation_time": 1634194681.3429925,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-136848.pt"
+                ]
+            },
+            {
+                "steps": 196867,
+                "file_path": "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-196867.onnx",
+                "reward": -3076.1103586355844,
+                "creation_time": 1634196413.5449605,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-196867.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 3767,
+            "steps": 196867,
             "file_path": "results\\CollisionBrain_V2\\botCollision_behaviour_V2.onnx",
-            "reward": 3586.5083932876587,
-            "creation_time": 1634031361.173222,
+            "reward": -3076.1103586355844,
+            "creation_time": 1634196413.5449605,
             "auxillary_file_paths": [
-                "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-3767.pt"
+                "results\\CollisionBrain_V2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-196867.pt"
             ]
         }
     },

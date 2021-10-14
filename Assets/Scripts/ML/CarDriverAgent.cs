@@ -17,9 +17,11 @@ public class CarDriverAgent : Agent
     private float currentWheelAngle;
     private float lastWheelAngle;
     private float wheelAngleChange;
-    private float speed;
+    private float currentSpeed;
     private float speedSum;
     private void Awake() {
+        Application.runInBackground = true;
+
         botCarController = GetComponent<BotCarController>();
     }
 
@@ -36,9 +38,9 @@ public class CarDriverAgent : Agent
             lastEpisodeResetCount = episodes;
         }
 
-        speedSum += speed;
+        speedSum += currentSpeed;
         
-        speed = GetComponent<Rigidbody>().velocity.magnitude;
+        currentSpeed = GetComponent<Rigidbody>().velocity.magnitude;
         rewardHighSpeed();
 
         currentWheelAngle = botCarController.getCurrentSteeringAngle();
@@ -89,12 +91,10 @@ public class CarDriverAgent : Agent
         // no reward/penalty for reversing
         if(!reversing) {
             // going forward
-            AddReward(speed * 0.01f); // heuristic avg speeds usually range from 16 - 18
+            AddReward(currentSpeed * 0.01f); // heuristic avg speeds usually range from 16 - 18
         }
     }
     private void Start() {
-        Application.runInBackground = true;
-
         trackCheckpoints = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
         trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
         trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;
@@ -147,7 +147,7 @@ public class CarDriverAgent : Agent
         checkpointCount = 0;
         lastWheelAngle = 0;
         wheelAngleChange = 0;
-        speed = 0;
+        currentSpeed = 0;
         speedSum = 0;
 
         trackCheckpoints.softResetToCheckpoint(transform);
@@ -169,7 +169,7 @@ public class CarDriverAgent : Agent
 
         sensor.AddObservation(wheelAngleChange);
 
-        sensor.AddObservation(speed);
+        sensor.AddObservation(currentSpeed);
 
         // observe distance to other cars on the track (if there are other cars on the track)
         /*
@@ -224,7 +224,7 @@ public class CarDriverAgent : Agent
     // Penalise the agent if it slides/hits the boundary walls of the track
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "End Barrier") {
-            AddReward(-2f);
+            AddReward(-5f);
             Debug.Log("END BARRIER COLLISION TRIGGERED");
             /*
              Do SOFT RESET for vehicle agent, hard reset should only be triggered when 
@@ -240,7 +240,7 @@ public class CarDriverAgent : Agent
     }
     private void OnTriggerStay(Collider other) {
         if (other.TryGetComponent<Wall>(out Wall wall)) {
-            AddReward(-0.2f);
+            AddReward(-2f);
         }
     }
 }
