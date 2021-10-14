@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RaceArea01.unity
     guid: 5bca325f4d5621b41a08b0edf2d204dc
+  - enabled: 1
+    path: Assets/Scenes/AttentionScreen.unity
+    guid: cd3a03f9b643a144596e01356c7d5009
   m_configObjects: {}

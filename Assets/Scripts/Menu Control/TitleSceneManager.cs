@@ -29,4 +29,18 @@ public class TitleSceneManager : MonoBehaviour
         SceneManager.LoadScene("OptionsScene");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
+
+    public void PregameSubmission()
+    {
+        FindObjectOfType<AudioManager>().Play("button press");
+        SceneManager.LoadScene("AttentionScreen");
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+    }
+
+    public void PostgameSubmission()
+    {
+        FindObjectOfType<AudioManager>().Play("button press");
+        SceneManager.LoadScene("PostAttentionScreen");
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+    }
 }
