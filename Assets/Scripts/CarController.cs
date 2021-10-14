@@ -38,6 +38,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float vehicleStandardMass;
     [SerializeField] private bool tiltCont;
 
+    bool DriftButtonPressed;
     private Rigidbody vehicleRigidBody;
 
     [SerializeField] private WheelCollider frontLeftWheelCollider;
@@ -64,6 +65,8 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         tepeat = false;
+        tiltCont = true;
+        DriftButtonPressed = false;
         //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
         // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
@@ -237,6 +240,20 @@ public class CarController : MonoBehaviour
         wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
         wheelTransform.SetPositionAndRotation(pos, rot);
     }
+    public void Drift()
+    {
+        if (DriftButtonPressed == true)
+        {
+            DriftButtonPressed = false;
+            disableDrifting();
+        }
+        else if (DriftButtonPressed == false)
+        {
+            DriftButtonPressed = true;
+            enableDrifting();
+        }
+    }
+
 
     private void enableDrifting()
     {

@@ -76,13 +76,13 @@ public class PauseMenu : MonoBehaviour
 
     public void Drift()
     {
-        //carController.UpdateDrift();
+        carController.Drift();
         Debug.Log("Drift button is pressed");
     }
 
     public void Brake()
     {
-        //carController.ApplyBraking();
+        carController.ApplyBraking();
         Debug.Log("Brake button is pressed");
     }
 
