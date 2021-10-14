@@ -19,7 +19,7 @@ public class SetHightscore : MonoBehaviour
     void Update()
     {
         
-        text.text = "Hight Score: " + score;
+        text.text = "High Score: " + score;
         checkscore();
     }
     public void checkscore()
