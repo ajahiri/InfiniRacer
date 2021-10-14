@@ -234,6 +234,9 @@ public class TrackSpawnerController : MonoBehaviour
     // Origin game object where spawning starts
     private Transform spawnerTransformOrigin;
     [SerializeField] public int numBotsToLoad = 1;
+    private List<Vector3> spawnPositions = new List<Vector3>(); 
+
+    public bool isTraining = false;
 
     void Start()
     {
@@ -244,6 +247,11 @@ public class TrackSpawnerController : MonoBehaviour
             numBotsToLoad = BotNum.botNum;
         }
         LoadBots(numBotsToLoad);
+
+        if(isTraining) {    // set camera to first bot
+            GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
+            cam.transform.SetParent(vehicleObjects[0].transform);
+        }
 
         // Get transform of spawner object
         var player = GameObject.FindWithTag("Player");
@@ -259,28 +267,39 @@ public class TrackSpawnerController : MonoBehaviour
         InitialiseTrack();
     }
     public void LoadBots(int numToLoad) {
-        float startPos = 9.625f;
+        float startXPos = 9.625f;
         float spacing = 2.6875f;
-        float xPos = startPos;
+        float xPos = startXPos;
         int itt = 0;
         while(itt < numToLoad) {
             GameObject BotPrefab = Resources.Load<GameObject>("Vehicle Bot"); //move this out of while loop
             if(itt > 0 && itt <= 2){
                 if(itt % 2 == 0) {
-                    xPos = startPos + spacing;
+                    xPos = startXPos + spacing;
                 } else {
-                    xPos = startPos - spacing;
+                    xPos = startXPos - spacing;
                 }
             } else if (itt > 0 && itt > 2) {
                 if(itt % 2 == 0){
-                    xPos = startPos + (2 * spacing);
+                    xPos = startXPos + (2 * spacing);
                 } else {
-                    xPos = startPos - (2 * spacing);
+                    xPos = startXPos - (2 * spacing);
                 }
             }
-            GameObject newVehicle = Instantiate(BotPrefab, new Vector3(xPos, 0.08440538f, 45.6f), Quaternion.identity); //init new vehcile
+            Vector3 spawnPos = new Vector3(xPos, 0.08440538f, 50f);
+            GameObject newVehicle = Instantiate(BotPrefab, spawnPos, Quaternion.identity); //init new vehcile
+            spawnPositions.Add(spawnPos);
             vehicleObjects.Add(newVehicle);
             itt++;
+        }
+    }
+
+    public void ResetVehicles() {
+        for(int idx = 0; idx < vehicleObjects.Count; idx++) {
+            GameObject bot = vehicleObjects[idx];
+            bot.transform.SetPositionAndRotation(spawnPositions[idx], Quaternion.Euler(0,0,0));
+            bot.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            bot.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
     }
     void InitialiseTrack() {

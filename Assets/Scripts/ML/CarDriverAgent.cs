@@ -23,6 +23,10 @@ public class CarDriverAgent : Agent
         Application.runInBackground = true;
 
         botCarController = GetComponent<BotCarController>();
+
+        trackCheckpoints = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
+        trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
+        trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;
     }
 
 
@@ -93,11 +97,6 @@ public class CarDriverAgent : Agent
             // going forward
             AddReward(currentSpeed * 0.01f); // heuristic avg speeds usually range from 16 - 18
         }
-    }
-    private void Start() {
-        trackCheckpoints = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
-        trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
-        trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;
     }
 
     private void TrackCheckpoints_OnVehicleCorrectCheckpoint(object sender, TrackCheckpoints.TrackCheckpointEventArgs e) {
