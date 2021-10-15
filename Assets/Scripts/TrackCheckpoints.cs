@@ -29,6 +29,7 @@ public class TrackCheckpoints : MonoBehaviour
     
     // Target track parent, when used with the spawner, this will be useful
     public Transform trackTarget;
+    public bool isTraining = false;
     private void Start() {
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
@@ -60,7 +61,11 @@ public class TrackCheckpoints : MonoBehaviour
             carPlacementList.Add(0);
         }
 
-        StartCoroutine(updatePlacements());
+        if(!isTraining && botObjects.Length > 0) {
+            StartCoroutine(updatePlacements());
+        } else if (isTraining && botObjects.Length > 1) {
+            StartCoroutine(updatePlacements());
+        }
     }
 
     public void AddCheckpoints(Transform trackPiece) {
@@ -124,7 +129,7 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void ResetAll() {
-        Debug.Log("RESET ALL");
+        //Debug.Log("RESET ALL");
         nextCheckpointIndexList.Clear();
         lastWrongCheckpointIndexList.Clear();
         checkpointList.Clear(); 
@@ -216,6 +221,7 @@ public class TrackCheckpoints : MonoBehaviour
 
     IEnumerator updatePlacements()
     {
+        Debug.Log("Placement updates enabled.");
         // Placement object
         // [CarIDX | lastHitCheckpoint | distanceToNextCheckpoint]
         for(; ; )

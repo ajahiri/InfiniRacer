@@ -209,14 +209,14 @@ public class CarDriverAgent : Agent
     private void OnCollisionEnter(Collision other) {
         // Collision Reward
         if(other.collider.tag == "VehicleBody") {
-            AddReward(+0.9f);
+            AddReward(+6f);
             //Debug.Log("Collision Reward!");
         }
     }
 
     private void OnCollisionStay(Collision other) {
         if(other.collider.tag == "VehicleBody") {
-            AddReward(-0.5f);
+            AddReward(-1.5f);
         }    
     }
 
@@ -224,7 +224,7 @@ public class CarDriverAgent : Agent
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "End Barrier") {
             AddReward(-5f);
-            Debug.Log("END BARRIER COLLISION TRIGGERED");
+            //Debug.Log("END BARRIER COLLISION TRIGGERED");
             /*
              Do SOFT RESET for vehicle agent, hard reset should only be triggered when 
              BOTH vehicles are to be reset with track checkpoints and track spawner is being reset.
@@ -234,7 +234,7 @@ public class CarDriverAgent : Agent
             EndEpisode();
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
-            AddReward(-0.5f);
+            AddReward(-2f);
         }
     }
     private void OnTriggerStay(Collider other) {

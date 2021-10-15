@@ -1,0 +1,47 @@
+{
+    "botCollision_behaviour_V2": {
+        "checkpoints": [
+            {
+                "steps": 153678,
+                "file_path": "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2\\botCollision_behaviour_V2-153678.onnx",
+                "reward": 189.42618079807448,
+                "creation_time": 1634220983.4220784,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2\\botCollision_behaviour_V2-153678.pt"
+                ]
+            },
+            {
+                "steps": 499975,
+                "file_path": "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2\\botCollision_behaviour_V2-499975.onnx",
+                "reward": -4536.856484042273,
+                "creation_time": 1634227295.4106221,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2\\botCollision_behaviour_V2-499975.pt"
+                ]
+            },
+            {
+                "steps": 977691,
+                "file_path": "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2\\botCollision_behaviour_V2-977691.onnx",
+                "reward": 2642.91517879223,
+                "creation_time": 1634237888.6250272,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2\\botCollision_behaviour_V2-977691.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 977691,
+            "file_path": "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2.onnx",
+            "reward": 2642.91517879223,
+            "creation_time": 1634237888.6250272,
+            "auxillary_file_paths": [
+                "results\\CollisionBrain_V2_test\\botCollision_behaviour_V2\\botCollision_behaviour_V2-977691.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
