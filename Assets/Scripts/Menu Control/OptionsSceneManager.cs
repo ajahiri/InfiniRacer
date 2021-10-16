@@ -20,4 +20,11 @@ public class OptionsSceneManager : MonoBehaviour
         PlayerPrefs.SetFloat("GlobalGameVolume", newVolume);
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
+
+    public void ChangeDifficulty(float newDifficulty)
+    {
+        
+        PlayerPrefs.SetFloat("GlobalDifficulty", newDifficulty);
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+    }
 }
