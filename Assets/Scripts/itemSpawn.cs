@@ -18,7 +18,7 @@ public class itemSpawn : MonoBehaviour
         float checkFuel = GameObject.Find("FuelBar").GetComponent<FuelSystem>().Fuel;
         if (checkFuel < 15)
         {
-            var GiveMoreFuel = Instantiate(item[0], new Vector3(Random.Range(transform.position.x - 7, transform.position.x + 7), transform.position.y + 2, Random.Range(transform.position.z - 7, transform.position.z + 7)),
+            var GiveMoreFuel = Instantiate(item[1], new Vector3(Random.Range(transform.position.x - 7, transform.position.x + 7), transform.position.y + 2, Random.Range(transform.position.z - 7, transform.position.z + 7)),
             transform.parent.parent.rotation, GameObject.Find("TrackSpawner").transform);
         }
 
