@@ -29,6 +29,8 @@ public class TrackCheckpoints : MonoBehaviour
     
     // Target track parent, when used with the spawner, this will be useful
     public Transform trackTarget;
+
+    public bool isTraining = false;
     private void Start() {
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
@@ -40,7 +42,15 @@ public class TrackCheckpoints : MonoBehaviour
         //         checkpointList.Add(checkpoint);
         //     }
         // }
-        carTransformList.Add(GameObject.FindWithTag("Player").transform);
+        GameObject[] botObjects = GameObject.FindGameObjectsWithTag("Car");
+        foreach(GameObject bot in botObjects){
+            carTransformList.Add(bot.transform);
+        }
+        var player = GameObject.FindWithTag("Player");
+        if (player)
+        {
+            carTransformList.Add(player.transform);
+        }
 
         Debug.Log("num of car transforms: " + carTransformList.Count);
 
@@ -49,6 +59,12 @@ public class TrackCheckpoints : MonoBehaviour
             lastWrongCheckpointIndexList.Add(-1);
             lastHitCheckpoint.Add(0);
             carPlacementList.Add(0);
+        }
+
+        if(!isTraining && botObjects.Length > 0) {
+            StartCoroutine(updatePlacements());
+        } else if (isTraining && botObjects.Length > 1) {
+            StartCoroutine(updatePlacements());
         }
 
         StartCoroutine(updatePlacements());
@@ -126,15 +142,8 @@ public class TrackCheckpoints : MonoBehaviour
             lastHitCheckpoint.Add(0);
             carPlacementList.Add(0);
 
-            // Reset position
-            float carSpacing = 3 * findCarIndex(carTransform);
-            float x_axis = carSpacing + 16.2995396f;
-            carTransform.localRotation = Quaternion.Euler(0,0,0);
-            carTransform.localPosition = new Vector3(x_axis,0.119178146f,1.78931403f);
-
-            // Reset momentum
-            carTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            carTransform.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            // Reset position and momentum
+            trackTarget.GetComponent<TrackSpawnerController>().ResetVehicles();
         }
         trackTarget.GetComponent<TrackSpawnerController>().ResetSpawner();
     }

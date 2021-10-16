@@ -11,12 +11,13 @@ public class BotCarController : MonoBehaviour
     private const string VERTICAL = "Vertical";
 
     private float horizontalInput;
-    private float verticalInput;
+    private bool reversing;
     private float currentSteeringAngle;
     private float currentBrakeForce;
     private bool isBraking;
 
     [SerializeField] private float motorForce;
+    private float initialMotorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
@@ -35,12 +36,24 @@ public class BotCarController : MonoBehaviour
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
 
+    public float getMotorForce() {
+        return motorForce;
+    }
+    public void adjustMotorForce(float adjustment) {
+        motorForce = initialMotorForce + adjustment;
+    }
+    public void defaultMotorForce(){
+        motorForce = initialMotorForce;
+    }
     public float getCurrentSteeringAngle() {
         return currentSteeringAngle;
     }
 
-    public float getVerticleInput() {
-        return verticalInput;
+    public bool isReversing() {
+        return reversing;
+    }
+    private void Awake() {
+        initialMotorForce = motorForce;
     }
     private void Start() {
         // Set custom center of mass to fix flipping issue
@@ -57,22 +70,27 @@ public class BotCarController : MonoBehaviour
         UpdateWheels();
     }
 
-    public void SetInputs(float newHorizontal, float newVertical, bool brakingInput) {
+    public void SetInputs(float newHorizontal, bool reverse) {
         horizontalInput = newHorizontal;
-        verticalInput = newVertical;
-        isBraking = brakingInput;
+        reversing = reverse;
+        //isBraking = brakingInput;
         //Debug.Log("setting inputs " + horizontalInput + " " + verticalInput + " " + isBraking);
+        //Debug.Log("vertical input: " + verticalInput);
     }
 
     private void HandleMotor()
     {
-        rearLeftWheelCollider.motorTorque = verticalInput * motorForce;
-        rearRightWheelCollider.motorTorque = verticalInput * motorForce;
-        
+        if(reversing){
+            rearLeftWheelCollider.motorTorque = -motorForce;
+            rearRightWheelCollider.motorTorque = -motorForce;
+        } else {
+            rearLeftWheelCollider.motorTorque = motorForce;
+            rearRightWheelCollider.motorTorque = motorForce;
+        }
+
         currentBrakeForce = isBraking ? brakeForce : 0f;
         ApplyBraking();
     }
-
     private void ApplyBraking()
     {
         frontLeftWheelCollider.brakeTorque = currentBrakeForce;
