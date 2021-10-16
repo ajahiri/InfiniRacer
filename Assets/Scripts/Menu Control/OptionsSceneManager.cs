@@ -27,4 +27,13 @@ public class OptionsSceneManager : MonoBehaviour
         PlayerPrefs.SetFloat("GlobalDifficulty", newDifficulty);
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
+
+    public void ChangeNumBots(float newBotNum)
+    {
+        int numBots = (int)newBotNum;
+        Debug.Log(numBots);
+        PlayerPrefs.SetInt("GlobalBotNum", numBots);
+        GameObject.Find("BotNum").GetComponent<saveBotNum>().setBotNum(numBots);
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+    }
 }

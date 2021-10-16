@@ -8,16 +8,28 @@ using Unity.MLAgents.Actuators;
 
 public class CarDriverAgent : Agent 
 {
-    [SerializeField] private TrackCheckpoints trackCheckpoints;
+    private TrackCheckpoints trackCheckpoints;
 
     private BotCarController botCarController;
     private int lastEpisodeResetCount = 0;
     // counts how many checkpoints have been passed in the current episode
-    private int checkpointCount = 0;
-    private float lastWheelDirection = 0f;
+    private int checkpointCount;
+    private float currentWheelAngle;
+    private float lastWheelAngle;
+    private float wheelAngleChange;
+    private float currentSpeed;
+    private float speedSum;
     private void Awake() {
+        //Application.runInBackground = true;
+
         botCarController = GetComponent<BotCarController>();
+
+        trackCheckpoints = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>();
+        trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
+        trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;
     }
+
+
 
     private void FixedUpdate()
     {
@@ -30,14 +42,38 @@ public class CarDriverAgent : Agent
             lastEpisodeResetCount = episodes;
         }
 
-        rewardFirstPlace();
-
-        rewardStraightSteering();
-
+        speedSum += currentSpeed;
+        
+        currentSpeed = GetComponent<Rigidbody>().velocity.magnitude;
         rewardHighSpeed();
 
+        currentWheelAngle = botCarController.getCurrentSteeringAngle();
+        wheelAngleChange = currentWheelAngle - lastWheelAngle;
+        rewardStraightSteering();
+        lastWheelAngle = currentWheelAngle;
+
+        //updateMotorForce();
+
+        //rewardFirstPlace();
     }
 
+    private void updateMotorForce(){
+        if(trackCheckpoints.getCarTransforms().Count > 1) {
+            float distanceToFirst = 1f;
+            foreach(Transform t in trackCheckpoints.getCarTransforms()) {
+                if(t != transform && trackCheckpoints.isFirst(t)) {
+                    distanceToFirst = Vector3.Distance(transform.position, t.position);
+                    float adjustment = distanceToFirst * 10000f;
+                    if(adjustment < float.MaxValue) {
+                        botCarController.adjustMotorForce(adjustment);
+                        Debug.Log("Car " + trackCheckpoints.findCarIndex(transform) + ": " + botCarController.getMotorForce());
+                    }
+                } else {
+                    botCarController.defaultMotorForce();
+                }
+            }
+        }
+    }
     private void rewardFirstPlace() {
         trackCheckpoints.EvaluatePlaces();
         if(trackCheckpoints.isFirst(transform)) {
@@ -46,33 +82,21 @@ public class CarDriverAgent : Agent
         }
     }
     private void rewardStraightSteering() {
-        float wheelDirection = botCarController.getCurrentSteeringAngle();
-        float directionChange = wheelDirection - lastWheelDirection;
-
-        if(directionChange == 0f) {
-            AddReward(0.01f);        
-        } else if(directionChange > 0f && directionChange < 45f) {
-            AddReward(+ 1.0e-3f / directionChange); // gives higher rewards for less direction change (when less than 45)
+        if(wheelAngleChange == 0f) {
+            AddReward(0.1f);        
+        } else if(wheelAngleChange > 0f && wheelAngleChange < 45f) {
+            AddReward(+ 0.01f / wheelAngleChange); // gives higher rewards for less Angle change (when less than 45)
         } else {
-            AddReward(- 1.0e-3f * directionChange); // gives lower penalty for less direction change (when more than 45)
+            AddReward(- 0.5f * wheelAngleChange); // gives lower penalty for less Angle change (when more than 45)
         }
-        lastWheelDirection = wheelDirection;
     }
-
     private void rewardHighSpeed() {
-        float currentSpeed = botCarController.getVerticleInput();
-        // no penalty for reversing
-        if(currentSpeed > 0) {
+        bool reversing = botCarController.isReversing();
+        // no reward/penalty for reversing
+        if(!reversing) {
             // going forward
-            AddReward(currentSpeed * 0.01f);
-        } else if( currentSpeed == 0) {
-            // stationary
-            AddReward(-0.1f);
-        } 
-    }
-    private void Start() {
-        trackCheckpoints.OnVehicleCorrectCheckpoint += TrackCheckpoints_OnVehicleCorrectCheckpoint;
-        trackCheckpoints.OnVehicleWrongCheckpoint += TrackCheckpoints_OnVehicleWrongCheckpoint;
+            AddReward(currentSpeed * 0.01f); // heuristic avg speeds usually range from 16 - 18
+        }
     }
 
     private void TrackCheckpoints_OnVehicleCorrectCheckpoint(object sender, TrackCheckpoints.TrackCheckpointEventArgs e) {
@@ -83,9 +107,10 @@ public class CarDriverAgent : Agent
             
             checkpointCount++;
             if(checkpointCount >= 200) {
-                AddReward(1.5f / (float)Math.Pow((StepCount * 1.0e-4f), 3));
+                Debug.Log("Avg Speed: " + speedSum / StepCount);
                 EndEpisode();
             }
+            //Debug.Log(checkpointCount);
         }
     }
 
@@ -118,26 +143,32 @@ public class CarDriverAgent : Agent
             "resetting" to a new state for that agent and substantial negative reward
             reinforces against this outcome.
         */
-        
         checkpointCount = 0;
+        lastWheelAngle = 0;
+        wheelAngleChange = 0;
+        currentSpeed = 0;
+        speedSum = 0;
+
         trackCheckpoints.softResetToCheckpoint(transform);
     }
 
     public override void CollectObservations(VectorSensor sensor) {
         // In addition to the Ray Perception Sensor, this observation will make sure the model learns to 
-        // face the same direction as the checkpoints forward
-        // This ensures that it learns to keep itself pointing in the right direction
+        // face the same Angle as the checkpoints forward
+        // This ensures that it learns to keep itself pointing in the right Angle
         if (trackCheckpoints.GetNumCheckpoints() > 0) {
             var nextCheckpoint = trackCheckpoints.GetNextCheckpoint(transform);
             if (nextCheckpoint != null) {
                 Vector3 checkpointForward = nextCheckpoint.transform.TransformDirection(Vector3.forward);
         
-                float directionDot = Vector3.Dot(transform.forward, checkpointForward);
-                sensor.AddObservation(directionDot);
+                float AngleDot = Vector3.Dot(transform.forward, checkpointForward);
+                sensor.AddObservation(AngleDot);
             }
         }
 
-        
+        sensor.AddObservation(wheelAngleChange);
+
+        sensor.AddObservation(currentSpeed);
 
         // observe distance to other cars on the track (if there are other cars on the track)
         /*
@@ -159,35 +190,41 @@ public class CarDriverAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions) {
         BotCarController targetScript = gameObject.GetComponent<BotCarController>();
-        targetScript.SetInputs(actions.ContinuousActions[0], actions.ContinuousActions[1], actions.ContinuousActions[2] == 0f);
+        targetScript.SetInputs(actions.ContinuousActions[0], actions.DiscreteActions[0] == 0);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut) {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
+
         continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
-        continuousActions[2] = Input.GetKey("space") == true ? 0f : 1f;
+        if(Input.GetKey(KeyCode.DownArrow)) {
+            discreteActions[0] = 0;
+        } else {
+            discreteActions[0] = 1;
+        }
     }
 
     // 
     private void OnCollisionEnter(Collision other) {
         // Collision Reward
         if(other.collider.tag == "VehicleBody") {
-            AddReward(+0.9f);
+            AddReward(+6f);
             //Debug.Log("Collision Reward!");
         }
     }
 
     private void OnCollisionStay(Collision other) {
         if(other.collider.tag == "VehicleBody") {
-            AddReward(-0.5f);
+            AddReward(-1.5f);
         }    
     }
 
     // Penalise the agent if it slides/hits the boundary walls of the track
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "End Barrier") {
-            AddReward(-2f);
+            AddReward(-5f);
+            //Debug.Log("END BARRIER COLLISION TRIGGERED");
             /*
              Do SOFT RESET for vehicle agent, hard reset should only be triggered when 
              BOTH vehicles are to be reset with track checkpoints and track spawner is being reset.
@@ -197,12 +234,12 @@ public class CarDriverAgent : Agent
             EndEpisode();
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
-            AddReward(-0.5f);
+            AddReward(-2f);
         }
     }
     private void OnTriggerStay(Collider other) {
         if (other.TryGetComponent<Wall>(out Wall wall)) {
-            AddReward(-0.2f);
+            AddReward(-2f);
         }
     }
 }
