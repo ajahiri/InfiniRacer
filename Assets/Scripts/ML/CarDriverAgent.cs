@@ -20,7 +20,7 @@ public class CarDriverAgent : Agent
     private float currentSpeed;
     private float speedSum;
     private void Awake() {
-        Application.runInBackground = true;
+        //Application.runInBackground = true;
 
         botCarController = GetComponent<BotCarController>();
 
