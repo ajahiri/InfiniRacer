@@ -38,11 +38,14 @@ public class FuelSystem : MonoBehaviour
         }
         else if (Fuel == 0)
         {
-            
-        } 
+
+        }
         ColorChanger();
         FuelBarFiller();
-        FuelText.text = "Fuel: " + Fuel + "%";
+        int FuelTextValue;
+
+        FuelTextValue = Mathf.FloorToInt((Fuel / maxFuel) * 100f);
+        FuelText.text = "Fuel: " + FuelTextValue + "%";
     }
     public void FuelBarFiller()
     {
@@ -62,22 +65,22 @@ public class FuelSystem : MonoBehaviour
             {
                 fuelCan = 2;
                 Fuel += fuelCan;
-            } 
+            }
             else if (Fuel == 29)
             {
                 fuelCan = 1;
                 Fuel += fuelCan;
-            } 
+            }
             else if (Fuel == 30)
             {
                 fuelCan = 0;
                 Fuel += fuelCan;
-            } 
+            }
             else
             {
                 Fuel += fuelCan;
             }
-        }           
-    }  
+        }
+    }
 }
 
