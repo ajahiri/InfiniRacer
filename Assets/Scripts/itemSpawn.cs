@@ -5,22 +5,24 @@ using UnityEngine;
 public class itemSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject[] item;
-    public static float diff;
+    public static int diff;
 
 
     private void Start()
     {
-        diff = PlayerPrefs.GetFloat("GlobalDifficulty", 3);
-        int rand = Random.Range(0, (int)diff);
-        if (rand == diff) {
-            Spawn();
-        }
+        int StandartDifficulty = 3;
+        diff = (int)PlayerPrefs.GetFloat("GlobalDifficulty", 3);
+        int rand = Random.Range(0, (StandartDifficulty + 1) * diff);
         float checkFuel = GameObject.Find("FuelBar").GetComponent<FuelSystem>().Fuel;
-        if (checkFuel < 15)
+        if (rand == StandartDifficulty)
         {
-            var GiveMoreFuel = Instantiate(item[1], new Vector3(Random.Range(transform.position.x - 7, transform.position.x + 7), transform.position.y + 2, Random.Range(transform.position.z - 7, transform.position.z + 7)),
-            transform.parent.parent.rotation, GameObject.Find("TrackSpawner").transform);
+            if (checkFuel < 5)
+            {
+                var GiveMoreFuel = Instantiate(item[1], new Vector3(Random.Range(transform.position.x - 7, transform.position.x + 7), transform.position.y + 2, Random.Range(transform.position.z - 7, transform.position.z + 7)),
+                transform.parent.parent.rotation, GameObject.Find("TrackSpawner").transform);
+            }else Spawn();
         }
+        
 
     }
 
