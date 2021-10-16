@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleSceneManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class TitleSceneManager : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Selecting car");
         SceneManager.LoadScene("CarSelectionScene");
-  
+
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
 
     }
@@ -29,4 +30,29 @@ public class TitleSceneManager : MonoBehaviour
         SceneManager.LoadScene("OptionsScene");
         Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
+
+    [SerializeField] GameObject LoadScreen;
+
+
+
+    List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
+    bool gameIsLoading = false;
+    public void LoadGame()
+    {
+        LoadScreen.gameObject.SetActive(true);
+
+        scenesLoading.Add(SceneManager.UnloadSceneAsync((int)SceneIndexes.CarSelectionScene));
+        scenesLoading.Add(SceneManager.LoadSceneAsync((int)SceneIndexes.RaceArea01));
+
+        FindObjectOfType<AudioManager>().Play("button press");
+        Debug.Log("loading game...");
+        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
+    }
+
+
+
+
+
+
+
 }
