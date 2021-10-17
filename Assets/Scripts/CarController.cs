@@ -108,7 +108,6 @@ public class CarController : MonoBehaviour
         var checkpointForward = nextCheckpoint.transform.forward;
         var vehicleForward = transform.forward;
         var dotProd = Vector3.Dot(checkpointForward, vehicleForward);
-        Debug.Log(dotProd);
         if (dotProd > 0)
         {
             wrongway.GetComponent<Text>().enabled = false;
@@ -126,7 +125,6 @@ public class CarController : MonoBehaviour
         GetBoost(0f);
         FindObjectOfType<AudioManager>().Stop("CarEngine");
         FindObjectOfType<AudioManager>().Play("Game Over");
-        Debug.Log("motorForce is " + motorForce);
         SceneManager.LoadScene("GameOver");
     }
 

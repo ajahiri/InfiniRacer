@@ -23,6 +23,7 @@ TagManager:
   - fuel
   - CheckpointHandler
   - WrongWay
+  - PauseBtn
   layers:
   - Default
   - TransparentFX
