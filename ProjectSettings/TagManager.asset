@@ -24,6 +24,7 @@ TagManager:
   - CheckpointHandler
   - WrongWay
   - PauseBtn
+  - Nuke
   layers:
   - Default
   - TransparentFX

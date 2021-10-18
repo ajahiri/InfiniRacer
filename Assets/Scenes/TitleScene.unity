@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2cf23937337445b9e62acdc8f02610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LoadScreen: {fileID: 0}
 --- !u!1001 &395542940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1058,6 +1059,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: BIIIIIIGBOOOOM
+    clip: {fileID: 8300000, guid: 78be93153f4edb3438735adced7ea20a, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &1497680974
 Transform:
   m_ObjectHideFlags: 0
@@ -1168,6 +1175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2cf23937337445b9e62acdc8f02610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LoadScreen: {fileID: 0}
 --- !u!1 &1567343380
 GameObject:
   m_ObjectHideFlags: 0
