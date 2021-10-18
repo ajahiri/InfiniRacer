@@ -1,0 +1,65 @@
+{
+    "botCollision_behaviour_V2": {
+        "checkpoints": [
+            {
+                "steps": 999966,
+                "file_path": "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-999966.onnx",
+                "reward": 4481.708949834108,
+                "creation_time": 1634551169.203705,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-999966.pt"
+                ]
+            },
+            {
+                "steps": 1499982,
+                "file_path": "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1499982.onnx",
+                "reward": 5427.827450723359,
+                "creation_time": 1634558195.545206,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1499982.pt"
+                ]
+            },
+            {
+                "steps": 1866552,
+                "file_path": "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1866552.onnx",
+                "reward": 4857.893384631087,
+                "creation_time": 1634564240.3177648,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1866552.pt"
+                ]
+            },
+            {
+                "steps": 1872748,
+                "file_path": "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1872748.onnx",
+                "reward": -9803.548436482748,
+                "creation_time": 1634564385.454386,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1872748.pt"
+                ]
+            },
+            {
+                "steps": 1894976,
+                "file_path": "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1894976.onnx",
+                "reward": 821.2994951768355,
+                "creation_time": 1634564609.5634367,
+                "auxillary_file_paths": [
+                    "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1894976.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1894976,
+            "file_path": "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2.onnx",
+            "reward": 821.2994951768355,
+            "creation_time": 1634564609.5634367,
+            "auxillary_file_paths": [
+                "results\\CollisionBrain_V2_session_2\\botCollision_behaviour_V2\\botCollision_behaviour_V2-1894976.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
