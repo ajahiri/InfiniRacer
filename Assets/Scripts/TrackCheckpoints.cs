@@ -274,6 +274,20 @@ public class TrackCheckpoints : MonoBehaviour
         public float distanceToNextCheckpoint;
     }
 
+    public int GetPlace(Transform vehicleTransform)
+    {
+        if (vehiclePlacementList.Count > 0)
+        {
+            var vehicleIndex = carTransformList.IndexOf(vehicleTransform);
+            int placementIndex = vehiclePlacementList.FindIndex(car => car.carIDX == vehicleIndex);
+            return placementIndex;
+        } else
+        {
+            // default safety return
+            return 0;
+        }
+    }
+
     public bool isFirstPlace(Transform transform)
     {
         var vehicleIndex = findCarIndex(transform);
