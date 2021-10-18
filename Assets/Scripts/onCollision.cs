@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class onCollision : MonoBehaviour
 {
-    CarController speed;
     [SerializeField] private GameObject[] effects;
 
     public void Start()
     {
-        speed = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
     }
 
     void OnCollisionEnter(Collision col)
@@ -19,7 +17,7 @@ public class onCollision : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("boost");
             Instantiate(effects[2], col.gameObject.transform.position, col.gameObject.transform.rotation);
             Destroy(col.gameObject);
-            speed.GetBoost(3f);
+            gameObject.GetComponent<CarController>().GetBoost(3f);
         }
         if (col.gameObject.tag == "rock")
         {
@@ -35,6 +33,7 @@ public class onCollision : MonoBehaviour
         }
         if (col.gameObject.tag == "banana")
         {
+            gameObject.GetComponent<CarController>().Drift();
             FindObjectOfType<AudioManager>().Play("banana");
             Destroy(col.gameObject);
             

@@ -43,4 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c39008423824c34f9ff40b086e9edd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVehicleObject: {fileID: 0}
+  vehicleObjects: []
+  checkpointHandlerObject: {fileID: 0}
+  numBotsToLoad: 1
+  isTraining: 0

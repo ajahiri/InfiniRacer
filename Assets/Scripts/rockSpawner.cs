@@ -5,12 +5,21 @@ using UnityEngine;
 public class rockSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] item;
+    public static int diff;
 
 
     private void Start()
     {
 
-        Spawn();
+        int StandartDifficulty = 3;
+        diff = (int)PlayerPrefs.GetFloat("GlobalDifficulty", 3);
+        int rand = Random.Range(0, (StandartDifficulty+ diff));
+        if (rand == StandartDifficulty)
+        {
+            Spawn();
+        }
+        
+
 
     }
 

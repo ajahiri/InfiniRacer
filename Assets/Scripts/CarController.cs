@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI; 
 
 
 
@@ -37,6 +38,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float vehicleStandardMass;
     [SerializeField] private bool tiltCont;
 
+    bool DriftButtonPressed;
     private Rigidbody vehicleRigidBody;
 
     [SerializeField] private WheelCollider frontLeftWheelCollider;
@@ -52,6 +54,7 @@ public class CarController : MonoBehaviour
     public ParticleSystem[] smoke;
     FuelSystem fuel;
     private bool tepeat;
+    private GameObject wrongway;
          
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
@@ -62,6 +65,8 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         tepeat = false;
+        tiltCont = true;
+        DriftButtonPressed = false;
         //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
         // Set custom center of mass to fix flipping issue
         vehicleRigidBody = GetComponent<Rigidbody>();
@@ -74,6 +79,8 @@ public class CarController : MonoBehaviour
         originalForwardFriction = rearLeftWheelCollider.forwardFriction;
         originalSidewayFriction = rearLeftWheelCollider.sidewaysFriction;
         originalMotorForce = motorForce;
+
+        wrongway = GameObject.FindWithTag("WrongWay");
     }
     public void Update()
     {
@@ -101,14 +108,13 @@ public class CarController : MonoBehaviour
         var checkpointForward = nextCheckpoint.transform.forward;
         var vehicleForward = transform.forward;
         var dotProd = Vector3.Dot(checkpointForward, vehicleForward);
-
         if (dotProd > 0)
         {
-            // Facing the right way
+            wrongway.GetComponent<Text>().enabled = false;
 
         } else
         {
-            // Facing the wrong way
+            wrongway.GetComponent<Text>().enabled = true;
 
         }
     }
@@ -119,7 +125,6 @@ public class CarController : MonoBehaviour
         GetBoost(0f);
         FindObjectOfType<AudioManager>().Stop("CarEngine");
         FindObjectOfType<AudioManager>().Play("Game Over");
-        Debug.Log("motorForce is " + motorForce);
         SceneManager.LoadScene("GameOver");
     }
 
@@ -233,6 +238,20 @@ public class CarController : MonoBehaviour
         wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
         wheelTransform.SetPositionAndRotation(pos, rot);
     }
+    public void Drift()
+    {
+        if (DriftButtonPressed == true)
+        {
+            DriftButtonPressed = false;
+            disableDrifting();
+        }
+        else if (DriftButtonPressed == false)
+        {
+            DriftButtonPressed = true;
+            enableDrifting();
+        }
+    }
+
 
     private void enableDrifting()
     {
