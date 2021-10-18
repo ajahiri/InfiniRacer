@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class OptionsSceneManager : MonoBehaviour
 {
+    public saveBotNum BotNum;
+    private void Start() {
+        BotNum = GameObject.FindObjectOfType<saveBotNum>();
+        updateBotText();
+    }
     public void GoBackToTitleScene()
     {
         FindObjectOfType<AudioManager>().Play("button press");
@@ -28,8 +34,19 @@ public class OptionsSceneManager : MonoBehaviour
     public void ChangeNumBots(float newBotNum)
     {
         int numBots = (int)newBotNum;
-        Debug.Log(numBots);
         PlayerPrefs.SetInt("GlobalBotNum", numBots);
-        GameObject.Find("BotNum").GetComponent<saveBotNum>().setBotNum(numBots);
+        BotNum.setBotNum(numBots);
+        updateBotText();
+    }
+
+    private void updateBotText() {
+        if (BotNum)
+        {
+            if(BotNum.botNum == 1){
+                GameObject.Find("BotText").GetComponent<TextMeshProUGUI>().SetText(BotNum.botNum.ToString() + " Bot");
+            } else {
+                GameObject.Find("BotText").GetComponent<TextMeshProUGUI>().SetText(BotNum.botNum.ToString() + " Bots");
+            }
+        }
     }
 }

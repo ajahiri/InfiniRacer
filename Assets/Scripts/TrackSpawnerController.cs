@@ -233,10 +233,7 @@ public class TrackSpawnerController : MonoBehaviour
 
     // Origin game object where spawning starts
     private Transform spawnerTransformOrigin;
-    [SerializeField] public int numBotsToLoad = 1;
     private List<Vector3> spawnPositions = new List<Vector3>(); 
-
-    public bool isTraining = false;
 
     private TrackCheckpoints trackCheckpointsScript;
 

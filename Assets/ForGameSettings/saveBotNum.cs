@@ -10,6 +10,7 @@ public class saveBotNum : MonoBehaviour
 
     void Awake()
     {
+        botNum = 1;
         if (instance == null)
             instance = this;
         else
