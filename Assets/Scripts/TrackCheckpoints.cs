@@ -31,6 +31,10 @@ public class TrackCheckpoints : MonoBehaviour
     public Transform trackTarget;
 
     public bool isTraining = false;
+
+    [SerializeField] public int numBotsToLoad = 1;
+    private List<Vector3> spawnPositions = new List<Vector3>();
+
     private void Start() {
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
@@ -42,17 +46,32 @@ public class TrackCheckpoints : MonoBehaviour
         //         checkpointList.Add(checkpoint);
         //     }
         // }
-        GameObject[] botObjects = GameObject.FindGameObjectsWithTag("Car");
-        foreach(GameObject bot in botObjects){
-            carTransformList.Add(bot.transform);
-        }
+        // Note (Arian): dont find vehicle bots as they are added from the track spawner script when the vehicles are spawned
+        //GameObject[] botObjects = GameObject.FindGameObjectsWithTag("Car");
+        //foreach(GameObject bot in botObjects){
+        //  carTransformList.Add(bot.transform);
+        //}
         var player = GameObject.FindWithTag("Player");
         if (player)
         {
             carTransformList.Add(player.transform);
         }
 
+        // Spawn Bots
+        saveBotNum BotNum = GameObject.FindObjectOfType<saveBotNum>();
+        if (BotNum != null)
+        {
+            numBotsToLoad = BotNum.botNum;
+        }
+
+        LoadBots(numBotsToLoad);
+
         Debug.Log("num of car transforms: " + carTransformList.Count);
+
+        if (isTraining) {    // set camera to first bot
+            GameObject cam = GameObject.FindGameObjectWithTag("MainCamera");
+            cam.transform.SetParent(carTransformList[0]);
+        }
 
         foreach (Transform carTransform in carTransformList) {
             nextCheckpointIndexList.Add(0);
@@ -61,13 +80,54 @@ public class TrackCheckpoints : MonoBehaviour
             carPlacementList.Add(0);
         }
 
-        if(!isTraining && botObjects.Length > 0) {
-            StartCoroutine(updatePlacements());
-        } else if (isTraining && botObjects.Length > 1) {
-            StartCoroutine(updatePlacements());
-        }
+        //if(!isTraining && botObjects.Length > 0) {
+        //    StartCoroutine(updatePlacements());
+        // else if (isTraining && botObjects.Length > 1) {
+        //    StartCoroutine(updatePlacements());
+        //}
 
         StartCoroutine(updatePlacements());
+    }
+
+    public void LoadBots(int numToLoad)
+    {
+        float startXPos = 9.625f;
+        float spacing = 2.6875f;
+        float xPos = startXPos;
+        int itt = 0;
+        while (itt < numToLoad)
+        {
+            GameObject BotPrefab = Resources.Load<GameObject>("Vehicle Bot"); //move this out of while loop
+            if (itt > 0 && itt <= 2)
+            {
+                if (itt % 2 == 0)
+                {
+                    xPos = startXPos + spacing;
+                }
+                else
+                {
+                    xPos = startXPos - spacing;
+                }
+            }
+            else if (itt > 0 && itt > 2)
+            {
+                if (itt % 2 == 0)
+                {
+                    xPos = startXPos + (2 * spacing);
+                }
+                else
+                {
+                    xPos = startXPos - (2 * spacing);
+                }
+            }
+            Vector3 spawnPos = new Vector3(xPos, 0.08440538f, 50f);
+            GameObject newVehicle = Instantiate(BotPrefab, spawnPos, Quaternion.identity); //init new vehcile
+            spawnPositions.Add(spawnPos);
+            carTransformList.Add(newVehicle.transform);
+            // Add to track checkpoints script
+            GameObject.Find("TrackSpawner").GetComponent<TrackSpawnerController>().AddVehicle(newVehicle);
+            itt++;
+        }
     }
 
     public void AddCheckpoints(Transform trackPiece) {
@@ -212,6 +272,20 @@ public class TrackCheckpoints : MonoBehaviour
         public int carIDX;
         public int lastHitCheckpoint;
         public float distanceToNextCheckpoint;
+    }
+
+    public int GetPlace(Transform vehicleTransform)
+    {
+        if (vehiclePlacementList.Count > 0)
+        {
+            var vehicleIndex = carTransformList.IndexOf(vehicleTransform);
+            int placementIndex = vehiclePlacementList.FindIndex(car => car.carIDX == vehicleIndex);
+            return placementIndex;
+        } else
+        {
+            // default safety return
+            return 0;
+        }
     }
 
     public bool isFirstPlace(Transform transform)

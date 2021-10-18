@@ -11,16 +11,12 @@ public class TitleSceneManager : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Starting game...");
         SceneManager.LoadScene("RaceArea01");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
     public void SelectCar()
     {
         FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Selecting car");
         SceneManager.LoadScene("CarSelectionScene");
-
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
-
     }
 
     public void ViewOptions()
@@ -28,15 +24,24 @@ public class TitleSceneManager : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("Viewing options...");
         SceneManager.LoadScene("OptionsScene");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
+    public void PregameSubmission()
+    {
+        FindObjectOfType<AudioManager>().Play("button press");
+        SceneManager.LoadScene("AttentionScreen");
+    }
+
+    public void PostgameSubmission()
+    {
+        FindObjectOfType<AudioManager>().Play("button press");
+        SceneManager.LoadScene("PostAttentionScreen");
+    }
     [SerializeField] GameObject LoadScreen;
 
 
 
     List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
-    bool gameIsLoading = false;
     public void LoadGame()
     {
         LoadScreen.gameObject.SetActive(true);
@@ -46,7 +51,6 @@ public class TitleSceneManager : MonoBehaviour
 
         FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("loading game...");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
 

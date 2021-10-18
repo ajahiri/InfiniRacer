@@ -18,7 +18,6 @@ public class GameOver : MonoBehaviour
         FindObjectOfType<AudioManager>().Stop("Game Over");
         FindObjectOfType<AudioManager>().Play("CarEngine");
         FindObjectOfType<AudioManager>().Play("Start sound");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Restarting game...");
     }
     public void LoadMenu()
@@ -27,7 +26,6 @@ public class GameOver : MonoBehaviour
         //Time.timeScale = 1f;
         FindObjectOfType<AudioManager>().Stop("Game Over");
         SceneManager.LoadScene("TitleScene");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Loading menu...");
     }
 }

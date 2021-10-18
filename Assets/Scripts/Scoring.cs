@@ -22,8 +22,28 @@ public class Scoring : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool isFirstPlace = trackCheckpointsScript.isFirstPlace(playerObject.transform);
-        placementText.text = isFirstPlace ? "1st" : "2nd";
+        int placeIndex = trackCheckpointsScript.GetPlace(playerObject.transform);
+        string placeText = "1st";
+        switch (placeIndex)
+        {
+            case 0:
+                placeText = "1st";
+                break;
+            case 1:
+                placeText = "2nd";
+                break;
+            case 2:
+                placeText = "3rd";
+                break;
+            default:
+                placeText = "1st";
+                break;
+        }
+        if (placeIndex > 2)
+        {
+            placeText = $"{placeIndex + 1}th";
+        }
+        placementText.text = placeText;
         gameObject.GetComponent<Text>().text = "Score: " + score;
         FindObjectOfType<highscore>().CheckScore(score);
     }

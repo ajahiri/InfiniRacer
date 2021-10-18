@@ -413,7 +413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6953484506367104166, guid: 4faf5b3b5e7674641b7254900e7e2c37, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectCar
+      value: PregameSubmission
       objectReference: {fileID: 0}
     - target: {fileID: 6953484506367104166, guid: 4faf5b3b5e7674641b7254900e7e2c37, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

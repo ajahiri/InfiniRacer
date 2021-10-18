@@ -42,13 +42,20 @@ public class countdown : MonoBehaviour
     private float timeBetweenNums;
     [SerializeField]
     private float startBuffer;
+    private FuelSystem fuelBar;
+    private CarController carController;
+    private GameObject pauseBtn;
     
     // Start is called before the first frame update
     void Start()
     {
-        //Disable car controller script before countdown begins
-        GameObject.FindWithTag("Player").GetComponent<CarController>().enabled = false;
-        GameObject.Find("FuelBar").GetComponent<FuelSystem>().enabled = false;
+        //Disable car controller script, fuel system and pause btn before countdown begins
+        carController = GameObject.FindWithTag("Player").GetComponent<CarController>();
+        fuelBar = GameObject.Find("FuelBar").GetComponent<FuelSystem>();
+        pauseBtn = GameObject.FindWithTag("PauseBtn");
+        carController.enabled = false;
+        fuelBar.enabled = false;
+        pauseBtn.SetActive(false);
         
         //Copying colors but changing alpha value to 0
         threeColAlpha = new Color(threeCol.r, threeCol.g, threeCol.b, 0.0f);
@@ -121,8 +128,12 @@ public class countdown : MonoBehaviour
                 r.enabled = true;
             }
             //Enables car controller script as "GO!" appears on screen
-            GameObject.Find("FuelBar").GetComponent<FuelSystem>().enabled = true;
-            GameObject.FindWithTag("Player").GetComponent<CarController>().enabled = true;
+            // GameObject.Find("FuelBar").GetComponent<FuelSystem>().enabled = true;
+            // GameObject.FindWithTag("Player").GetComponent<CarController>().enabled = true;
+            // GameObject.FindWithTag("PauseBtn").SetActive(true);
+            carController.enabled = true;
+            fuelBar.enabled = true;
+            pauseBtn.SetActive(true);
             
             StartCoroutine(goFade(timeBetweenNums));
         }
