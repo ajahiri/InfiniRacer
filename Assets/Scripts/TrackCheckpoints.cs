@@ -80,12 +80,6 @@ public class TrackCheckpoints : MonoBehaviour
             carPlacementList.Add(0);
         }
 
-        //if(!isTraining && botObjects.Length > 0) {
-        //    StartCoroutine(updatePlacements());
-        // else if (isTraining && botObjects.Length > 1) {
-        //    StartCoroutine(updatePlacements());
-        //}
-
         StartCoroutine(updatePlacements());
     }
 
