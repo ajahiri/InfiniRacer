@@ -166,7 +166,7 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void CarThroughCheckpoint(Checkpoint checkpoint, Transform carTransform) {
-        Debug.Log("car through checkpoint");
+        //Debug.Log("car through checkpoint");
 
         int carIdx = carTransformList.IndexOf(carTransform);
         int nextCheckpointIndex = nextCheckpointIndexList[carIdx];

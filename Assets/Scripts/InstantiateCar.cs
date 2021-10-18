@@ -9,7 +9,6 @@ public class InstantiateCar : MonoBehaviour
     public static InstantiateCar instance;
     public string PrefCar;
 
-
     void Awake()
     {
         PrefCar = GameObject.Find("PlayerPref").gameObject.GetComponent<SaveSelectedCar>().car;

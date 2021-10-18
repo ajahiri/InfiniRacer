@@ -799,6 +799,7 @@ GameObject:
   - component: {fileID: 352558866}
   - component: {fileID: 352558865}
   - component: {fileID: 352558864}
+  - component: {fileID: 352558867}
   m_Layer: 5
   m_Name: DriftButton
   m_TagString: Untagged
@@ -868,19 +869,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 352558865}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1887248365}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Drift
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &352558865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,6 +908,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352558862}
   m_CullTransparentMesh: 1
+--- !u!114 &352558867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352558862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630fd01da85e7fa439ca1d1593c5267d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefCar: 
 --- !u!1001 &374236972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1098,6 +1100,7 @@ GameObject:
   - component: {fileID: 398875918}
   - component: {fileID: 398875917}
   - component: {fileID: 398875916}
+  - component: {fileID: 398875919}
   m_Layer: 5
   m_Name: BrakesButton
   m_TagString: Untagged
@@ -1167,19 +1170,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 398875917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1887248365}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Brake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &398875917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1218,6 +1209,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398875914}
   m_CullTransparentMesh: 1
+--- !u!114 &398875919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398875914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3654b83c6318dd142a1315efc6e46d0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefCar: 
 --- !u!1 &410060988
 GameObject:
   m_ObjectHideFlags: 0
