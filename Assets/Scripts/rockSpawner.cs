@@ -11,10 +11,9 @@ public class rockSpawner : MonoBehaviour
     private void Start()
     {
 
-        int StandartDifficulty = 3;
         diff = (int)PlayerPrefs.GetFloat("GlobalDifficulty", 3);
-        int rand = Random.Range(0, (StandartDifficulty+ diff));
-        if (rand == StandartDifficulty)
+        int rand = Random.Range(0, (diff + 1));
+        if (rand == diff)
         {
             Spawn();
         }
