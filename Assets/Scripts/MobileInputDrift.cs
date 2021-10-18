@@ -11,12 +11,12 @@ public class MobileInputDrift : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        isDrifting = true;
+        carController.enableDrifting();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        isDrifting = false;
+        carController.disableDrifting();
     }
 
     // Start is called before the first frame update
@@ -24,21 +24,5 @@ public class MobileInputDrift : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {       
         PrefCar = GameObject.Find("SetupForCar").gameObject.GetComponent<InstantiateCar>().PrefCar;
         carController = GameObject.Find(PrefCar + "(Clone)").GetComponent<CarController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Debug.Log("Mobile Drift " + carController.isDrifting);
-        if (isDrifting)
-        {
-            carController.DriftButtonPressed = true;
-            carController.enableDrifting();
-        } 
-        if (!isDrifting)
-        {
-            carController.DriftButtonPressed = false;
-            carController.disableDrifting();
-        }
     }
 }
