@@ -41,7 +41,6 @@ public class PauseMenu : MonoBehaviour
         GameElementsUI.SetActive(true);
         Time.timeScale = 1f;
         gameIsPaused = false;
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
     public void PauseGame()
@@ -52,7 +51,6 @@ public class PauseMenu : MonoBehaviour
         GameElementsUI.SetActive(false);
         Time.timeScale = 0f;
         gameIsPaused = true;
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
     }
 
     public void LoadMenu()
@@ -60,7 +58,6 @@ public class PauseMenu : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Loading menu...");
     }
 
@@ -70,7 +67,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("RaceArea01");
         FindObjectOfType<AudioManager>().Play("CarEngine");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms
         Debug.Log("Restarting game...");
     }
 

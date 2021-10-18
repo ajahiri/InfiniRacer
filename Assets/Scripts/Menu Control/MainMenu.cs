@@ -11,6 +11,5 @@ public class MainMenu : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         SceneManager.LoadScene("RaceArea01");
-        Vibrator.Vibrate(Vibration.SHORT);  // 100 ms 
     }
 }
