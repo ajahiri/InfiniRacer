@@ -70,16 +70,4 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Restarting game...");
     }
 
-    public void Drift()
-    {
-        carController.Drift();
-        Debug.Log("Drift button is pressed");
-    }
-
-    public void Brake()
-    {
-        carController.ApplyBraking();
-        Debug.Log("Brake button is pressed");
-    }
-
 }

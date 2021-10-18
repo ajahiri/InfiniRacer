@@ -10,13 +10,13 @@ public class itemSpawn : MonoBehaviour
 
     private void Start()
     {
-        int StandartDifficulty = 3;
+        
         diff = (int)PlayerPrefs.GetFloat("GlobalDifficulty", 3);
-        int rand = Random.Range(0, (StandartDifficulty + 1) * diff);
+        int rand = Random.Range(0, diff+1);
         float checkFuel = GameObject.Find("FuelBar").GetComponent<FuelSystem>().Fuel;
-        if (rand == StandartDifficulty)
+        if (rand == diff)
         {
-            if (checkFuel < 5)
+            if (checkFuel < 7)
             {
                 var GiveMoreFuel = Instantiate(item[1], new Vector3(Random.Range(transform.position.x - 7, transform.position.x + 7), transform.position.y + 2, Random.Range(transform.position.z - 7, transform.position.z + 7)),
                 transform.parent.parent.rotation, GameObject.Find("TrackSpawner").transform);

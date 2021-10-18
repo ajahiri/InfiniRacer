@@ -21,25 +21,25 @@ public class CarController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private float currentSteeringAngle;
-    private float currentBrakeForce;
-    private bool isBraking;
-    private bool isDrifting;
+    public float currentBrakeForce;
+    public bool isBraking;
+    public bool isDrifting;
     public float motorForce;
 
     // Remembering original values for proper use of speed up and drift
-    private float originalMotorForce;
-    private WheelFrictionCurve originalForwardFriction;
-    private WheelFrictionCurve originalSidewayFriction;
+    public float originalMotorForce;
+    public WheelFrictionCurve originalForwardFriction;
+    public WheelFrictionCurve originalSidewayFriction;
 
     private TrackCheckpoints trackCheckpointsScript;
 
-    [SerializeField] private float brakeForce;
+    [SerializeField] public float brakeForce;
     [SerializeField] private float maxSteeringAngle;
     [SerializeField] private float vehicleStandardMass;
     [SerializeField] private bool tiltCont;
 
-    bool DriftButtonPressed;
-    private Rigidbody vehicleRigidBody;
+    public bool DriftButtonPressed;
+    public Rigidbody vehicleRigidBody;
 
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;
@@ -178,7 +178,7 @@ public class CarController : MonoBehaviour
         motorForce = originalMotorForce;
     }
 
-    private void HandleMotor()
+    public void HandleMotor()
     {
         if (verticalInput == -1)
         {
@@ -253,7 +253,7 @@ public class CarController : MonoBehaviour
     }
 
 
-    private void enableDrifting()
+    public void enableDrifting()
     {
         isDrifting = true;
         for (int i = 0; i < smoke.Length; i++)
@@ -275,13 +275,20 @@ public class CarController : MonoBehaviour
 
         motorForce = originalMotorForce / 4;
     }
-    private void disableDrifting()
+    public void disableDrifting()
     {
         isDrifting = false;
-        rearLeftWheelCollider.forwardFriction = originalForwardFriction;
+
+        rearLeftWheelCollider.forwardFriction = frontLeftWheelCollider.forwardFriction;
+        rearLeftWheelCollider.sidewaysFriction = frontLeftWheelCollider.sidewaysFriction;
+
+        rearRightWheelCollider.forwardFriction = frontLeftWheelCollider.forwardFriction;
+        rearRightWheelCollider.sidewaysFriction = frontLeftWheelCollider.sidewaysFriction;
+
+        /*rearLeftWheelCollider.forwardFriction = originalForwardFriction;
         rearLeftWheelCollider.sidewaysFriction = originalSidewayFriction;
         rearRightWheelCollider.forwardFriction = originalForwardFriction;
-        rearRightWheelCollider.sidewaysFriction = originalSidewayFriction;
+        rearRightWheelCollider.sidewaysFriction = originalSidewayFriction; */
 
         motorForce = originalMotorForce;
     }

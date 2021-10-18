@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: InifiniRunner
+  m_text: InifiniRacer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98b8cd58a63794230a51a2e8963c6741, type: 2}
   m_sharedMaterial: {fileID: -5545051645838385030, guid: 98b8cd58a63794230a51a2e8963c6741, type: 2}
