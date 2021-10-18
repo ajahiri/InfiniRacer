@@ -537,8 +537,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Record: 0
   NumStepsToRecord: 0
-  DemonstrationName: 
-  DemonstrationDirectory: 
+  DemonstrationName: DriveDemo
+  DemonstrationDirectory: DemoS_V2
 --- !u!1 &7548002792711536043
 GameObject:
   m_ObjectHideFlags: 0

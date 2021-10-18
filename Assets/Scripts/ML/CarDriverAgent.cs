@@ -83,7 +83,7 @@ public class CarDriverAgent : Agent
     }
     private void rewardStraightSteering() {
         if(wheelAngleChange == 0f) {
-            AddReward(0.1f);        
+            AddReward(0.01f);        
         } else if(wheelAngleChange > 0f && wheelAngleChange < 45f) {
             AddReward(+ 0.01f / wheelAngleChange); // gives higher rewards for less Angle change (when less than 45)
         } else {

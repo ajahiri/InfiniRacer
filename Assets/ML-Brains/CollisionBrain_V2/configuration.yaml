@@ -75,7 +75,7 @@ engine_settings:
   no_graphics: false
 environment_parameters: null
 checkpoint_settings:
-  run_id: CollisionBrain_V2_test
+  run_id: CollisionBrain_V2
   initialize_from: null
   load_model: false
   resume: true

@@ -1504,12 +1504,12 @@ PrefabInstance:
       objectReference: {fileID: 2087483494}
     - target: {fileID: 707610398447909324, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
       propertyPath: carTransformList.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 707610398447909324, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
       propertyPath: carTransformList.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 853275626}
     - target: {fileID: 707610398447909325, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2294,6 +2294,11 @@ Transform:
 --- !u!1 &853275618 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6712587918652903104, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
+  m_PrefabInstance: {fileID: 2037774455}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &853275626 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6227413447174444154, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
   m_PrefabInstance: {fileID: 2037774455}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &864151313
@@ -5886,6 +5891,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6416877705771216136, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
+      propertyPath: Record
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3806244905884723721, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
+      propertyPath: m_BehaviorType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6227413447174444154, guid: 259814a3d83ff0b9cb6e359762613007, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -6109,7 +6122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6406234091291897791, guid: 92b12752bfa99f1aa815a434f98f21fb, type: 3}
       propertyPath: numBotsToLoad
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6406234091291897791, guid: 92b12752bfa99f1aa815a434f98f21fb, type: 3}
       propertyPath: checkpointHandlerObject
@@ -6117,7 +6130,7 @@ PrefabInstance:
       objectReference: {fileID: 476299680}
     - target: {fileID: 6406234091291897791, guid: 92b12752bfa99f1aa815a434f98f21fb, type: 3}
       propertyPath: vehicleObjects.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6406234091291897791, guid: 92b12752bfa99f1aa815a434f98f21fb, type: 3}
       propertyPath: vehicleObjects.Array.data[0]
