@@ -233,7 +233,6 @@ public class TrackSpawnerController : MonoBehaviour
 
     // Origin game object where spawning starts
     private Transform spawnerTransformOrigin;
-    private List<Vector3> spawnPositions = new List<Vector3>(); 
 
     private TrackCheckpoints trackCheckpointsScript;
 
@@ -297,14 +296,21 @@ public class TrackSpawnerController : MonoBehaviour
         InitialiseTrack();
     }
 
-    public void ResetVehicles()
+    public void ResetVehicles(List<Vector3> spawnPositions)
     {
-        for (int idx = 0; idx < vehicleObjects.Count; idx++)
-        {
-            GameObject bot = vehicleObjects[idx];
-            bot.transform.SetPositionAndRotation(spawnPositions[idx], Quaternion.Euler(0, 0, 0));
-            bot.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            bot.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        if(spawnPositions.Count == vehicleObjects.Count) {
+            //Debug.Log("vehicleObjects.Count: " + vehicleObjects.Count);
+            for (int idx = 0; idx < vehicleObjects.Count; idx++)
+            {
+                //Debug.Log("INDEX: " + idx);
+                //Debug.Log(spawnPositions.Count);
+                GameObject bot = vehicleObjects[idx];
+                bot.transform.SetPositionAndRotation(spawnPositions[idx], Quaternion.Euler(0, 0, 0));
+                bot.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                bot.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            }
+        } else {
+            Debug.LogError("OI RETARD!! The number of cars in vehicleObject is different to the number of spawn positions.");
         }
     }
 

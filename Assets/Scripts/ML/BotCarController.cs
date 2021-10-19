@@ -11,12 +11,12 @@ public class BotCarController : MonoBehaviour
     private const string VERTICAL = "Vertical";
 
     private float horizontalInput;
-    private bool reversing;
     private float currentSteeringAngle;
     private float currentBrakeForce;
     private bool isBraking;
 
     [SerializeField] private float motorForce;
+    private float appliedForce;
     private float initialMotorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteeringAngle;
@@ -50,7 +50,24 @@ public class BotCarController : MonoBehaviour
     }
 
     public bool isReversing() {
-        return reversing;
+        if(appliedForce == -motorForce){
+            return true;
+        }
+        return false;
+    }
+
+    public bool isGoingForward() {
+        if(appliedForce == motorForce) {
+            return true;
+        }
+        return false;
+    }
+
+    public bool isNeutral() {
+        if(appliedForce == 0f) {
+            return true;
+        }
+        return false;
     }
     private void Awake() {
         initialMotorForce = motorForce;
@@ -70,9 +87,18 @@ public class BotCarController : MonoBehaviour
         UpdateWheels();
     }
 
-    public void SetInputs(float newHorizontal, bool reverse) {
+    public void SetInputs(float newHorizontal, int accelerationValue) {
         horizontalInput = newHorizontal;
-        reversing = reverse;
+        if(accelerationValue == 2) {
+            //forward
+            appliedForce = motorForce;
+        } else if(accelerationValue == 1) {
+            //neutral
+            appliedForce = 0f;
+        } else if(accelerationValue == 0) {
+            //reverse
+            appliedForce = -motorForce;
+        }
         //isBraking = brakingInput;
         //Debug.Log("setting inputs " + horizontalInput + " " + verticalInput + " " + isBraking);
         //Debug.Log("vertical input: " + verticalInput);
@@ -80,16 +106,11 @@ public class BotCarController : MonoBehaviour
 
     private void HandleMotor()
     {
-        if(reversing){
-            rearLeftWheelCollider.motorTorque = -motorForce;
-            rearRightWheelCollider.motorTorque = -motorForce;
-        } else {
-            rearLeftWheelCollider.motorTorque = motorForce;
-            rearRightWheelCollider.motorTorque = motorForce;
-        }
-
-        currentBrakeForce = isBraking ? brakeForce : 0f;
-        ApplyBraking();
+        rearLeftWheelCollider.motorTorque = appliedForce;
+        rearRightWheelCollider.motorTorque = appliedForce;
+        
+        // currentBrakeForce = isBraking ? brakeForce : 0f;
+        // ApplyBraking();
     }
     private void ApplyBraking()
     {

@@ -24,6 +24,9 @@ TagManager:
   - CheckpointHandler
   - WrongWay
   - PauseBtn
+  - TrackTurn
+  - TrackTurnLeft
+  - TrackTurnRight
   layers:
   - Default
   - TransparentFX

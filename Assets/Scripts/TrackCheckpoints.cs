@@ -197,7 +197,7 @@ public class TrackCheckpoints : MonoBehaviour
             carPlacementList.Add(0);
 
             // Reset position and momentum
-            trackTarget.GetComponent<TrackSpawnerController>().ResetVehicles();
+            trackTarget.GetComponent<TrackSpawnerController>().ResetVehicles(spawnPositions);
         }
         trackTarget.GetComponent<TrackSpawnerController>().ResetSpawner();
     }
@@ -324,6 +324,17 @@ public class TrackCheckpoints : MonoBehaviour
 
     // End Placement System ARIAN
 
+    public Checkpoint get_Nth_NextCheckpoint(int carIdx, int n) {
+        int Nth_NextCheckpointIdx = nextCheckpointIndexList[carIdx] + (n-1);
+        //Debug.LogError("CP List Count: " + checkpointList.Count + " AND Nth_NextCPidx: " + Nth_NextCheckpointIdx);
+        if(checkpointList.Count > Nth_NextCheckpointIdx) {
+            return checkpointList[Nth_NextCheckpointIdx];
+        }
+        return null;
+    }
+    public int getNextCheckpointIndex(int carIdx) {
+         return nextCheckpointIndexList[carIdx];
+    }
     public int findCarIndex(Transform transform) {
         return carTransformList.IndexOf(transform);
     }
