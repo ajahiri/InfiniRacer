@@ -27,6 +27,7 @@ TagManager:
   - TrackTurn
   - TrackTurnLeft
   - TrackTurnRight
+  - Nuke
   layers:
   - Default
   - TransparentFX

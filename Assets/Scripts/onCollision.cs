@@ -5,9 +5,11 @@ using UnityEngine;
 public class onCollision : MonoBehaviour
 {
     [SerializeField] private GameObject[] effects;
+    private IEnumerator bananaCoroutine;
 
     public void Start()
     {
+        bananaCoroutine = OOOOOOHHHHbanana(2.0f);
     }
 
     void OnCollisionEnter(Collision col)
@@ -33,7 +35,7 @@ public class onCollision : MonoBehaviour
         }
         if (col.gameObject.tag == "banana")
         {
-            gameObject.GetComponent<CarController>().Drift();
+            StartCoroutine(bananaCoroutine);
             FindObjectOfType<AudioManager>().Play("banana");
             Destroy(col.gameObject);
             
@@ -50,5 +52,21 @@ public class onCollision : MonoBehaviour
             Destroy(col.gameObject);
             GameObject.Find("FuelBar").gameObject.transform.GetComponent<FuelSystem>().FuelPickUp(15.0f);
         }
+        if (col.gameObject.tag == "Nuke")
+        {
+            Destroy(col.gameObject);
+            gameObject.GetComponent<CarController>().GameoverSeq(2);
+        }
     }
+
+    private IEnumerator OOOOOOHHHHbanana(float waitTime)
+    {
+
+        gameObject.GetComponent<CarController>().DriftButtonPressed = true;
+        gameObject.GetComponent<CarController>().enableDrifting();
+        yield return new WaitForSeconds(waitTime);
+        gameObject.GetComponent<CarController>().DriftButtonPressed = false;
+        gameObject.GetComponent<CarController>().disableDrifting();
+    }
+
 }

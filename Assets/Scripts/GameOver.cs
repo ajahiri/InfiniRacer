@@ -16,8 +16,10 @@ public class GameOver : MonoBehaviour
         //Time.timeScale = 1f;
         SceneManager.LoadScene("RaceArea01");
         FindObjectOfType<AudioManager>().Stop("Game Over");
-        FindObjectOfType<AudioManager>().Play("CarEngine");
+        FindObjectOfType<AudioManager>().Stop("BIIIIIIGBOOOOM");
+        
         FindObjectOfType<AudioManager>().Play("Start sound");
+        FindObjectOfType<AudioManager>().Play("CarEngine");
         Debug.Log("Restarting game...");
     }
     public void LoadMenu()
@@ -25,6 +27,7 @@ public class GameOver : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         //Time.timeScale = 1f;
         FindObjectOfType<AudioManager>().Stop("Game Over");
+        FindObjectOfType<AudioManager>().Stop("BIIIIIIGBOOOOM");
         SceneManager.LoadScene("TitleScene");
         Debug.Log("Loading menu...");
     }

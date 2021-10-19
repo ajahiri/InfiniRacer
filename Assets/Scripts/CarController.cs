@@ -65,7 +65,7 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         tepeat = false;
-        tiltCont = true;
+        //tiltCont = true;
         DriftButtonPressed = false;
         //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
         // Set custom center of mass to fix flipping issue
@@ -96,7 +96,7 @@ public class CarController : MonoBehaviour
         if (fuel.Fuel == 0 && tepeat == false)
         {
             tepeat = true;
-            GameoverSeq();
+            GameoverSeq(1);
         }
 
         CheckWrongWay();
@@ -119,13 +119,23 @@ public class CarController : MonoBehaviour
         }
     }
 
-    public void GameoverSeq()
+    public void GameoverSeq(int dfq)
     {
-        motorForce = 0;
-        GetBoost(0f);
-        FindObjectOfType<AudioManager>().Stop("CarEngine");
-        FindObjectOfType<AudioManager>().Play("Game Over");
-        SceneManager.LoadScene("GameOver");
+        if (dfq == 1)
+        {
+            motorForce = 0;
+            GetBoost(0f);
+            FindObjectOfType<AudioManager>().Stop("CarEngine");
+            FindObjectOfType<AudioManager>().Play("Game Over");
+            SceneManager.LoadScene("GameOver");
+        }else if(dfq == 2)
+        {
+            motorForce = 0;
+            GetBoost(0f);
+            FindObjectOfType<AudioManager>().Stop("CarEngine");
+            FindObjectOfType<AudioManager>().Play("BIIIIIIGBOOOOM");
+            SceneManager.LoadScene("GameOver");
+        }
     }
 
     private void FixedUpdate()

@@ -320,7 +320,7 @@ public class TrackSpawnerController : MonoBehaviour
 
         // Track cleaner
         // if (trackPieceMemory.Count > 12) {
-        if (minDistanceToStart > 50f) {
+        if (minDistanceToStart > 200f) {
             // Update checkpoint handler on track piece removal
             checkpointHandlerObject.GetComponent<TrackCheckpoints>().RemoveCheckpoints(firstPiece.targetObject);
             Destroy(firstPiece.targetObject.gameObject);

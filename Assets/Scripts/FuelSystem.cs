@@ -22,7 +22,7 @@ public class FuelSystem : MonoBehaviour
         Fuel = maxFuel;
     }
 
-    private void Update()
+    public void Update()
     {
         if (Fuel > 0)
         {
