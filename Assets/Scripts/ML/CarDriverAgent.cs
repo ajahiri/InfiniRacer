@@ -85,7 +85,7 @@ public class CarDriverAgent : Agent
         }
     }
     private void rewardStraightSteering() {
-        if(!isLeftTurnAhead() && !isRightTurnAhead()) {
+        if(!isLeftTurnAhead() && !isRightTurnAhead() && currentSpeed < 10) {
             if(wheelAngleChange == 0f) {
                 AddReward(0.1f);        
             } else if(wheelAngleChange > 0f && wheelAngleChange < 50f) {
