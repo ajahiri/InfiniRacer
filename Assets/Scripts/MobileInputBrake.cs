@@ -34,17 +34,22 @@ public class MobileInputBrake : MonoBehaviour, IPointerDownHandler, IPointerUpHa
             carController.isBraking = true;
             carController.currentBrakeForce = carController.brakeForce;
             carController.HandleMotor();
-            if (carController.vehicleRigidBody.velocity.magnitude > 0.5)
+            if (carController.vehicleRigidBody.velocity.magnitude > 6)
             {
-                carController.motorForce = -15000;
+                
+                carController.motorForce = -6500;
                 Debug.Log(carController.vehicleRigidBody.velocity.magnitude);
+                return;
             }
-
-            else
+            if (carController.vehicleRigidBody.velocity.magnitude <= 6)
             {
-                carController.vehicleRigidBody.velocity = Vector3.zero;
-                carController.vehicleRigidBody.angularVelocity = Vector3.zero;
-                Debug.Log(carController.vehicleRigidBody.velocity.magnitude);
+                Debug.Log("Second if loop " + carController.vehicleRigidBody.velocity.magnitude);
+                carController.motorForce = -3;
+                for (int i = 0; i < carController.smoke.Length; i++)
+                {
+                    carController.smoke[i].Pause();
+                }
+                return;
             } 
         } 
         if (!isBraking)

@@ -37,10 +37,9 @@ public class TitleSceneManager : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         SceneManager.LoadScene("PostAttentionScreen");
     }
+
+
     [SerializeField] GameObject LoadScreen;
-
-
-
     List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
     public void LoadGame()
     {
@@ -52,11 +51,5 @@ public class TitleSceneManager : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("button press");
         Debug.Log("loading game...");
     }
-
-
-
-
-
-
 
 }
