@@ -41,6 +41,7 @@ public class PreGameForm : MonoBehaviour
     {
         PlayerPrefs.SetFloat("attentionRatingPregame", attentionRating);
         PlayerPrefs.SetString("submissionName", submissionName);
+        PlayerPrefs.SetFloat("startPlayTime", Time.time);
         Debug.Log("Submitting pregame form...Saving data in prefs");
         GameObject.Find("SceneManager").GetComponent<TitleSceneManager>().SelectCar();
     }

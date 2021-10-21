@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5269952519312626206}
   - component: {fileID: 5269952519312626207}
   - component: {fileID: 5269952519312626204}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bitcoin
   m_TagString: coin
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3592175698851337495}
   - component: {fileID: 8616325968316589865}
   - component: {fileID: 7426217066512913222}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bitcoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
