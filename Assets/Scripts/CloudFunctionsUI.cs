@@ -21,16 +21,15 @@ public class CloudFunctionsUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Get user's current score from dontDestroyOnLoad
+        currentUserScore = GameObject.Find("HighScore").GetComponent<highscore>().GetCurrentScore();
         GameObject.Find("PlayerScoreText").GetComponent<TextMeshProUGUI>().text = $"Your Score: {currentUserScore}";
+        
         Debug.Log(PlayerPrefs.GetFloat("attentionRatingPregame"));
         Debug.Log(PlayerPrefs.GetString("submissionName"));
         Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
 
         userPlayTime = Time.time - PlayerPrefs.GetFloat("startPlayTime");
-
-        // Get user's current score from dontDestroyOnLoad
-        currentUserScore = GameObject.Find("HighScore").GetComponent<highscore>().GetScore();
-
         // Session ID ensures that users can only submit once per session
         sessionID = System.Guid.NewGuid().ToString();
 
