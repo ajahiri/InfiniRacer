@@ -8,7 +8,11 @@ using TMPro;
 
 public class CloudFunctionsUI : MonoBehaviour
 {
+    // Unique session ID for identifying this particular play session
     private string sessionID;
+
+    // Just a token that helps avoid any random API reqs being considered valid (in no way secure but is enough for this application)
+    private string unityGameToken = "ni8cbHAOOfSokk6t5AF9pJH8mKFd1fN8";
 
     // Start is called before the first frame update
     void Start()
@@ -18,10 +22,10 @@ public class CloudFunctionsUI : MonoBehaviour
         Debug.Log(PlayerPrefs.GetString("submissionName"));
         Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
 
-        Debug.Log(System.Guid.NewGuid().ToString());
+        // Session ID ensures that users can only submit once per session
+        sessionID = System.Guid.NewGuid().ToString();
 
         StartCoroutine(getLeaderBoard());
-
     }
 
     // Update is called once per frame
