@@ -314,7 +314,7 @@ public class TrackSpawnerController : MonoBehaviour
 
         // Track cleaner
         // if (trackPieceMemory.Count > 12) {
-        if (minDistanceToStart > 200f) {
+        if (minDistanceToStart > 100f) {
             // Update checkpoint handler on track piece removal
             checkpointHandlerObject.GetComponent<TrackCheckpoints>().RemoveCheckpoints(firstPiece.targetObject);
             Destroy(firstPiece.targetObject.gameObject);
@@ -427,7 +427,7 @@ public class TrackSpawnerController : MonoBehaviour
         }
 
         // Conditional spawning interation loop
-        if (minDistanceToEnd < 50) {
+        if (minDistanceToEnd < 200f) {
             // Debug.Log("in distance");
             var numTurns = CheckNumTurns();
             TrackSpawner(numTurns);

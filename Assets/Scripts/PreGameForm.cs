@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PreGameForm : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class PreGameForm : MonoBehaviour
     public void SetAttentionRating(float newAttentionRating)
     {
         attentionRating = newAttentionRating;
+        GameObject.Find("PregameAttentionRating").GetComponent<TextMeshProUGUI>().text = "Attention Rating - " + (int)newAttentionRating;
         Debug.Log(attentionRating);
     }
 

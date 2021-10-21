@@ -16,20 +16,25 @@ public class CloudFunctionsUI : MonoBehaviour
 
     private float userPlayTime;
 
+    private int currentUserScore;
+
     // Start is called before the first frame update
     void Start()
     {
-        GameObject.Find("PlayerScoreText").GetComponent<TextMeshProUGUI>().text = $"Your Score: {PlayerPrefs.GetInt("score")}";
+        GameObject.Find("PlayerScoreText").GetComponent<TextMeshProUGUI>().text = $"Your Score: {currentUserScore}";
         Debug.Log(PlayerPrefs.GetFloat("attentionRatingPregame"));
         Debug.Log(PlayerPrefs.GetString("submissionName"));
         Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
 
         userPlayTime = Time.time - PlayerPrefs.GetFloat("startPlayTime");
 
+        // Get user's current score from dontDestroyOnLoad
+        currentUserScore = GameObject.Find("HighScore").GetComponent<highscore>().GetScore();
+
         // Session ID ensures that users can only submit once per session
         sessionID = System.Guid.NewGuid().ToString();
 
-        if (PlayerPrefs.GetFloat("attentionRatingPregame") == -1)
+        if (PlayerPrefs.GetFloat("attentionRatingPregame") == 0)
         {
             GameObject.Find("PostgameAttentionRating").gameObject.SetActive(false);
         }
@@ -37,13 +42,7 @@ public class CloudFunctionsUI : MonoBehaviour
         StartCoroutine(getLeaderBoard());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    // Define the classes for JSON deserialization
+    // Define the class for JSON deserialization (High Scores)
     private class SingleScore
     {
         public string _id;
@@ -101,7 +100,7 @@ public class CloudFunctionsUI : MonoBehaviour
         var inputText = GameObject.Find("ScoreSubmitInput").GetComponent<TMP_InputField>().text;
         scoreSubmissionName = inputText.Length > 0 ? inputText : "Anonymous";
         Debug.Log(scoreSubmissionName);
-        StartCoroutine(SubmitScoreRequest(scoreSubmissionName, PlayerPrefs.GetInt("score")));
+        StartCoroutine(SubmitScoreRequest(scoreSubmissionName, currentUserScore));
     }
 
     // User score class for serialisation
@@ -160,15 +159,22 @@ public class CloudFunctionsUI : MonoBehaviour
         public int attentionBefore;
         public int attentionAfter;
         public float score;
+        public float playTime;
+        public string token = unityGameToken;
+        public string sessionID;
 
+        public AttentionSession(string a, int b, int c, int d, float e, string f)
+        {
+            name = a;
+            attentionBefore = b;
+            attentionAfter = c;
+            score = d;
+            playTime = e;
+            sessionID = f;
+        }
     }
 
-    /*
-     * Debug.Log(PlayerPrefs.GetFloat("attentionRatingPregame"));
-        Debug.Log(PlayerPrefs.GetString("submissionName"));
-        Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
-        PlayerPrefs.GetInt("score")
-     * 
+    /* Backend requirements for attention session:
         const name = req.body.name || 'Anonymous';
         const attentionBefore = req.body.attentionBefore;
         const attentionAfter = req.body.attentionAfter;
@@ -178,20 +184,29 @@ public class CloudFunctionsUI : MonoBehaviour
         const sessionID = req.body.sessionID || null;
      */
 
-    /*
-    public IEnumerator SubmitAttentionSession()
+    public void SubmitAttentionSession()
+    {
+        StartCoroutine(SubmitAttentionSessionRequest());
+    }
+
+    private IEnumerator SubmitAttentionSessionRequest()
     {
         var attentionRatingObj = GameObject.Find("PostgameAttentionRating");
         var slider = attentionRatingObj.GetComponentInChildren<Slider>();
-        int newAttentionRating = slider.value;
+        int newAttentionRating = (int)slider.value;
         Debug.Log(newAttentionRating);
 
-        Debug.Log("Submitting user score");
-        GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Submitting user score...";
-        UserScore newScore = new UserScore(submissionName, score, sessionID);
-        string addScoreJSON = JsonConvert.SerializeObject(newScore);
-        Debug.Log(addScoreJSON);
-        using (UnityWebRequest www = UnityWebRequest.Put("https://australia-southeast1-infiniracer.cloudfunctions.net/AddNewScore", addScoreJSON))
+        var name = PlayerPrefs.GetString("submissionName");
+        var attentionBefore = (int)PlayerPrefs.GetFloat("attentionRatingPregame");
+        
+        GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Submitting user attention session...";
+        
+        AttentionSession newAttentionSession = new AttentionSession(name, attentionBefore, newAttentionRating, currentUserScore, userPlayTime, sessionID);
+        string addAttentionJSON = JsonConvert.SerializeObject(newAttentionSession);
+        
+        Debug.Log(addAttentionJSON);
+        
+        using (UnityWebRequest www = UnityWebRequest.Put("https://australia-southeast1-infiniracer.cloudfunctions.net/CreateAttentionSession", addAttentionJSON))
         {
             www.SetRequestHeader("Content-Type", "application/json");
             yield return www.SendWebRequest();
@@ -199,11 +214,11 @@ public class CloudFunctionsUI : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
-                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Error sending score, no resubmits allowed...";
+                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Error sending attention session, no resubmits allowed...";
             }
             else
             {
-                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Successfully submitted score...";
+                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Successfully submitted attention session...";
                 StartCoroutine(getLeaderBoard()); // Update leaderboard in case user had a higher score
             }
         }
@@ -212,5 +227,4 @@ public class CloudFunctionsUI : MonoBehaviour
 
         GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "";
     }
-    */
 }
