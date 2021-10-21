@@ -35,7 +35,36 @@ public class TrackCheckpoints : MonoBehaviour
     [SerializeField] public int numBotsToLoad = 1;
     private List<Vector3> spawnPositions = new List<Vector3>();
 
+    // Load debuffitems once for better performance
+    // These are publicly accessible by any other script
+    public Transform[] deBuffItems;
+    public Transform[] buffItems;
+    public Transform[] rockItems;
+
     private void Start() {
+
+        // Improving performance, load pieces into memory
+        deBuffItems = new Transform[]
+        {
+            Resources.Load<Transform>("Blender3DModels/banana/Banana"),
+            Resources.Load<Transform>("Blender3DModels/bomb/bomb"),
+        };
+
+       buffItems = new Transform[]
+        {
+            Resources.Load<Transform>("Blender3DModels/boost/Boost"),
+            Resources.Load<Transform>("Blender3DModels/coin/bitcoin"),
+            Resources.Load<Transform>("Blender3DModels/Gas/Gas"),
+        };
+
+        rockItems = new Transform[]
+        {
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock1"),
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock2"),
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock3"),
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock4"),
+        };
+
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
         // foreach (Transform trackPiece in trackTarget) {
@@ -211,6 +240,17 @@ public class TrackCheckpoints : MonoBehaviour
     public Checkpoint GetNextCheckpoint(Transform vehicleTransform) {
         if (checkpointList.Count > 0) {
             return checkpointList[nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)]];
+        }
+        return null;
+    }
+
+    public Checkpoint[] GetNextFourCheckpoints(Transform vehicleTransform)
+    {
+        if (checkpointList.Count > 0)
+        {
+            int checkpointIndex = nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)];
+            Checkpoint[] nextFourCheckpoints = { checkpointList[checkpointIndex + 1], checkpointList[checkpointIndex + 2], checkpointList[checkpointIndex + 3], checkpointList[checkpointIndex + 4] };
+            return nextFourCheckpoints;
         }
         return null;
     }

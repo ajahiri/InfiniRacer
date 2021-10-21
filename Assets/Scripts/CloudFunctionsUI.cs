@@ -18,13 +18,23 @@ public class CloudFunctionsUI : MonoBehaviour
 
     private int currentUserScore;
 
+    private int scaledUserScore;
+
+    private int diff;
+
     // Start is called before the first frame update
     void Start()
     {
         // Get user's current score from dontDestroyOnLoad
+        diff = (int)PlayerPrefs.GetFloat("GlobalDifficulty", 3);
         currentUserScore = GameObject.Find("HighScore").GetComponent<highscore>().GetCurrentScore();
-        GameObject.Find("PlayerScoreText").GetComponent<TextMeshProUGUI>().text = $"Your Score: {currentUserScore}";
+
+        // User score is scaled with difficulty on an exponential scale
+        scaledUserScore = (int)(currentUserScore * Mathf.Exp((diff/1.5f) - 1));
         
+        GameObject.Find("PlayerScoreText").GetComponent<TextMeshProUGUI>().text = $"Your Score: {currentUserScore}";
+        GameObject.Find("ScaledScoreText").GetComponent<TextMeshProUGUI>().text = $"Scaled Score: {scaledUserScore}";
+
         Debug.Log(PlayerPrefs.GetFloat("attentionRatingPregame"));
         Debug.Log(PlayerPrefs.GetString("submissionName"));
         Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
@@ -99,7 +109,7 @@ public class CloudFunctionsUI : MonoBehaviour
         var inputText = GameObject.Find("ScoreSubmitInput").GetComponent<TMP_InputField>().text;
         scoreSubmissionName = inputText.Length > 0 ? inputText : "Anonymous";
         Debug.Log(scoreSubmissionName);
-        StartCoroutine(SubmitScoreRequest(scoreSubmissionName, currentUserScore));
+        StartCoroutine(SubmitScoreRequest(scoreSubmissionName, scaledUserScore));
     }
 
     // User score class for serialisation
@@ -161,8 +171,9 @@ public class CloudFunctionsUI : MonoBehaviour
         public float playTime;
         public string token = unityGameToken;
         public string sessionID;
+        public int difficulty;
 
-        public AttentionSession(string a, int b, int c, int d, float e, string f)
+        public AttentionSession(string a, int b, int c, int d, float e, string f, int g)
         {
             name = a;
             attentionBefore = b;
@@ -170,6 +181,7 @@ public class CloudFunctionsUI : MonoBehaviour
             score = d;
             playTime = e;
             sessionID = f;
+            difficulty = g;
         }
     }
 
@@ -200,7 +212,7 @@ public class CloudFunctionsUI : MonoBehaviour
         
         GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Submitting user attention session...";
         
-        AttentionSession newAttentionSession = new AttentionSession(name, attentionBefore, newAttentionRating, currentUserScore, userPlayTime, sessionID);
+        AttentionSession newAttentionSession = new AttentionSession(name, attentionBefore, newAttentionRating, currentUserScore, userPlayTime, sessionID, diff);
         string addAttentionJSON = JsonConvert.SerializeObject(newAttentionSession);
         
         Debug.Log(addAttentionJSON);

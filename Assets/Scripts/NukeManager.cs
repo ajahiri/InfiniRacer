@@ -23,7 +23,6 @@ public class NukeManager : MonoBehaviour
                 checkpoints.Add(go);
             }
         }
-        Debug.Log(checkpoints.Count);
         if (checkpoints.Count > 50)
         {
             if (nukeSpawned == false)

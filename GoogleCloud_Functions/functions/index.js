@@ -15,6 +15,7 @@ exports.CreateAttentionSession = functions.region('australia-southeast1').https.
     const score = req.body.score || 0;
     const token = req.body.token || "";
     const sessionID = req.body.sessionID || null;
+    const difficulty = req.body.difficulty || 3; // Default diff is 3
     try {
         if (token !== verToken) return res.status(401).send("Invalid token used");
         if (!sessionID) return res.status(401).send("Sesion ID required");
@@ -34,6 +35,7 @@ exports.CreateAttentionSession = functions.region('australia-southeast1').https.
             playTime,
             score,
             sessionID,
+            difficulty
         }
 
         await attentionSessions.insertOne(recordData);

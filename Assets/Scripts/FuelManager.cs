@@ -12,19 +12,14 @@ public class FuelManager : MonoBehaviour
     {
         checkFuel = GameObject.Find("FuelBar").GetComponent<FuelSystem>().Fuel;
 
-        if (checkFuel < 10)
+        if (checkFuel < 5)
         {
             if (refil == false)
             {
                 refil = true;
-                GameObject[] gas = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-                foreach (GameObject go in gas)
-                {
-                    if (go.layer == 6)
-                    {
-                        go.GetComponent<itemSpawn>().SpawnFuel();
-                    }
-                }
+                var playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+                Checkpoint[] nextCheckpoints = GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>().GetNextFourCheckpoints(playerTransform);
+                nextCheckpoints[2].GetComponent<itemSpawn>().SpawnFuel();
             }
         }
         else refil = false;

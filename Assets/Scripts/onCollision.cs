@@ -9,7 +9,6 @@ public class onCollision : MonoBehaviour
 
     public void Start()
     {
-        bananaCoroutine = OOOOOOHHHHbanana(2.0f);
     }
 
     void OnCollisionEnter(Collision col)
@@ -35,7 +34,7 @@ public class onCollision : MonoBehaviour
         }
         if (col.gameObject.tag == "banana")
         {
-            StartCoroutine(bananaCoroutine);
+            StartCoroutine(OOOOOOHHHHbanana(2.0f));
             FindObjectOfType<AudioManager>().Play("banana");
             Destroy(col.gameObject);
             
@@ -61,12 +60,13 @@ public class onCollision : MonoBehaviour
 
     private IEnumerator OOOOOOHHHHbanana(float waitTime)
     {
-
+        Debug.Log("called banana coroutine");
         gameObject.GetComponent<CarController>().DriftButtonPressed = true;
         gameObject.GetComponent<CarController>().enableDrifting();
         yield return new WaitForSeconds(waitTime);
         gameObject.GetComponent<CarController>().DriftButtonPressed = false;
         gameObject.GetComponent<CarController>().disableDrifting();
+        yield break;
     }
 
 }
