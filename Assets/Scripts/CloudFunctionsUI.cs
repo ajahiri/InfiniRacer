@@ -12,7 +12,9 @@ public class CloudFunctionsUI : MonoBehaviour
     private string sessionID;
 
     // Just a token that helps avoid any random API reqs being considered valid (in no way secure but is enough for this application)
-    private string unityGameToken = "ni8cbHAOOfSokk6t5AF9pJH8mKFd1fN8";
+    static string unityGameToken = "ni8cbHAOOfSokk6t5AF9pJH8mKFd1fN8";
+
+    private float userPlayTime;
 
     // Start is called before the first frame update
     void Start()
@@ -22,8 +24,15 @@ public class CloudFunctionsUI : MonoBehaviour
         Debug.Log(PlayerPrefs.GetString("submissionName"));
         Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
 
+        userPlayTime = Time.time - PlayerPrefs.GetFloat("startPlayTime");
+
         // Session ID ensures that users can only submit once per session
         sessionID = System.Guid.NewGuid().ToString();
+
+        if (PlayerPrefs.GetFloat("attentionRatingPregame") == -1)
+        {
+            GameObject.Find("PostgameAttentionRating").gameObject.SetActive(false);
+        }
 
         StartCoroutine(getLeaderBoard());
     }
@@ -100,18 +109,21 @@ public class CloudFunctionsUI : MonoBehaviour
     {
         public string name;
         public int score;
+        public string token = unityGameToken;
+        public string sessionID;
 
-        public UserScore(string a, int b)
+        public UserScore(string a, int b, string c)
         {
             name = a;
             score = b;
+            sessionID = c;
         }
     }
     private IEnumerator SubmitScoreRequest(string submissionName, int score)
     {
         Debug.Log("Submitting user score");
         GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Submitting user score...";
-        UserScore newScore = new UserScore(submissionName, score);
+        UserScore newScore = new UserScore(submissionName, score, sessionID);
         string addScoreJSON = JsonConvert.SerializeObject(newScore);
         Debug.Log(addScoreJSON);
         using (UnityWebRequest www = UnityWebRequest.Put("https://australia-southeast1-infiniracer.cloudfunctions.net/AddNewScore", addScoreJSON))
@@ -122,7 +134,7 @@ public class CloudFunctionsUI : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
-                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Error sending score...";
+                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Error sending score, no resubmits allowed...";
             }
             else
             {
@@ -135,9 +147,70 @@ public class CloudFunctionsUI : MonoBehaviour
 
         GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "";
     }
-
-    public void SubmitAttentionSession(float newAttentionRating)
+    public void UpdateAttentionRating()
     {
-        Debug.Log(newAttentionRating);
+        var attentionRatingObj = GameObject.Find("PostgameAttentionRating");
+        var slider = attentionRatingObj.GetComponentInChildren<Slider>();
+        attentionRatingObj.GetComponent<TextMeshProUGUI>().text = "Post Game Attention Rating - " + slider.value;
     }
+
+    class AttentionSession
+    {
+        public string name;
+        public int attentionBefore;
+        public int attentionAfter;
+        public float score;
+
+    }
+
+    /*
+     * Debug.Log(PlayerPrefs.GetFloat("attentionRatingPregame"));
+        Debug.Log(PlayerPrefs.GetString("submissionName"));
+        Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
+        PlayerPrefs.GetInt("score")
+     * 
+        const name = req.body.name || 'Anonymous';
+        const attentionBefore = req.body.attentionBefore;
+        const attentionAfter = req.body.attentionAfter;
+        const playTime = req.body.playTime;
+        const score = req.body.score || 0;
+        const token = req.body.token || "";
+        const sessionID = req.body.sessionID || null;
+     */
+
+    /*
+    public IEnumerator SubmitAttentionSession()
+    {
+        var attentionRatingObj = GameObject.Find("PostgameAttentionRating");
+        var slider = attentionRatingObj.GetComponentInChildren<Slider>();
+        int newAttentionRating = slider.value;
+        Debug.Log(newAttentionRating);
+
+        Debug.Log("Submitting user score");
+        GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Submitting user score...";
+        UserScore newScore = new UserScore(submissionName, score, sessionID);
+        string addScoreJSON = JsonConvert.SerializeObject(newScore);
+        Debug.Log(addScoreJSON);
+        using (UnityWebRequest www = UnityWebRequest.Put("https://australia-southeast1-infiniracer.cloudfunctions.net/AddNewScore", addScoreJSON))
+        {
+            www.SetRequestHeader("Content-Type", "application/json");
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.Log(www.error);
+                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Error sending score, no resubmits allowed...";
+            }
+            else
+            {
+                GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "Successfully submitted score...";
+                StartCoroutine(getLeaderBoard()); // Update leaderboard in case user had a higher score
+            }
+        }
+
+        yield return new WaitForSeconds(2f);
+
+        GameObject.Find("APIStatus").GetComponent<TextMeshProUGUI>().text = "";
+    }
+    */
 }
