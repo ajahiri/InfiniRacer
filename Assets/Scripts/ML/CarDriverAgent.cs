@@ -58,6 +58,8 @@ public class CarDriverAgent : Agent
         //updateMotorForce();
 
         //rewardFirstPlace();
+
+        Debug.Log("currentSpeed: " + currentSpeed);
     }
 
     private void updateMotorForce(){
@@ -85,7 +87,7 @@ public class CarDriverAgent : Agent
         }
     }
     private void rewardStraightSteering() {
-        if(!isLeftTurnAhead() && !isRightTurnAhead() && currentSpeed < 10) {
+        if(!isLeftTurnAhead() && !isRightTurnAhead() && currentSpeed > 5) {
             if(wheelAngleChange == 0f) {
                 AddReward(0.1f);        
             } else if(wheelAngleChange > 0f && wheelAngleChange < 50f) {
@@ -96,11 +98,11 @@ public class CarDriverAgent : Agent
         }
     }
     private void rewardHighSpeed() {
-        bool forward = botCarController.isGoingForward();
+        bool goingForward = botCarController.isGoingForward();
         // no reward/penalty for reversing or neutral
-        if(forward) {
+        if(goingForward && currentSpeed > 5) {
             // going forward
-            AddReward(currentSpeed * 0.01f); // heuristic avg speeds usually range from 16 - 18
+            AddReward(currentSpeed * 0.1f); // heuristic avg speeds usually range from 16 - 18
         }
     }
 
