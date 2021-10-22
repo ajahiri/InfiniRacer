@@ -1,0 +1,29 @@
+{
+    "botCollision_behaviour_V3": {
+        "checkpoints": [
+            {
+                "steps": 6021,
+                "file_path": "results\\V3_TEST\\botCollision_behaviour_V3\\botCollision_behaviour_V3-6021.onnx",
+                "reward": -7728.7150472005205,
+                "creation_time": 1634888694.6773324,
+                "auxillary_file_paths": [
+                    "results\\V3_TEST\\botCollision_behaviour_V3\\botCollision_behaviour_V3-6021.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 6021,
+            "file_path": "results\\V3_TEST\\botCollision_behaviour_V3.onnx",
+            "reward": -7728.7150472005205,
+            "creation_time": 1634888694.6773324,
+            "auxillary_file_paths": [
+                "results\\V3_TEST\\botCollision_behaviour_V3\\botCollision_behaviour_V3-6021.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

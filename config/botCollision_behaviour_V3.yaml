@@ -28,11 +28,11 @@ behaviors:
         use_vail: true 
     # immitation learning - Trains the agent to mimic the demos
     #  --requires a lot of demos to work well--
-    behavioral_cloning:
-        strength: 0.0
-        demo_path: Demos_V3
-        steps: 3.0e+6 # BC will stop after 3 million steps
-        samples_per_update: 120000
+    # behavioral_cloning:
+    #     strength: 0.0
+    #     demo_path: Demos_V3
+    #     steps: 3.0e+6 # BC will stop after 3 million steps
+    #     samples_per_update: 120000
     max_steps: 1e20
     time_horizon: 1000
     summary_freq: 50000
