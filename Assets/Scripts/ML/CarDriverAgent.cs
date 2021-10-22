@@ -90,7 +90,7 @@ public class CarDriverAgent : Agent
         if(!isLeftTurnAhead() && !isRightTurnAhead() && currentSpeed > 5) {
             if(wheelAngleChange == 0f) {
                 AddReward(0.1f);        
-            } else if(wheelAngleChange > 0f && wheelAngleChange < 50f) {
+            } else if(wheelAngleChange > 0f && wheelAngleChange < 45f) {
                 AddReward(+ 0.01f / wheelAngleChange); // gives higher rewards for less Angle change (when less than 45)
             } else {
                 AddReward(- 0.5f * wheelAngleChange); // gives lower penalty for less Angle change (when more than 45)
