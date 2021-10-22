@@ -58,8 +58,6 @@ public class CarDriverAgent : Agent
         //updateMotorForce();
 
         //rewardFirstPlace();
-
-        Debug.Log("currentSpeed: " + currentSpeed);
     }
 
     private void updateMotorForce(){
