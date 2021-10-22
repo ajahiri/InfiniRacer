@@ -22,7 +22,7 @@ public class CarDriverAgent : Agent
     private bool leftTurnAhead;
     private bool rightTurnAhead;
     private void Awake() {
-        Application.runInBackground = true;
+        //Application.runInBackground = true;
 
         botCarController = GetComponent<BotCarController>();
 
