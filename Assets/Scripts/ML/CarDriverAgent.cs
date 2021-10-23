@@ -58,6 +58,16 @@ public class CarDriverAgent : Agent
         //updateMotorForce();
 
         rewardFirstPlace();
+
+        // Reset bot to track if very far from player
+        if (GameObject.FindGameObjectWithTag("Player"))
+        {
+            var playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            if (Vector3.Distance(transform.position, playerTransform.position) > 2000f)
+            {
+                trackCheckpoints.softResetToCheckpoint(transform);
+            }
+        }
     }
 
     private void updateMotorForce(){
