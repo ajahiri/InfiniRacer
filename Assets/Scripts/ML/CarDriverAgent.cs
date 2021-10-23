@@ -57,7 +57,7 @@ public class CarDriverAgent : Agent
 
         //updateMotorForce();
 
-        //rewardFirstPlace();
+        rewardFirstPlace();
     }
 
     private void updateMotorForce(){
@@ -115,8 +115,8 @@ public class CarDriverAgent : Agent
     }
 
     private bool isLeftTurnAhead() {
-        if(TurnAhead() == "TrackTurnLeft" && currentSpeed > 10)
-        Debug.Log("LEFT");
+        // if(TurnAhead() == "TrackTurnLeft" && currentSpeed > 10)
+        // Debug.Log("LEFT");
 
         if(currentSpeed > 10){
             return TurnAhead() == "TrackTurnLeft";
@@ -126,8 +126,8 @@ public class CarDriverAgent : Agent
     }
 
     private bool isRightTurnAhead() {
-        if(TurnAhead() == "TrackTurnRight" && currentSpeed > 10)
-        Debug.Log("RIGHT");
+        // if(TurnAhead() == "TrackTurnRight" && currentSpeed > 10)
+        // Debug.Log("RIGHT");
 
         if(currentSpeed > 10){
             return TurnAhead() == "TrackTurnRight";
