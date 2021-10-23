@@ -125,10 +125,10 @@ MonoBehaviour:
   item:
   - {fileID: 3005938622184997137, guid: 56daba767e52de84593f70dc4e5206de, type: 3}
   - {fileID: 1569535294620703853, guid: fc0d184f46fc369d3b81834ccd7a1bb0, type: 3}
+  - {fileID: 5269952519312626205, guid: d0ce55c45746fdc4ab1f5021d0785de9, type: 3}
   - {fileID: 8592433256001776804, guid: 008ca4935571d9f849f288a1b313dd6e, type: 3}
   - {fileID: 6240461426943165787, guid: 82fe8b985f668fee1b20555b909ae0ab, type: 3}
-  - {fileID: 5269952519312626205, guid: d0ce55c45746fdc4ab1f5021d0785de9, type: 3}
-  Nuke: {fileID: 6309964557088097991, guid: a01c448082218ac4f99eb87b1dde42c1, type: 3}
+  - {fileID: 4447118853635136215, guid: a01c448082218ac4f99eb87b1dde42c1, type: 3}
 --- !u!114 &994168870342648689
 MonoBehaviour:
   m_ObjectHideFlags: 0

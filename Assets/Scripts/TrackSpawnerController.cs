@@ -433,7 +433,7 @@ public class TrackSpawnerController : MonoBehaviour
         }
 
         // Conditional spawning interation loop
-        if (minDistanceToEnd < 50) {
+        if (minDistanceToEnd < 200f) {
             // Debug.Log("in distance");
             var numTurns = CheckNumTurns();
             TrackSpawner(numTurns);

@@ -14,12 +14,9 @@ public class GameOver : MonoBehaviour
     {
         FindObjectOfType<AudioManager>().Play("button press");
         //Time.timeScale = 1f;
-        SceneManager.LoadScene("RaceArea01");
+        SceneManager.LoadScene("AttentionScreen");
         FindObjectOfType<AudioManager>().Stop("Game Over");
         FindObjectOfType<AudioManager>().Stop("BIIIIIIGBOOOOM");
-        
-        FindObjectOfType<AudioManager>().Play("Start sound");
-        FindObjectOfType<AudioManager>().Play("CarEngine");
         Debug.Log("Restarting game...");
     }
     public void LoadMenu()

@@ -1,26 +1,41 @@
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectId;
+var profanity = require('profanity-util');
 const functions = require("firebase-functions");
 const dbClient = new MongoClient(`mongodb+srv://infiniracer:${functions.config().infiniracer.dbpass}@infiniracer.ifeau.mongodb.net/InfiniRacer?retryWrites=true&w=majority`, {useNewURLParser: true, useUnifiedTopology: true});
 
+const verToken = "ni8cbHAOOfSokk6t5AF9pJH8mKFd1fN8"
+
 // Create attention session
 exports.CreateAttentionSession = functions.region('australia-southeast1').https.onRequest(async (req,res) => {
-    const name = req.body.name || 'Anonymous';
+    const name = profanity.purify(req.body.name || 'Anonymous')[0];
     const attentionBefore = req.body.attentionBefore;
     const attentionAfter = req.body.attentionAfter;
     const playTime = req.body.playTime;
     const score = req.body.score || 0;
+    const token = req.body.token || "";
+    const sessionID = req.body.sessionID || null;
+    const difficulty = req.body.difficulty || 3; // Default diff is 3
     try {
+        if (token !== verToken) return res.status(401).send("Invalid token used");
+        if (!sessionID) return res.status(401).send("Sesion ID required");
         await dbClient.connect();
         const db = dbClient.db('InfiniRacer');
         const attentionSessions = db.collection("AttentionSessions");
+
+        const targetSession = await attentionSessions.findOne({sessionID});
+
+        // Don't allow resubmission of same session
+        if (targetSession) return res.status(401).send("Already submitted for this session, cannot resubmit.");
 
         const recordData = {
             name,
             attentionBefore,
             attentionAfter,
             playTime,
-            score
+            score,
+            sessionID,
+            difficulty
         }
 
         await attentionSessions.insertOne(recordData);
@@ -64,16 +79,26 @@ exports.ReadAllAttentionSession = functions.region('australia-southeast1').https
 
 // Add new user score (usually triggered at the end of a playthrough session)
 exports.AddNewScore = functions.region('australia-southeast1').https.onRequest(async (req,res) => {
-    const name = req.body.name || 'Anonymous';
+    const token = req.body.token || "";
+    const sessionID = req.body.sessionID || null;
+    const name = profanity.purify(req.body.name || 'Anonymous')[0];
     const score = req.body.score || 0;
     try {
+        if (token !== verToken) return res.status(401).send("Invalid token used");
+        if (!sessionID) return res.status(401).send("Sesion ID required");
         await dbClient.connect();
         const db = dbClient.db('InfiniRacer');
         const highScores = db.collection("HighScores");
 
+        const targetSession = await highScores.findOne({sessionID});
+
+        // Don't allow resubmission of same session
+        if (targetSession) return res.status(401).send("Already submitted for this session, cannot resubmit.");
+
         await highScores.insertOne({
             name,
-            score
+            score,
+            sessionID,
         });
 
         return res.status(200).send("Added new high score!");
