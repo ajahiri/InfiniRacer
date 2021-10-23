@@ -65,7 +65,7 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         tepeat = false;
-        tiltCont = true;
+        //tiltCont = true;
         DriftButtonPressed = false;
         //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
         // Set custom center of mass to fix flipping issue
@@ -231,6 +231,9 @@ public class CarController : MonoBehaviour
                 // Do normal brake
                 currentBrakeForce = brakeForce;
             }
+        } else
+        {
+            currentBrakeForce = 0f;
         }
         ApplyBraking();
     }
