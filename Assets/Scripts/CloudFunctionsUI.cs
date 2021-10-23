@@ -39,7 +39,8 @@ public class CloudFunctionsUI : MonoBehaviour
         Debug.Log(PlayerPrefs.GetString("submissionName"));
         Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
 
-        userPlayTime = Time.time - PlayerPrefs.GetFloat("startPlayTime");
+        userPlayTime = PlayerPrefs.GetFloat("totalPlayTime");
+        Debug.Log("user play time: " + userPlayTime);
         // Session ID ensures that users can only submit once per session
         sessionID = System.Guid.NewGuid().ToString();
 

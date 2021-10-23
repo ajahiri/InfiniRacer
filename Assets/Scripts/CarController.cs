@@ -25,6 +25,7 @@ public class CarController : MonoBehaviour
     public bool isBraking;
     public bool isDrifting;
     public float motorForce;
+    private float startTime;
 
     // Remembering original values for proper use of speed up and drift
     public float originalMotorForce;
@@ -81,6 +82,8 @@ public class CarController : MonoBehaviour
         originalMotorForce = motorForce;
 
         wrongway = GameObject.FindWithTag("WrongWay");
+
+        startTime = Time.time;
     }
     public void Update()
     {
@@ -100,6 +103,7 @@ public class CarController : MonoBehaviour
         }
 
         CheckWrongWay();
+        PlayerPrefs.SetFloat("totalPlayTime", Time.time - startTime);
     }
 
     private void CheckWrongWay()
