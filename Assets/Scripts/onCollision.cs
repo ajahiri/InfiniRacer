@@ -27,7 +27,7 @@ public class onCollision : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("boost");
             Instantiate(effects[2], col.gameObject.transform.position, col.gameObject.transform.rotation);
             Destroy(col.gameObject);
-            gameObject.GetComponent<CarController>().GetBoost(3f);
+            gameObject.GetComponent<CarController>().GetBoost(2f);
         }
         if (col.gameObject.tag == "rock")
         {
