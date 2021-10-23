@@ -17,23 +17,23 @@ behaviors:
     reward_signals:
       # reinforsment learning
       extrinsic:
-        strength: 0.75
+        strength: 0.5
         gamma: 0.991
       # Generative Adversarial Imitation Learning (gail) - builds a NN that is evaluated against the performance of the demo 
       #  --does not require a lot of demos to work well--
       gail:
         strength: 0.9
-        demo_path: Demos_V3
+        demo_path: Demos_V4
         learning_rate: 7.0e-5
         use_vail: true 
     # immitation learning - Trains the agent to mimic the demos
     #  --requires a lot of demos to work well--
-    behavioral_cloning:
-        strength: 0.4
-        demo_path: Demos_V3
-        steps: 1.0e+6 # BC will stop after 3 million steps
-        samples_per_update: 120000
-    max_steps: 5.3e+6 #5.3 million
+    # behavioral_cloning:
+    #     strength: 0.4
+    #     demo_path: Demos_V3
+    #     steps: 1.0e+6 # BC will stop after 3 million steps
+    #     samples_per_update: 120000
+    max_steps: 50e+6
     time_horizon: 1000
     summary_freq: 50000
     keep_checkpoints: 5

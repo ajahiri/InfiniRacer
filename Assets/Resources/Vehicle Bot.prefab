@@ -453,7 +453,7 @@ MonoBehaviour:
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
-  m_ObservableAttributeHandling: 0
+  m_ObservableAttributeHandling: 1
 --- !u!114 &3806244905884723725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,19 +484,19 @@ MonoBehaviour:
   m_DetectableTags:
   - Checkpoint
   - Boundary Wall
-  - Car
-  - Player
+  - VehicleBody
+  - Nothing
   m_RaysPerDirection: 4
   m_MaxRayDegrees: 85
   m_SphereCastRadius: 0.45
   m_RayLength: 45
   m_RayLayerMask:
     serializedVersion: 2
-    m_Bits: 448
+    m_Bits: 449
   m_ObservationStacks: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 0, g: 0, b: 0, a: 1}
-  m_StartVerticalOffset: 1.54
+  m_StartVerticalOffset: 1.2
   m_EndVerticalOffset: 1.1
 --- !u!114 &6712587918652903105
 MonoBehaviour:
@@ -538,7 +538,7 @@ MonoBehaviour:
   Record: 0
   NumStepsToRecord: 0
   DemonstrationName: DriveDemo
-  DemonstrationDirectory: Demos_V3
+  DemonstrationDirectory: Demos_V4
 --- !u!1 &7548002792711536043
 GameObject:
   m_ObjectHideFlags: 0

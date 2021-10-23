@@ -21,6 +21,7 @@ public class CarDriverAgent : Agent
     private float speedSum;
     private bool leftTurnAhead;
     private bool rightTurnAhead;
+    private int stepsStayedInContact;
     private void Awake() {
         Application.runInBackground = true;
 
@@ -57,14 +58,24 @@ public class CarDriverAgent : Agent
 
         //updateMotorForce();
 
-        rewardFirstPlace();
+        //rewardFirstPlace();
 
         // Reset bot to track if very far from player
-        if (GameObject.FindGameObjectWithTag("Player"))
+        if (GameObject.FindGameObjectWithTag("Player") && !trackCheckpoints.isTraining)
         {
             var playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
             if (Vector3.Distance(transform.position, playerTransform.position) > 2000f)
             {
+                trackCheckpoints.softResetToCheckpoint(transform);
+            }
+        }
+
+        if(trackCheckpoints.isTraining && !trackCheckpoints.isFirst(transform) && trackCheckpoints.getFirstPlace()) {
+            Transform firstPlace = trackCheckpoints.getFirstPlace();
+            if (Vector3.Distance(transform.position, firstPlace.position) > 2000f)
+            {
+                //agent is stuck
+                AddReward(-5);
                 trackCheckpoints.softResetToCheckpoint(transform);
             }
         }
@@ -128,7 +139,7 @@ public class CarDriverAgent : Agent
         // if(TurnAhead() == "TrackTurnLeft" && currentSpeed > 10)
         // Debug.Log("LEFT");
 
-        if(currentSpeed > 10){
+        if(currentSpeed > 5){
             return TurnAhead() == "TrackTurnLeft";
         } else {
             return false;
@@ -139,7 +150,7 @@ public class CarDriverAgent : Agent
         // if(TurnAhead() == "TrackTurnRight" && currentSpeed > 10)
         // Debug.Log("RIGHT");
 
-        if(currentSpeed > 10){
+        if(currentSpeed > 5){
             return TurnAhead() == "TrackTurnRight";
         } else {
             return false;
@@ -273,12 +284,15 @@ public class CarDriverAgent : Agent
         if(other.collider.tag == "VehicleBody") {
             AddReward(+6f);
             //Debug.Log("Collision Reward!");
+            stepsStayedInContact = 0;
         }
     }
 
     private void OnCollisionStay(Collision other) {
         if(other.collider.tag == "VehicleBody") {
-            AddReward(-1.5f);
+            stepsStayedInContact++;
+            if(stepsStayedInContact > 15)
+                AddReward(-1.5f);
         }    
     }
 

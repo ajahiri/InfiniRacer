@@ -328,6 +328,14 @@ public class TrackCheckpoints : MonoBehaviour
         return vehiclePlacementList.Count > 0 ? vehiclePlacementList[0].carIDX == vehicleIndex : false;
     }
 
+    public Transform getFirstPlace() {
+        if(vehiclePlacementList.Count > 0) {
+            int FirstPlaceCarIdx = vehiclePlacementList[0].carIDX;
+            return findCarTransform(FirstPlaceCarIdx);
+        }
+        return null;
+    }
+
     IEnumerator updatePlacements()
     {
         // Placement object
