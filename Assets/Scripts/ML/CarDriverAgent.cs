@@ -63,8 +63,9 @@ public class CarDriverAgent : Agent
         if (GameObject.FindGameObjectWithTag("Player"))
         {
             var playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-            if (Vector3.Distance(transform.position, playerTransform.position) > 2000f)
+            if (Vector3.Distance(transform.position, playerTransform.position) > 600f)
             {
+                Debug.Log("RESETTING BOT POS DUE TO DISTANCE");
                 trackCheckpoints.softResetToCheckpoint(transform);
             }
         }

@@ -11,6 +11,15 @@ public class onCollision : MonoBehaviour
     {
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // Reset player vehicle on end barrier hit
+        if (other.tag == "End Barrier")
+        {
+            GameObject.Find("CheckpointHandler").GetComponent<TrackCheckpoints>().softResetToCheckpoint(transform);
+        }
+    }
+
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "boost")

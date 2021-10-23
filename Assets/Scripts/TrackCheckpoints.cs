@@ -143,7 +143,7 @@ public class TrackCheckpoints : MonoBehaviour
                     xPos = startXPos - (2 * spacing);
                 }
             }
-            Vector3 spawnPos = new Vector3(xPos, 0.08440538f, 50f);
+            Vector3 spawnPos = isTraining ? new Vector3(xPos, 0.08440538f, 50f) : new Vector3(xPos, 0.08440538f, 15f);
             GameObject newVehicle = Instantiate(BotPrefab, spawnPos, Quaternion.identity); //init new vehcile
             spawnPositions.Add(spawnPos);
             carTransformList.Add(newVehicle.transform);
@@ -187,13 +187,24 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void softResetToCheckpoint(Transform vehicleTransform) {
-        if (checkpointList.Count < 4) {
+        if (checkpointList.Count < 15) {
             // Safety as should not run on initial episode start
             return;
         }
 
         // Get a checkpoint of the middle spawned track piece
-        Checkpoint targetCheckpoint = trackTarget.GetComponent<TrackSpawnerController>().getMiddleCheckpoint();
+        Checkpoint targetCheckpoint;
+        if (GameObject.FindGameObjectWithTag("Player")) 
+        {
+            // Will reset closer to the player
+            var player = GameObject.FindGameObjectWithTag("Player").transform;
+            var carIDX = findCarIndex(player);
+            var targetCheckpointIndex = getNextCheckpointIndex(carIDX) - UnityEngine.Random.Range(3, 8);
+            targetCheckpoint = GetCheckpoint(targetCheckpointIndex);
+        } else 
+        {
+            targetCheckpoint = trackTarget.GetComponent<TrackSpawnerController>().getMiddleCheckpoint();
+        }
 
 
 
