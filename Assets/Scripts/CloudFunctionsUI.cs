@@ -37,7 +37,6 @@ public class CloudFunctionsUI : MonoBehaviour
 
         Debug.Log(PlayerPrefs.GetFloat("attentionRatingPregame"));
         Debug.Log(PlayerPrefs.GetString("submissionName"));
-        Debug.Log(PlayerPrefs.GetFloat("startPlayTime"));
 
         userPlayTime = PlayerPrefs.GetFloat("totalPlayTime");
         Debug.Log("user play time: " + userPlayTime);

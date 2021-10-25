@@ -48,6 +48,7 @@ exports.CreateAttentionSession = functions.region('australia-southeast1').https.
 
 // Read attention session by id
 exports.ReadAttentionSession = functions.region('australia-southeast1').https.onRequest(async (req,res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     const sessionID = req.body.sessionID;
     try {
         await dbClient.connect();
@@ -64,6 +65,7 @@ exports.ReadAttentionSession = functions.region('australia-southeast1').https.on
 
 // Get all attention sessions
 exports.ReadAllAttentionSession = functions.region('australia-southeast1').https.onRequest(async (req,res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     try {
         await dbClient.connect();
         const db = dbClient.db('InfiniRacer');
@@ -109,6 +111,7 @@ exports.AddNewScore = functions.region('australia-southeast1').https.onRequest(a
 
 // Get top 5 scores from the DB to show as the public high score table in game
 exports.GetTopScores = functions.region('australia-southeast1').https.onRequest(async (req,res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     try {
         await dbClient.connect();
         const db = dbClient.db('InfiniRacer');
