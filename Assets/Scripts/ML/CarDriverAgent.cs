@@ -75,7 +75,6 @@ public class CarDriverAgent : Agent
             if (Vector3.Distance(transform.position, firstPlace.position) > 2000f)
             {
                 //agent is stuck
-                AddReward(-5);
                 trackCheckpoints.softResetToCheckpoint(transform);
             }
         }
