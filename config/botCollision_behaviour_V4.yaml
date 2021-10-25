@@ -1,11 +1,12 @@
+default_settings: null
 behaviors:
   botCollision_behaviour_V3:
     trainer_type: ppo
     hyperparameters:
       batch_size: 6000
       buffer_size: 120000
-      learning_rate: 3.0e-4
-      beta: 1.0e-5
+      learning_rate: 0.0003
+      beta: 1.0e-05
       epsilon: 0.15
       lambd: 0.94
       num_epoch: 8
@@ -14,27 +15,74 @@ behaviors:
       normalize: true
       hidden_units: 300
       num_layers: 3
+      vis_encode_type: simple
+      memory: null
+      goal_conditioning_type: hyper
     reward_signals:
-      # reinforsment learning
       extrinsic:
-        strength: 0.5
         gamma: 0.991
-      # Generative Adversarial Imitation Learning (gail) - builds a NN that is evaluated against the performance of the demo 
-      #  --does not require a lot of demos to work well--
+        strength: 0.5
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
       gail:
+        gamma: 0.99
         strength: 0.9
-        demo_path: Demos_V4
-        learning_rate: 7.0e-5
-        use_vail: true 
-    # immitation learning - Trains the agent to mimic the demos
-    #  --requires a lot of demos to work well--
-    # behavioral_cloning:
-    #     strength: 0.4
-    #     demo_path: Demos_V3
-    #     steps: 1.0e+6 # BC will stop after 3 million steps
-    #     samples_per_update: 120000
-    max_steps: 50e+6
-    time_horizon: 1000
-    summary_freq: 50000
+        network_settings:
+          normalize: false
+          hidden_units: 128
+          num_layers: 2
+          vis_encode_type: simple
+          memory: null
+          goal_conditioning_type: hyper
+        learning_rate: 7.0e-05
+        encoding_size: null
+        use_actions: false
+        use_vail: true
+        demo_path: Demos_V3
+    init_path: null
     keep_checkpoints: 5
     checkpoint_interval: 500000
+    max_steps: 5300000
+    time_horizon: 1000
+    summary_freq: 50000
+    threaded: false
+    self_play: null
+    behavioral_cloning:
+      demo_path: Demos_V3
+      steps: 1000000
+      strength: 0.7
+      samples_per_update: 120000
+      num_epoch: null
+      batch_size: null
+env_settings:
+  env_path: null
+  env_args: null
+  base_port: 5005
+  num_envs: 1
+  seed: -1
+engine_settings:
+  width: 84
+  height: 84
+  quality_level: 5
+  time_scale: 20
+  target_frame_rate: -1
+  capture_frame_rate: 60
+  no_graphics: false
+environment_parameters: null
+checkpoint_settings:
+  run_id: CollisionBrain_V4_session_1
+  initialize_from: null
+  load_model: false
+  resume: true
+  force: false
+  train_model: false
+  inference: false
+  results_dir: results
+torch_settings:
+  device: cuda
+debug: false

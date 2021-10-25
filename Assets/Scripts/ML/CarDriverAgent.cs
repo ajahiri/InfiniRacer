@@ -23,7 +23,7 @@ public class CarDriverAgent : Agent
     private bool rightTurnAhead;
     private int stepsStayedInContact;
     private void Awake() {
-        //Application.runInBackground = true;
+        Application.runInBackground = true;
 
         botCarController = GetComponent<BotCarController>();
 
@@ -282,8 +282,8 @@ public class CarDriverAgent : Agent
     private void OnCollisionEnter(Collision other) {
         // Collision Reward
         if(other.collider.tag == "VehicleBody") {
-            AddReward(+6f);
-            //Debug.Log("Collision Reward!");
+            AddReward(+6f); 
+            Debug.Log("Collision Reward!");
             stepsStayedInContact = 0;
         }
     }
@@ -291,7 +291,8 @@ public class CarDriverAgent : Agent
     private void OnCollisionStay(Collision other) {
         if(other.collider.tag == "VehicleBody") {
             stepsStayedInContact++;
-            if(stepsStayedInContact > 15)
+            if(stepsStayedInContact > 50)
+                Debug.Log("TOO MUCH");
                 AddReward(-1.5f);
         }    
     }

@@ -446,7 +446,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 9d5f7910ed375394db055db1f850530f, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: e47445e49ed93564eb0674ef6a8c317f, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: botCollision_behaviour_V3
@@ -492,7 +492,7 @@ MonoBehaviour:
   m_RayLength: 45
   m_RayLayerMask:
     serializedVersion: 2
-    m_Bits: 449
+    m_Bits: 448
   m_ObservationStacks: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 0, g: 0, b: 0, a: 1}
