@@ -68,8 +68,6 @@ export function Visualisations(props) {
             attentionBarGroupData[1].push({x: i + 1, y: sessions[rand].attentionAfter});
         }
 
-        console.log("piedata", difficultyPieData);
-
         setprocessedData(
             {
                 difficultyPieData,
