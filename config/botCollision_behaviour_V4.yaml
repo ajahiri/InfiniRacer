@@ -52,13 +52,13 @@ behaviors:
     summary_freq: 50000
     threaded: false
     self_play: null
-    behavioral_cloning:
-      demo_path: Demos_V3
-      steps: 1000000
-      strength: 0.7
-      samples_per_update: 120000
-      num_epoch: null
-      batch_size: null
+    # behavioral_cloning:
+    #   demo_path: Demos_V3
+    #   steps: 1000000
+    #   strength: 0.7
+    #   samples_per_update: 120000
+    #   num_epoch: null
+    #   batch_size: null
 env_settings:
   env_path: null
   env_args: null
