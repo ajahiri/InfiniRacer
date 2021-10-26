@@ -23,14 +23,14 @@ behaviors:
       #  --does not require a lot of demos to work well--
       gail:
         strength: 0.9
-        demo_path: Demos_V3
+        demo_path: Demos_V4_session_2
         learning_rate: 7.0e-5
         use_vail: true 
     # immitation learning - Trains the agent to mimic the demos
     #  --requires a lot of demos to work well--
     behavioral_cloning:
         strength: 0.4
-        demo_path: Demos_V3
+        demo_path: Demos_V4_session_2
         steps: 1.0e+6 # BC will stop after 3 million steps
         samples_per_update: 120000
     max_steps: 15e+6 #15 million
