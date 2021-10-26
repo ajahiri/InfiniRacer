@@ -33,7 +33,7 @@ behaviors:
         demo_path: Demos_V3
         steps: 1.0e+6 # BC will stop after 3 million steps
         samples_per_update: 120000
-    max_steps: 15e+6 #15 million
+    max_steps: 5.3e+6 #5.3 million
     time_horizon: 1000
     summary_freq: 50000
     keep_checkpoints: 5

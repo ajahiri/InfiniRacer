@@ -36,6 +36,8 @@ public class BotCarController : MonoBehaviour
 
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
 
+    private float currentSpeed;
+
     public float getMotorForce() {
         return motorForce;
     }
@@ -71,6 +73,7 @@ public class BotCarController : MonoBehaviour
     }
     private void Awake() {
         initialMotorForce = motorForce;
+        currentSpeed = 0;
     }
     private void Start() {
         // Set custom center of mass to fix flipping issue
@@ -81,6 +84,7 @@ public class BotCarController : MonoBehaviour
     {
         // Scale the vehicle's mass with speed (downforce simulation) for high speed cornering
         vehicleRigidBody = GetComponent<Rigidbody>();
+        currentSpeed = vehicleRigidBody.velocity.magnitude;
         // vehicleRigidBody.mass = vehicleStandardMass + (10f * vehicleRigidBody.velocity.magnitude);
         HandleMotor();
         HandleSteering();
@@ -91,7 +95,11 @@ public class BotCarController : MonoBehaviour
         horizontalInput = newHorizontal;
         if(accelerationValue == 2) {
             //forward
-            appliedForce = motorForce;
+            if(currentSpeed <= 25) { //speed limit
+                appliedForce = motorForce;
+            } else {
+                appliedForce = 0f;
+            }
         } else if(accelerationValue == 1) {
             //neutral
             appliedForce = 0f;
@@ -108,7 +116,7 @@ public class BotCarController : MonoBehaviour
     {
         rearLeftWheelCollider.motorTorque = appliedForce;
         rearRightWheelCollider.motorTorque = appliedForce;
-        
+
         // currentBrakeForce = isBraking ? brakeForce : 0f;
         // ApplyBraking();
     }
