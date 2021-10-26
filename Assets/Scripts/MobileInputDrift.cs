@@ -5,9 +5,7 @@ using UnityEngine.EventSystems;
 
 public class MobileInputDrift : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    CarController carController;
-    public string PrefCar;
-    bool isDrifting;
+    private CarController carController;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -21,8 +19,7 @@ public class MobileInputDrift : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     // Start is called before the first frame update
     void Start()
-    {       
-        PrefCar = GameObject.Find("SetupForCar").gameObject.GetComponent<InstantiateCar>().PrefCar;
-        carController = GameObject.Find(PrefCar + "(Clone)").GetComponent<CarController>();
+    {
+        carController = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
     }
 }

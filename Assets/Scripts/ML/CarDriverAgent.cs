@@ -24,7 +24,7 @@ public class CarDriverAgent : Agent
     private bool rightTurnAhead;
     private int stepsStayedInContact;
     private void Awake() {
-        //Application.runInBackground = true;
+        Application.runInBackground = true;
 
         botCarController = GetComponent<BotCarController>();
 
@@ -293,7 +293,6 @@ public class CarDriverAgent : Agent
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
             AddReward(-2f);
-            if(currentSpeed < 5)
             crashCount++;
         }
     }

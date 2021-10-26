@@ -90,8 +90,8 @@
       "hash": "c1b26d49e4f4fc692c2688531f9e7c69dba12682"
     },
     "com.unity.nuget.newtonsoft-json": {
-      "version": "2.0.0",
-      "depth": 1,
+      "version": "2.0.2",
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"

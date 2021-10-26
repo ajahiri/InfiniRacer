@@ -7,6 +7,7 @@ public class highscore : MonoBehaviour
 {
     public static highscore instance;
     public static int score;
+    private int currentScore = 0;
     
     void Awake()
     {
@@ -18,13 +19,12 @@ public class highscore : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         score = PlayerPrefs.GetInt("highscore", score);
-
-
     }
    
 
     public void CheckScore(int currentgame)
     {
+        currentScore = currentgame;
         if(currentgame> score)
         {
             score = currentgame;
@@ -34,5 +34,10 @@ public class highscore : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    public int GetCurrentScore()
+    {
+        return currentScore;
     }
 }
