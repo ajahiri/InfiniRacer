@@ -113,37 +113,24 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void LoadBots(int numToLoad)
-    {
-        float startXPos = 9.625f;
-        float spacing = 2.6875f;
-        float xPos = startXPos;
+    {        
         int itt = 0;
         while (itt < numToLoad)
         {
             GameObject BotPrefab = Resources.Load<GameObject>("Vehicle Bot"); //move this out of while loop
-            if (itt > 0 && itt <= 2)
-            {
-                if (itt % 2 == 0)
-                {
-                    xPos = startXPos + spacing;
-                }
-                else
-                {
-                    xPos = startXPos - spacing;
-                }
-            }
-            else if (itt > 0 && itt > 2)
-            {
-                if (itt % 2 == 0)
-                {
-                    xPos = startXPos + (2 * spacing);
-                }
-                else
-                {
-                    xPos = startXPos - (2 * spacing);
+            
+            float xPos = 6.5f;
+            float zPos = isTraining ? 55f : 15f;
+            if (itt > 0) {
+                zPos = zPos + 5 * (itt);
+
+                if(itt % 2 != 0) {
+                    xPos = xPos * 2;
                 }
             }
-            Vector3 spawnPos = isTraining ? new Vector3(xPos, 0.08440538f, 50f) : new Vector3(xPos, 0.08440538f, 15f);
+
+            Vector3 spawnPos = new Vector3(xPos, 0.08440538f, zPos);
+
             GameObject newVehicle = Instantiate(BotPrefab, spawnPos, Quaternion.identity); //init new vehcile
             spawnPositions.Add(spawnPos);
             carTransformList.Add(newVehicle.transform);
