@@ -35,7 +35,36 @@ public class TrackCheckpoints : MonoBehaviour
     [SerializeField] public int numBotsToLoad = 1;
     private List<Vector3> spawnPositions = new List<Vector3>();
 
+    // Load debuffitems once for better performance
+    // These are publicly accessible by any other script
+    public Transform[] deBuffItems;
+    public Transform[] buffItems;
+    public Transform[] rockItems;
+
     private void Start() {
+
+        // Improving performance, load pieces into memory
+        deBuffItems = new Transform[]
+        {
+            Resources.Load<Transform>("Blender3DModels/banana/Banana"),
+            Resources.Load<Transform>("Blender3DModels/bomb/bomb"),
+        };
+
+       buffItems = new Transform[]
+        {
+            Resources.Load<Transform>("Blender3DModels/boost/Boost"),
+            Resources.Load<Transform>("Blender3DModels/coin/bitcoin"),
+            Resources.Load<Transform>("Blender3DModels/Gas/Gas"),
+        };
+
+        rockItems = new Transform[]
+        {
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock1"),
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock2"),
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock3"),
+            Resources.Load<Transform>("Blender3DModels/Rocks/rock4"),
+        };
+
         // Checkpoints should be added using AddCheckpoint
         //  Grab all the checkpoints from nested track pieces
         // foreach (Transform trackPiece in trackTarget) {
@@ -114,7 +143,7 @@ public class TrackCheckpoints : MonoBehaviour
                     xPos = startXPos - (2 * spacing);
                 }
             }
-            Vector3 spawnPos = new Vector3(xPos, 0.08440538f, 50f);
+            Vector3 spawnPos = isTraining ? new Vector3(xPos, 0.08440538f, 50f) : new Vector3(xPos, 0.08440538f, 15f);
             GameObject newVehicle = Instantiate(BotPrefab, spawnPos, Quaternion.identity); //init new vehcile
             spawnPositions.Add(spawnPos);
             carTransformList.Add(newVehicle.transform);
@@ -158,13 +187,24 @@ public class TrackCheckpoints : MonoBehaviour
     }
 
     public void softResetToCheckpoint(Transform vehicleTransform) {
-        if (checkpointList.Count < 4) {
+        if (checkpointList.Count < 15) {
             // Safety as should not run on initial episode start
             return;
         }
 
         // Get a checkpoint of the middle spawned track piece
-        Checkpoint targetCheckpoint = trackTarget.GetComponent<TrackSpawnerController>().getMiddleCheckpoint();
+        Checkpoint targetCheckpoint;
+        if (GameObject.FindGameObjectWithTag("Player")) 
+        {
+            // Will reset closer to the player
+            var player = GameObject.FindGameObjectWithTag("Player").transform;
+            var carIDX = findCarIndex(player);
+            var targetCheckpointIndex = getNextCheckpointIndex(carIDX) - UnityEngine.Random.Range(3, 8);
+            targetCheckpoint = GetCheckpoint(targetCheckpointIndex);
+        } else 
+        {
+            targetCheckpoint = trackTarget.GetComponent<TrackSpawnerController>().getMiddleCheckpoint();
+        }
 
 
 
@@ -211,6 +251,17 @@ public class TrackCheckpoints : MonoBehaviour
     public Checkpoint GetNextCheckpoint(Transform vehicleTransform) {
         if (checkpointList.Count > 0) {
             return checkpointList[nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)]];
+        }
+        return null;
+    }
+
+    public Checkpoint[] GetNextFourCheckpoints(Transform vehicleTransform)
+    {
+        if (checkpointList.Count > 0)
+        {
+            int checkpointIndex = nextCheckpointIndexList[carTransformList.IndexOf(vehicleTransform)];
+            Checkpoint[] nextFourCheckpoints = { checkpointList[checkpointIndex + 1], checkpointList[checkpointIndex + 2], checkpointList[checkpointIndex + 3], checkpointList[checkpointIndex + 4] };
+            return nextFourCheckpoints;
         }
         return null;
     }

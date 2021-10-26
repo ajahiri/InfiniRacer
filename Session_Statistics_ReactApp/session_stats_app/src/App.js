@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import useSWR from 'swr'
 import './App.css';
+import { Visualisations } from './Visualisations';
+
+// wrap native fetch() for SWR
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function App() {
+  const { data: statData, error } = useSWR('https://australia-southeast1-infiniracer.cloudfunctions.net/ReadAllAttentionSession', fetcher, { refreshInterval: 1000 });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+      <body className="App-header">
+        <a href="https://play.google.com/store/apps/details?id=com.SES3AT1.InfiniRacer" target="_blank" rel="noreferrer">
+          <img src="./finalBrakes.png" className="App-logo" alt="logo" />
         </a>
-      </header>
+        <h2>InfiniRacer Feedback Realtime Statistics <br/>({statData?.sessions?.length || 0} Sessions)</h2>
+        {error && <p>Error fetching data</p>}
+        {!statData && <p>Loading attention feedback data...</p>}
+        {statData && <Visualisations sessions={statData.sessions}/>}
+      </body>
     </div>
   );
 }

@@ -9,7 +9,6 @@ public class OptionsSceneManager : MonoBehaviour
     public saveBotNum BotNum;
     private void Start() {
         BotNum = GameObject.FindObjectOfType<saveBotNum>();
-        updateBotText();
     }
     public void GoBackToTitleScene()
     {
@@ -20,15 +19,15 @@ public class OptionsSceneManager : MonoBehaviour
 
     public void ChangeAudioVolume(float newVolume)
     {
-        Debug.Log($"Setting volume: {newVolume}");
         AudioListener.volume = newVolume;
         PlayerPrefs.SetFloat("GlobalGameVolume", newVolume);
+        GameObject.Find("VolumeSliderOption").GetComponentInChildren<TextMeshProUGUI>().text = "Volume - " + decimal.Round((decimal)newVolume, 2);
     }
 
     public void ChangeDifficulty(float newDifficulty)
     {
-        
         PlayerPrefs.SetFloat("GlobalDifficulty", newDifficulty);
+        GameObject.Find("DifficultySliderOption").GetComponentInChildren<TextMeshProUGUI>().text = "Difficulty - " + (int)newDifficulty;
     }
 
     public void ChangeNumBots(float newBotNum)
@@ -36,17 +35,6 @@ public class OptionsSceneManager : MonoBehaviour
         int numBots = (int)newBotNum;
         PlayerPrefs.SetInt("GlobalBotNum", numBots);
         BotNum.setBotNum(numBots);
-        updateBotText();
-    }
-
-    private void updateBotText() {
-        if (BotNum)
-        {
-            if(BotNum.botNum == 1){
-                GameObject.Find("BotText").GetComponent<TextMeshProUGUI>().SetText(BotNum.botNum.ToString() + " Bot");
-            } else {
-                GameObject.Find("BotText").GetComponent<TextMeshProUGUI>().SetText(BotNum.botNum.ToString() + " Bots");
-            }
-        }
+        GameObject.Find("BotSliderOption").GetComponentInChildren<TextMeshProUGUI>().text = "No. Bots - " + (int)newBotNum;
     }
 }

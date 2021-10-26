@@ -68,6 +68,6 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene("RaceArea01");
         FindObjectOfType<AudioManager>().Play("CarEngine");
         Debug.Log("Restarting game...");
-    }
+    } 
 
 }

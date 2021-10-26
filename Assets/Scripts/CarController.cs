@@ -25,6 +25,7 @@ public class CarController : MonoBehaviour
     public bool isBraking;
     public bool isDrifting;
     public float motorForce;
+    private float startTime;
 
     // Remembering original values for proper use of speed up and drift
     public float originalMotorForce;
@@ -65,7 +66,7 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         tepeat = false;
-        //tiltCont = true;
+        tiltCont = true;
         DriftButtonPressed = false;
         //gameOver = GameObject.Find("GameOver").gameObject.transform.GetComponent<GameOver>();
         // Set custom center of mass to fix flipping issue
@@ -81,6 +82,8 @@ public class CarController : MonoBehaviour
         originalMotorForce = motorForce;
 
         wrongway = GameObject.FindWithTag("WrongWay");
+
+        startTime = Time.time;
     }
     public void Update()
     {
@@ -100,6 +103,7 @@ public class CarController : MonoBehaviour
         }
 
         CheckWrongWay();
+        PlayerPrefs.SetFloat("totalPlayTime", Time.time - startTime);
     }
 
     private void CheckWrongWay()
@@ -148,12 +152,19 @@ public class CarController : MonoBehaviour
         UpdateWheels();
     }
 
+    private bool isPressingBrake = false;
+    public void setBraking(bool newBraking)
+    {
+        isPressingBrake = newBraking;
+    }
+
     private void GetInput()
     {
         if (tiltCont)
         {
             horizontalInput = Input.acceleration.x;
-            isBraking = Input.touchCount > 0;
+            //isBraking = Input.touchCount > 0;
+            isBraking = isPressingBrake;
         }
         else
         {
@@ -184,8 +195,18 @@ public class CarController : MonoBehaviour
     IEnumerator BoostCoroutine(float boost)
     {
         motorForce = originalMotorForce * boost;
-        yield return new WaitForSeconds(5);
+        var newAsymptote = originalForwardFriction.asymptoteValue * 3;
+        var newExtreme = originalForwardFriction.extremumValue * 3;
+        var newFriction = originalForwardFriction;
+        newFriction.asymptoteValue = newAsymptote;
+        newFriction.extremumValue = newExtreme;
+        rearLeftWheelCollider.forwardFriction = newFriction;
+        rearRightWheelCollider.forwardFriction = newFriction;
+        yield return new WaitForSeconds(2);
         motorForce = originalMotorForce;
+        rearLeftWheelCollider.forwardFriction = originalForwardFriction;
+        rearRightWheelCollider.forwardFriction = originalForwardFriction;
+        yield break;
     }
 
     public void HandleMotor()
@@ -201,7 +222,23 @@ public class CarController : MonoBehaviour
             rearRightWheelCollider.motorTorque = isBraking ? 0 : motorForce;
         }
 
-        currentBrakeForce = isBraking ? brakeForce : 0f;
+        if (isBraking)
+        {
+            if (vehicleRigidBody.velocity.magnitude < 3)
+            {
+                // Do reverse not brake
+                currentBrakeForce = 0f;
+                rearLeftWheelCollider.motorTorque = -motorForce;
+                rearRightWheelCollider.motorTorque = -motorForce;
+            } else
+            {
+                // Do normal brake
+                currentBrakeForce = brakeForce;
+            }
+        } else
+        {
+            currentBrakeForce = 0f;
+        }
         ApplyBraking();
     }
 
@@ -248,20 +285,6 @@ public class CarController : MonoBehaviour
         wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
         wheelTransform.SetPositionAndRotation(pos, rot);
     }
-    public void Drift()
-    {
-        if (DriftButtonPressed == true)
-        {
-            DriftButtonPressed = false;
-            disableDrifting();
-        }
-        else if (DriftButtonPressed == false)
-        {
-            DriftButtonPressed = true;
-            enableDrifting();
-        }
-    }
-
 
     public void enableDrifting()
     {
