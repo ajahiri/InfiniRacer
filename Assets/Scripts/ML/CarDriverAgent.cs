@@ -19,10 +19,12 @@ public class CarDriverAgent : Agent
     private float wheelAngleChange;
     private float currentSpeed;
     private float speedSum;
+    private int crashCount;
     private bool leftTurnAhead;
     private bool rightTurnAhead;
+    private int stepsStayedInContact;
     private void Awake() {
-        Application.runInBackground = true;
+        //Application.runInBackground = true;
 
         botCarController = GetComponent<BotCarController>();
 
@@ -115,8 +117,8 @@ public class CarDriverAgent : Agent
     }
 
     private bool isLeftTurnAhead() {
-        if(TurnAhead() == "TrackTurnLeft" && currentSpeed > 10)
-        Debug.Log("LEFT");
+        // if(TurnAhead() == "TrackTurnLeft" && currentSpeed > 6)
+        // Debug.Log("LEFT");
 
         if(currentSpeed > 10){
             return TurnAhead() == "TrackTurnLeft";
@@ -126,8 +128,8 @@ public class CarDriverAgent : Agent
     }
 
     private bool isRightTurnAhead() {
-        if(TurnAhead() == "TrackTurnRight" && currentSpeed > 10)
-        Debug.Log("RIGHT");
+        // if(TurnAhead() == "TrackTurnRight" && currentSpeed > 6)
+        // Debug.Log("RIGHT");
 
         if(currentSpeed > 10){
             return TurnAhead() == "TrackTurnRight";
@@ -143,7 +145,7 @@ public class CarDriverAgent : Agent
             
             checkpointCount++;
             if(checkpointCount >= 200) {
-                Debug.Log("Avg Speed: " + speedSum / StepCount);
+                Debug.Log("Avg Speed: " + speedSum / StepCount + "\nCrash Count: " + crashCount);
                 EndEpisode();
             }
             //Debug.Log(checkpointCount);
@@ -184,6 +186,7 @@ public class CarDriverAgent : Agent
         wheelAngleChange = 0;
         currentSpeed = 0;
         speedSum = 0;
+        crashCount = 0;
         leftTurnAhead = false;
         rightTurnAhead = false;
 
@@ -263,12 +266,15 @@ public class CarDriverAgent : Agent
         if(other.collider.tag == "VehicleBody") {
             AddReward(+6f);
             //Debug.Log("Collision Reward!");
+            stepsStayedInContact = 0;
         }
     }
 
     private void OnCollisionStay(Collision other) {
         if(other.collider.tag == "VehicleBody") {
-            AddReward(-1.5f);
+            stepsStayedInContact ++;
+            if(stepsStayedInContact > 50)
+                AddReward(-1.5f);
         }    
     }
 
@@ -287,11 +293,13 @@ public class CarDriverAgent : Agent
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
             AddReward(-2f);
+            if(currentSpeed < 5)
+            crashCount++;
         }
     }
     private void OnTriggerStay(Collider other) {
         if (other.TryGetComponent<Wall>(out Wall wall)) {
-            AddReward(-2f);
+            AddReward(-10f);
         }
     }
 }
