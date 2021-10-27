@@ -274,7 +274,7 @@ public class CarDriverAgent : Agent
         if(other.collider.tag == "VehicleBody") {
             stepsStayedInContact ++;
             if(stepsStayedInContact > 50)
-                AddReward(-1.5f);
+                AddReward(-2f);
         }    
     }
 
