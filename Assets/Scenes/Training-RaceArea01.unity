@@ -1504,7 +1504,7 @@ PrefabInstance:
       objectReference: {fileID: 2087483494}
     - target: {fileID: 707610398447909324, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
       propertyPath: numBotsToLoad
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 707610398447909324, guid: 10f51e13ba75baa2896354a39ab1c21a, type: 3}
       propertyPath: carTransformList.Array.size
