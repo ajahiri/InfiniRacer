@@ -19,10 +19,12 @@ public class CarDriverAgent : Agent
     private float wheelAngleChange;
     private float currentSpeed;
     private float speedSum;
+    private int crashCount;
     private bool leftTurnAhead;
     private bool rightTurnAhead;
+    private int stepsStayedInContact;
     private void Awake() {
-        Application.runInBackground = true;
+        //Application.runInBackground = true;
 
         botCarController = GetComponent<BotCarController>();
 
@@ -57,18 +59,7 @@ public class CarDriverAgent : Agent
 
         //updateMotorForce();
 
-        rewardFirstPlace();
-
-        // Reset bot to track if very far from player
-        if (GameObject.FindGameObjectWithTag("Player"))
-        {
-            var playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-            if (Vector3.Distance(transform.position, playerTransform.position) > 600f)
-            {
-                Debug.Log("RESETTING BOT POS DUE TO DISTANCE");
-                trackCheckpoints.softResetToCheckpoint(transform);
-            }
-        }
+        //rewardFirstPlace();
     }
 
     private void updateMotorForce(){
@@ -126,7 +117,7 @@ public class CarDriverAgent : Agent
     }
 
     private bool isLeftTurnAhead() {
-        // if(TurnAhead() == "TrackTurnLeft" && currentSpeed > 10)
+        // if(TurnAhead() == "TrackTurnLeft" && currentSpeed > 6)
         // Debug.Log("LEFT");
 
         if(currentSpeed > 10){
@@ -137,7 +128,7 @@ public class CarDriverAgent : Agent
     }
 
     private bool isRightTurnAhead() {
-        // if(TurnAhead() == "TrackTurnRight" && currentSpeed > 10)
+        // if(TurnAhead() == "TrackTurnRight" && currentSpeed > 6)
         // Debug.Log("RIGHT");
 
         if(currentSpeed > 10){
@@ -154,7 +145,7 @@ public class CarDriverAgent : Agent
             
             checkpointCount++;
             if(checkpointCount >= 200) {
-                Debug.Log("Avg Speed: " + speedSum / StepCount);
+                Debug.Log("Avg Speed: " + speedSum / StepCount + "\nCrash Count: " + crashCount);
                 EndEpisode();
             }
             //Debug.Log(checkpointCount);
@@ -195,6 +186,7 @@ public class CarDriverAgent : Agent
         wheelAngleChange = 0;
         currentSpeed = 0;
         speedSum = 0;
+        crashCount = 0;
         leftTurnAhead = false;
         rightTurnAhead = false;
 
@@ -274,12 +266,15 @@ public class CarDriverAgent : Agent
         if(other.collider.tag == "VehicleBody") {
             AddReward(+6f);
             //Debug.Log("Collision Reward!");
+            stepsStayedInContact = 0;
         }
     }
 
     private void OnCollisionStay(Collision other) {
         if(other.collider.tag == "VehicleBody") {
-            AddReward(-1.5f);
+            stepsStayedInContact ++;
+            if(stepsStayedInContact > 50)
+                AddReward(-2f);
         }    
     }
 
@@ -298,11 +293,12 @@ public class CarDriverAgent : Agent
         }
         if (other.TryGetComponent<Wall>(out Wall wall)) {
             AddReward(-2f);
+            crashCount++;
         }
     }
     private void OnTriggerStay(Collider other) {
         if (other.TryGetComponent<Wall>(out Wall wall)) {
-            AddReward(-2f);
+            AddReward(-10f);
         }
     }
 }

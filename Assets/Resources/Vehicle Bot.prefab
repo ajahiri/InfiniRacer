@@ -446,7 +446,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 9d5f7910ed375394db055db1f850530f, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 9b4304804c8a14d42ba5c977a3e5fe06, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: botCollision_behaviour_V3
@@ -484,8 +484,8 @@ MonoBehaviour:
   m_DetectableTags:
   - Checkpoint
   - Boundary Wall
-  - Car
-  - Player
+  - VehicleBody
+  - NOTHING
   m_RaysPerDirection: 4
   m_MaxRayDegrees: 85
   m_SphereCastRadius: 0.45
@@ -496,8 +496,8 @@ MonoBehaviour:
   m_ObservationStacks: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 0, g: 0, b: 0, a: 1}
-  m_StartVerticalOffset: 1.54
-  m_EndVerticalOffset: 1.1
+  m_StartVerticalOffset: 0.8
+  m_EndVerticalOffset: 5
 --- !u!114 &6712587918652903105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bd1a463da68b8a787719a0bc474ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 15000
+  motorForce: 20000
   brakeForce: 10000
   maxSteeringAngle: 45
   vehicleStandardMass: 550
@@ -670,15 +670,15 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 1.5
+    m_ExtremumValue: 3.75
     m_AsymptoteSlip: 0.2
-    m_AsymptoteValue: 1.3
+    m_AsymptoteValue: 3.25
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &7792450924080922767
@@ -731,15 +731,15 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 1.5
+    m_ExtremumValue: 3.75
     m_AsymptoteSlip: 0.2
-    m_AsymptoteValue: 1.3
+    m_AsymptoteValue: 3.25
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &7792450924088771503
@@ -792,15 +792,15 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 1.5
+    m_ExtremumValue: 3.75
     m_AsymptoteSlip: 0.2
-    m_AsymptoteValue: 1.3
+    m_AsymptoteValue: 3.25
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &7792450924117876218
@@ -887,15 +887,15 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 1.5
+    m_ExtremumValue: 3.75
     m_AsymptoteSlip: 0.2
-    m_AsymptoteValue: 1.3
+    m_AsymptoteValue: 3.25
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &7792450924646372453
