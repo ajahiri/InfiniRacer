@@ -6,7 +6,7 @@ import { Visualisations } from './Visualisations';
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 function App() {
-  const { data: statData, error } = useSWR('https://australia-southeast1-infiniracer.cloudfunctions.net/ReadAllAttentionSession', fetcher, { refreshInterval: 1000 });
+  const { data: statData, error } = useSWR('https://australia-southeast1-infiniracer.cloudfunctions.net/ReadAllAttentionSession', fetcher, { refreshInterval: 5000 });
 
   return (
     <div className="App">
