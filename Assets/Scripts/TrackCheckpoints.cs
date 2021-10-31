@@ -87,13 +87,15 @@ public class TrackCheckpoints : MonoBehaviour
         }
 
         // Spawn Bots
-        saveBotNum BotNum = GameObject.FindObjectOfType<saveBotNum>();
-        if (BotNum != null)
-        {
-            numBotsToLoad = BotNum.botNum;
-        }
+        // saveBotNum BotNum = GameObject.FindObjectOfType<saveBotNum>();
+        // if (BotNum != null)
+        // {
+        //     numBotsToLoad = BotNum.botNum;
+        // }
 
-        LoadBots(numBotsToLoad);
+        //LoadBots(numBotsToLoad);
+
+        LoadBots(PlayerPrefs.GetInt("GlobalBotNum", 1));
 
         Debug.Log("num of car transforms: " + carTransformList.Count);
 

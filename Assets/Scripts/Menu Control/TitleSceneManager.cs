@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class TitleSceneManager : MonoBehaviour
 {
+    private void Awake() {
+        AudioListener.volume = PlayerPrefs.GetFloat("GlobalGameVolume", 0.6f);
+    }
     public void StartGame()
     {
         FindObjectOfType<AudioManager>().Play("button press");

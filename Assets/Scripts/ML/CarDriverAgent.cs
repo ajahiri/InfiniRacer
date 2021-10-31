@@ -57,35 +57,44 @@ public class CarDriverAgent : Agent
         leftTurnAhead = isLeftTurnAhead();
         rightTurnAhead = isRightTurnAhead();
 
-        //updateMotorForce();
+        updateSpeedLimit();
 
         //rewardFirstPlace();
     }
 
-    private void updateMotorForce(){
+    private void updateSpeedLimit(){
+        //float difficulty = PlayerPrefs.GetFloat("GlobalDifficulty", 3);
+
         if(trackCheckpoints.getCarTransforms().Count > 1) {
-            float distanceToFirst = 1f;
-            foreach(Transform t in trackCheckpoints.getCarTransforms()) {
-                if(t != transform && trackCheckpoints.isFirst(t)) {
-                    distanceToFirst = Vector3.Distance(transform.position, t.position);
-                    float adjustment = distanceToFirst * 10000f;
-                    if(adjustment < float.MaxValue) {
-                        botCarController.adjustMotorForce(adjustment);
-                        Debug.Log("Car " + trackCheckpoints.findCarIndex(transform) + ": " + botCarController.getMotorForce());
-                    }
+            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+            int playerPlace = trackCheckpoints.GetPlace(playerTransform);
+            int botPlace = trackCheckpoints.GetPlace(transform);
+            
+            if(botPlace < playerPlace) {  // if a bot is in front of player
+                if(distanceToPlayer > 750) {
+                    botCarController.setSpeedLimit(10); // slow down bot so player can catch up
                 } else {
-                    botCarController.defaultMotorForce();
+                    botCarController.defaultSpeedLimit();   // normal speed while close in front of player
+                }
+            } else if(botPlace > playerPlace) { // if bot is behind player
+                if(distanceToPlayer > 50) {
+                    botCarController.setSpeedLimit(30f);    // speed up to stay close behind
+                } else if(distanceToPlayer > 1500) {
+                    trackCheckpoints.softResetToCheckpoint(transform);  // respawn if too far behind (might be stuck updside down)                        
+                } else {
+                    botCarController.defaultSpeedLimit();   // normal speed while close behind player
                 }
             }
         }
     }
-    private void rewardFirstPlace() {
-        trackCheckpoints.EvaluatePlaces();
-        if(trackCheckpoints.isFirst(transform)) {
-           // Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
-            AddReward(+1.0e-4f);
-        }
-    }
+    // private void rewardFirstPlace() {
+    //     trackCheckpoints.EvaluatePlaces();
+    //     if(trackCheckpoints.isFirst(transform)) {
+    //        // Debug.Log("First Place: Car " + trackCheckpoints.findCarIndex(transform));
+    //         AddReward(+1.0e-4f);
+    //     }
+    // }
     private void rewardStraightSteering() {
         if(!isLeftTurnAhead() && !isRightTurnAhead() && currentSpeed > 5) {
             if(wheelAngleChange == 0f) {
@@ -145,7 +154,9 @@ public class CarDriverAgent : Agent
             
             checkpointCount++;
             if(checkpointCount >= 200) {
-                Debug.Log("Avg Speed: " + speedSum / StepCount + "\nCrash Count: " + crashCount);
+                Debug.Log("Bot Avg Speed: " + speedSum / StepCount + "\nBot Crash Count: " + crashCount);
+                checkpointCount = 0;
+                if(trackCheckpoints.isTraining)
                 EndEpisode();
             }
             //Debug.Log(checkpointCount);
@@ -239,7 +250,11 @@ public class CarDriverAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions) {
         BotCarController targetScript = gameObject.GetComponent<BotCarController>();
-        targetScript.SetInputs(actions.ContinuousActions[0], actions.DiscreteActions[0]);
+        if(StepCount < 230){
+            targetScript.SetInputs(0, 2);   // steer straight at full speed for the first 230 steps
+        } else {
+            targetScript.SetInputs(actions.ContinuousActions[0], actions.DiscreteActions[0]);
+        }
     }
 
     public override void Heuristic(in ActionBuffers actionsOut) {
@@ -300,5 +315,9 @@ public class CarDriverAgent : Agent
         if (other.TryGetComponent<Wall>(out Wall wall)) {
             AddReward(-10f);
         }
+    }
+
+    public int getStepCount() {
+        return StepCount;
     }
 }

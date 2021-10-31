@@ -14,7 +14,6 @@ public class BotCarController : MonoBehaviour
     private float currentSteeringAngle;
     private float currentBrakeForce;
     private bool isBraking;
-
     [SerializeField] private float motorForce;
     private float appliedForce;
     private float initialMotorForce;
@@ -37,6 +36,8 @@ public class BotCarController : MonoBehaviour
     [SerializeField] private Vector3 customCenterofMass = Vector3.zero;
 
     private float currentSpeed;
+    private float speedLimit;
+    private float initialSpeedLimit;
 
     public float getMotorForce() {
         return motorForce;
@@ -71,9 +72,24 @@ public class BotCarController : MonoBehaviour
         }
         return false;
     }
+    public float getSpeedLimit() {
+        return speedLimit;
+    }
+    public void setSpeedLimit(float newLimit) {
+        speedLimit = newLimit;
+    }
+
+    public void defaultSpeedLimit() {
+        speedLimit = initialSpeedLimit;
+    }
     private void Awake() {
         initialMotorForce = motorForce;
         currentSpeed = 0;
+        isBraking = false;
+
+        int difficulty = (int)PlayerPrefs.GetFloat("GlobalDifficulty", 3);
+        initialSpeedLimit = 14 + (difficulty - 1); // | difficulty : speedLimit | 1 : 12 | 2 : 14 | 3 : 16 | 4 : 18 | 5 : 20 |
+        speedLimit = initialSpeedLimit;
     }
     private void Start() {
         // Set custom center of mass to fix flipping issue
@@ -93,12 +109,15 @@ public class BotCarController : MonoBehaviour
 
     public void SetInputs(float newHorizontal, int accelerationValue) {
         horizontalInput = newHorizontal;
+        isBraking = false;
+        //Debug.Log("Bot Speed: " + currentSpeed);
         if(accelerationValue == 2) {
             //forward
-            if(currentSpeed <= 25) { //speed limit
+            if(currentSpeed <= speedLimit) { //speed limiter
                 appliedForce = motorForce;
             } else {
                 appliedForce = 0f;
+                isBraking = true;
             }
         } else if(accelerationValue == 1) {
             //neutral
@@ -107,6 +126,7 @@ public class BotCarController : MonoBehaviour
             //reverse
             appliedForce = -motorForce;
         }
+
         //isBraking = brakingInput;
         //Debug.Log("setting inputs " + horizontalInput + " " + verticalInput + " " + isBraking);
         //Debug.Log("vertical input: " + verticalInput);
@@ -117,8 +137,8 @@ public class BotCarController : MonoBehaviour
         rearLeftWheelCollider.motorTorque = appliedForce;
         rearRightWheelCollider.motorTorque = appliedForce;
 
-        // currentBrakeForce = isBraking ? brakeForce : 0f;
-        // ApplyBraking();
+        currentBrakeForce = isBraking ? brakeForce : 0f;
+        ApplyBraking();
     }
     private void ApplyBraking()
     {
